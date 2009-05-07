@@ -40,6 +40,7 @@ if [ "$(uname)" = "Linux" ]; then
     export PATH="${PATH}:/home/steven/scripts/"
 elif [ "$(uname)" = "Darwin" ]; then
     export PATH="${PATH}:/opt/local/bin"
+    export CLICOLOR=1
 fi
 
 export EDITOR="vim"
@@ -80,13 +81,10 @@ if test -n "$(ssh-add -L 2>&1 | grep 'Could not open a connection')"; then
 fi
 
 # The following lines were added by compinstall
-zstyle :compinstall filename '/home/srobertson/.zshrc'
-
+zstyle :compinstall filename "$HOME/.zshrc"
 zstyle ':completion:*' list-colors ''
-zstyle :compinstall filename '/home/steven/.zshrc'
 
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
-
 
