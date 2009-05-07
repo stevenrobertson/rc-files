@@ -75,11 +75,12 @@ source ~/.aliases
 # set up agent.  horribly dangerous, but screw it.
 source ~/.ssh-agent-info > /dev/null
 if test -n "$(ssh-add -L 2>&1 | grep 'Could not open a connection')"; then
-    ssh-agent >~/.ssh-agent-info 
+    ssh-agent >~/.ssh-agent-info
     source ~/.ssh-agent-info > /dev/null
 fi
 
 # The following lines were added by compinstall
+zstyle :compinstall filename '/home/srobertson/.zshrc'
 
 zstyle ':completion:*' list-colors ''
 zstyle :compinstall filename '/home/steven/.zshrc'
@@ -88,4 +89,4 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
-unsetopt AUTO_PARAM_SLASH
+

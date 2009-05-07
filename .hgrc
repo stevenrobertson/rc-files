@@ -1,5 +1,5 @@
 [extensions]
-hgext.convert = 
+hgext.convert =
 hgk=
 
 [diff]

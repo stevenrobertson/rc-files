@@ -1,4 +1,5 @@
 set number
+set numberwidth=3
 set ignorecase
 set smartcase
 highlight comment ctermfg=blue
@@ -10,7 +11,7 @@ set textwidth=79
 inoremap <Home> <C-O>^
 set modeline
 set foldmethod=indent
-set nofoldenable 
+set nofoldenable
 set diffopt=filler
 
 filetype on
@@ -90,5 +91,4 @@ function ToggleWrap()
     inoremap <buffer> <silent> <End>  <C-o>g<End>
   endif
 endfunction
-
 
