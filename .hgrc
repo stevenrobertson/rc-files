@@ -1,0 +1,10 @@
+[extensions]
+hgext.convert = 
+hgk=
+
+[diff]
+git = True
+showfunc = True
+
+[ui]
+username = Steven Robertson <root@parseit.org>
