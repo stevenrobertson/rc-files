@@ -8,11 +8,16 @@ set softtabstop=4
 set shiftwidth=4
 set expandtab
 set textwidth=79
+set columns=83
 inoremap <Home> <C-O>^
+inoremap <C-A> <C-O>^
+inoremap <C-E> <C-O>$
 set modeline
 set foldmethod=indent
 set nofoldenable
 set diffopt=filler
+set ruler
+set laststatus=2
 
 filetype on
 filetype indent on

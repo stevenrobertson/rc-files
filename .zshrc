@@ -49,8 +49,8 @@ setopt AUTO_CONTINUE
 unsetopt nomatch
 
 if [ $TERM = "xterm" ]; then
-	precmd() { print -Pn "\e]0;%m:%~\a" }
-	preexec () { print -Pn "\e]0;$1\a" }
+    precmd() { print -Pn "\e]0;%m:%~\a" }
+    preexec () { print -Pn "\e]0;$1\a" }
 fi
 
 # half-bashify zsh

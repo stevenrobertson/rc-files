@@ -1,5 +1,6 @@
 [extensions]
-hgext.convert =
+hgext.convert=
+hgext.mq=
 hgk=
 
 [diff]
