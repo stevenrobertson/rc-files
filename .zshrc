@@ -1,4 +1,4 @@
-. /etc/profile
+source /etc/profile
 
 autoload -U promptinit
 promptinit
@@ -41,6 +41,7 @@ if [ "$(uname)" = "Linux" ]; then
 elif [ "$(uname)" = "Darwin" ]; then
     export PATH="${PATH}:/opt/local/bin"
     export CLICOLOR=1
+    source ${HOME}/.profile
 fi
 
 export EDITOR="vim"
