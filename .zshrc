@@ -31,6 +31,9 @@ case "$(hostname)" in
     'hermes.local')
         PROMPTCOLOR="green";
         ;;
+    'delta')
+        PROMPTCOLOR="gray";
+        ;;
 esac
 
 prompt_gentoo_setup $PROMPTCOLOR
@@ -38,9 +41,15 @@ prompt_gentoo_setup $PROMPTCOLOR
 if [ "$(uname)" = "Linux" ]; then
     export BROWSER="firefox"
     export PATH="${PATH}:/home/steven/scripts/"
+    if [ -x $(which dircolors) ]; then
+        eval $( dircolors -b )
+        alias ls='ls --color=auto'
+    fi
 elif [ "$(uname)" = "Darwin" ]; then
     export PATH="${PATH}:/opt/local/bin"
-    export CLICOLOR=1
+    if which gls 2>&1 > /dev/null ; then
+        alias ls='gls --color=auto'
+    fi
     source ${HOME}/.profile
 fi
 
@@ -75,7 +84,7 @@ bindkey '\e[3~' delete-char
 source ~/.aliases
 
 # set up agent.  horribly dangerous, but screw it.
-source ~/.ssh-agent-info > /dev/null
+test -f ~/.ssh-agent-info && source ~/.ssh-agent-info > /dev/null
 if test -n "$(ssh-add -L 2>&1 | grep 'Could not open a connection')"; then
     ssh-agent >~/.ssh-agent-info
     source ~/.ssh-agent-info > /dev/null
