@@ -9,3 +9,7 @@ showfunc = True
 
 [ui]
 username = Steven Robertson <root@parseit.org>
+
+[merge-tools]
+gvim.args = -f -d $local $other
+gvim.priority = 1
