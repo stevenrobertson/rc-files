@@ -1,8 +1,5 @@
 source /etc/profile
 
-autoload -U promptinit
-promptinit
-
 prompt_gentoo_setup () {
   prompt_gentoo_prompt=${1:-'blue'}
   prompt_gentoo_user=${2:-'green'}
@@ -54,7 +51,6 @@ elif [ "$(uname)" = "Darwin" ]; then
 fi
 
 export EDITOR="vim"
-setopt autocd
 setopt AUTO_CONTINUE
 unsetopt nomatch
 
@@ -63,7 +59,6 @@ if [ $TERM = "xterm" ]; then
     preexec () { print -Pn "\e]0;$1\a" }
 fi
 
-# half-bashify zsh
 HISTSIZE=200
 if [ `whoami` == "root" ]; then
     HISTFILE=/root/.zsh_history
@@ -71,6 +66,7 @@ else
     HISTFILE=~/.zsh_history
 fi
 SAVEHIST=200
+
 bindkey '\e[1~' beginning-of-line
 bindkey '\eOH'  beginning-of-line
 bindkey '\e[H'  beginning-of-line
