@@ -96,3 +96,7 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
+alias mq='hg -R $(hg root)/.hg/patches'
+alias vm='kvm -m 1024 -usb -usbdevice tablet -soundhw ac97 -vga std'
+alias js='jackd -R -d freebob -r 44100'
+alias burn360iso='growisofs -use-the-force-luke=dao -use-the-force-luke=break:1913760  -dvd-compat -speed=4'
