@@ -8,7 +8,6 @@ set softtabstop=4
 set shiftwidth=4
 set expandtab
 set textwidth=79
-set columns=83
 inoremap <Home> <C-O>^
 inoremap <C-A> <C-O>^
 inoremap <C-E> <C-O>$
@@ -34,25 +33,10 @@ endif
 
 syntax match Error /\s*$/
 
-colorscheme ir_black
-
-fu! DoRunPyBuffer2()
-pclose! " force preview window closed
-setlocal ft=python
-
-" copy the buffer into a new window, then run that buffer through python
-sil %y a | below new | sil put a | sil %!python -
-" indicate the output window as the current previewwindow
-setlocal previewwindow ro nomodifiable nomodified
-
-" back into the original window
-winc p
-endfu
-
-command! RunPyBuffer call DoRunPyBuffer2()
-map <Leader>p :RunPyBuffer<CR>
-
-" taken from ToggleWrap function below
+if has("gui_running")
+    colorscheme ir_black
+    set columns=83
+endif
 
 setlocal wrap linebreak nolist
 set virtualedit=
@@ -65,7 +49,6 @@ inoremap <buffer> <silent> <Up>   <C-o>gk
 inoremap <buffer> <silent> <Down> <C-o>gj
 inoremap <buffer> <silent> <Home> <C-o>g<Home>
 inoremap <buffer> <silent> <End>  <C-o>g<End>
-
 
 noremap <silent> <Leader>w :call ToggleWrap()<CR>
 function ToggleWrap()

@@ -81,8 +81,6 @@ bindkey '\e[F'  end-of-line
 bindkey '^E'    end-of-line
 bindkey '\e[3~' delete-char
 
-source ~/.aliases
-
 # set up agent.  horribly dangerous, but screw it.
 test -f ~/.ssh-agent-info && source ~/.ssh-agent-info > /dev/null
 if test -n "$(ssh-add -L 2>&1 | grep 'Could not open a connection')"; then
