@@ -1,21 +1,26 @@
 source /etc/profile
 
+autoload -Uz promptinit
+promptinit
+
 prompt_gentoo_setup () {
+  autoload -U colors
+  colors
   prompt_gentoo_prompt=${1:-'blue'}
   prompt_gentoo_user=${2:-'green'}
   prompt_gentoo_root=${3:-'red'}
 
   if [ "$USER" = 'root' ]
   then
-    base_prompt="%B%F{$prompt_gentoo_root}%m%k "
+    base_prompt="%B%F${fg[$prompt_gentoo_root]}%m%k "
   else
-    base_prompt="%B%F{$prompt_gentoo_user}%n@%m%k "
+    base_prompt="%B%F${fg[$prompt_gentoo_user]}%n@%m%k "
   fi
   post_prompt="%b%f%k"
 
   #setopt noxtrace localoptions
 
-  path_prompt="%B%F{$prompt_gentoo_prompt}%1~"
+  path_prompt="%B%F${fg[$prompt_gentoo_prompt]}%1~"
   PS1="$base_prompt$path_prompt %# $post_prompt"
   PS2="$base_prompt$path_prompt %_> $post_prompt"
   PS3="$base_prompt$path_prompt ?# $post_prompt"
@@ -54,7 +59,7 @@ export EDITOR="vim"
 setopt AUTO_CONTINUE
 unsetopt nomatch
 
-if [ $TERM = "xterm" ]; then
+if [ $TERM = "xterm" -o $TERM = "xterm-color" ]; then
     precmd() { print -Pn "\e]0;%m:%~\a" }
     preexec () { print -Pn "\e]0;$1\a" }
 fi
