@@ -14,7 +14,8 @@ inoremap <C-E> <C-O>$
 set modeline
 set foldmethod=indent
 set nofoldenable
-set diffopt=filler
+set diffopt+=filler
+set diffopt+=iwhite
 set ruler
 set laststatus=2
 
@@ -24,7 +25,7 @@ filetype indent on
 " from http://blog.sontek.net/2008/05/11/python-with-a-modular-ide-vim/
 set tags+=$HOME/.vim/tags/python.ctags
 autocmd FileType python set omnifunc=pythoncomplete#Complete
-inoremap <Nul> <C-x><C-o>
+inoremap <C-space> <C-x><C-o>
 
 if hostname() == "tantalus"
     set dir=/mnt/offload/vim-swap

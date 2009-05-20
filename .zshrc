@@ -64,13 +64,15 @@ if [ $TERM = "xterm" -o $TERM = "xterm-color" ]; then
     preexec () { print -Pn "\e]0;$1\a" }
 fi
 
-HISTSIZE=200
+HISTSIZE=2000
 if [ `whoami` == "root" ]; then
     HISTFILE=/root/.zsh_history
 else
     HISTFILE=~/.zsh_history
 fi
-SAVEHIST=200
+SAVEHIST=2000
+setopt HIST_IGNORE_DUPS
+
 
 bindkey '\e[1~' beginning-of-line
 bindkey '\eOH'  beginning-of-line

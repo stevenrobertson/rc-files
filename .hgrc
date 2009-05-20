@@ -2,6 +2,7 @@
 hgext.convert=
 hgext.mq=
 hgk=
+color=
 
 [diff]
 git = True
