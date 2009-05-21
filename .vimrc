@@ -11,6 +11,8 @@ set textwidth=79
 inoremap <Home> <C-O>^
 inoremap <C-A> <C-O>^
 inoremap <C-E> <C-O>$
+inoremap <C-H> <C-O>X
+
 set modeline
 set foldmethod=indent
 set nofoldenable
@@ -30,6 +32,10 @@ inoremap <C-space> <C-x><C-o>
 if hostname() == "tantalus"
     set dir=/mnt/offload/vim-swap
     set backupdir=/mnt/offload/vim-swap
+endif
+
+if hostname() == "vpanghal"
+    set guifont=Bitstream\ Vera\ Sans\ Mono\ 12
 endif
 
 syntax match Error /\s*$/

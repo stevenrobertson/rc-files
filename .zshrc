@@ -18,7 +18,7 @@ prompt_gentoo_setup () {
   fi
   post_prompt="%b%f%k"
 
-  #setopt noxtrace localoptions
+  setopt noxtrace localoptions
 
   path_prompt="%B%F${fg[$prompt_gentoo_prompt]}%1~"
   PS1="$base_prompt$path_prompt %# $post_prompt"
@@ -59,11 +59,6 @@ export EDITOR="vim"
 setopt AUTO_CONTINUE
 unsetopt nomatch
 
-if [ $TERM = "xterm" -o $TERM = "xterm-color" ]; then
-    precmd() { print -Pn "\e]0;%m:%~\a" }
-    preexec () { print -Pn "\e]0;$1\a" }
-fi
-
 HISTSIZE=2000
 if [ `whoami` == "root" ]; then
     HISTFILE=/root/.zsh_history
@@ -73,12 +68,14 @@ fi
 SAVEHIST=2000
 setopt HIST_IGNORE_DUPS
 
-
+bindkey -e
 bindkey '\e[1~' beginning-of-line
+bindkey '\e[7~' beginning-of-line
 bindkey '\eOH'  beginning-of-line
 bindkey '\e[H'  beginning-of-line
 bindkey '^A'    beginning-of-line
 bindkey '\e[4~' end-of-line
+bindkey '\e[8~' end-of-line
 bindkey '\eOF'  end-of-line
 bindkey '\e[F'  end-of-line
 bindkey '^E'    end-of-line
