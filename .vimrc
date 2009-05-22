@@ -1,3 +1,4 @@
+syntax on
 set number
 set numberwidth=3
 set ignorecase
@@ -11,7 +12,7 @@ set textwidth=79
 inoremap <Home> <C-O>^
 inoremap <C-A> <C-O>^
 inoremap <C-E> <C-O>$
-inoremap <C-H> <C-O>X
+inoremap <C-H> <BS>
 
 set modeline
 set foldmethod=indent
@@ -36,6 +37,9 @@ endif
 
 if hostname() == "vpanghal"
     set guifont=Bitstream\ Vera\ Sans\ Mono\ 12
+    set tabstop=4
+    set noexpandtab
+    set tw=0
 endif
 
 syntax match Error /\s*$/

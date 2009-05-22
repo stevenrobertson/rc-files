@@ -79,7 +79,7 @@ bindkey '\e[8~' end-of-line
 bindkey '\eOF'  end-of-line
 bindkey '\e[F'  end-of-line
 bindkey '^E'    end-of-line
-#bindkey '\e[3~' backward-delete-char
+bindkey '\e[3~' delete-char
 bindkey '^?'    backward-delete-char
 
 # set up agent.  horribly dangerous, but screw it.
