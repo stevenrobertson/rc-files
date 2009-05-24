@@ -1,37 +1,34 @@
 source /etc/profile
 
-autoload -Uz promptinit
-promptinit
-
 prompt_gentoo_setup () {
-  autoload -U colors
-  colors
-  prompt_gentoo_prompt=${1:-'blue'}
-  prompt_gentoo_user=${2:-'green'}
-  prompt_gentoo_root=${3:-'red'}
+    prompt_gentoo_prompt=${1:-'blue'}
+    prompt_gentoo_user=${2:-'green'}
+    prompt_gentoo_root=${3:-'red'}
 
-  if [ "$USER" = 'root' ]
-  then
-    base_prompt="%B%F${fg[$prompt_gentoo_root]}%m%k "
-  else
-    base_prompt="%B%F${fg[$prompt_gentoo_user]}%n@%m%k "
-  fi
-  post_prompt="%b%f%k"
+    if [ "$USER" = 'root' ]
+    then
+        base_prompt="%B%F{$prompt_gentoo_root}%m%k"
+    else
+        base_prompt="%B%F{$prompt_gentoo_user}%n@%m%k"
+    fi
+    post_prompt="%b%f%k"
 
-  setopt noxtrace localoptions
-
-  path_prompt="%B%F${fg[$prompt_gentoo_prompt]}%1~"
-  PS1="$base_prompt$path_prompt %# $post_prompt"
-  PS2="$base_prompt$path_prompt %_> $post_prompt"
-  PS3="$base_prompt$path_prompt ?# $post_prompt"
+    setopt noxtrace localoptions
+    path_prompt="%B%F{$prompt_gentoo_prompt}%T %1~"
+    PS1="$base_prompt $path_prompt %# $post_prompt"
+    PS2="$base_prompt $path_prompt %_> $post_prompt"
+    PS3="$base_prompt $path_prompt ?# $post_prompt"
 }
 
 case "$(hostname)" in
     'tantalus')
+        PROMPTCOLOR="green";
+        ;;
+    'hermes')
         PROMPTCOLOR="blue";
         ;;
     'hermes.local')
-        PROMPTCOLOR="green";
+        PROMPTCOLOR="blue";
         ;;
     'delta')
         PROMPTCOLOR="gray";
