@@ -13,7 +13,7 @@ prompt_gentoo_setup () {
     else
         base_prompt="%B$fg[$prompt_gentoo_user]%n@%m%k"
     fi
-    post_prompt="%b%f%k"
+    post_prompt="%b$fg[normal]%k"
 
     setopt noxtrace localoptions
     path_prompt="%B$fg[$prompt_gentoo_prompt]%T %1~"
@@ -22,22 +22,11 @@ prompt_gentoo_setup () {
     PS3="$base_prompt $path_prompt ?# $post_prompt"
 }
 
-case "$(hostname)" in
-    'tantalus')
-        PROMPTCOLOR="green";
-        ;;
-    'hermes')
-        PROMPTCOLOR="blue";
-        ;;
-    'hermes.local')
-        PROMPTCOLOR="blue";
-        ;;
-    'delta')
-        PROMPTCOLOR="gray";
-        ;;
-esac
-
-prompt_gentoo_setup $PROMPTCOLOR
+if [ -n "$SSH_CLIENT" ]; then
+    prompt_gentoo_setup white
+else
+    prompt_gentoo_setup blue
+fi
 
 if [ "$(uname)" = "Linux" ]; then
     export BROWSER="firefox"
