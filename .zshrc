@@ -24,6 +24,12 @@ else
     prompt_gentoo_setup blue
 fi
 
+if [ $TERM = "xterm" -o $TERM = "xterm-color" ]; then
+    precmd() { print -Pn "\e]0;%m:%~\a" }
+    preexec () { print -Pn "\e]0;$1\a" }
+fi
+
+
 if [ "$(uname)" = "Linux" ]; then
     export BROWSER="firefox"
     export PATH="${PATH}:/home/steven/scripts/"
