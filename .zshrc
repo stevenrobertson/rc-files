@@ -14,7 +14,7 @@ prompt_gentoo_setup () {
     post_prompt="%b%f%k"
 
     setopt noxtrace localoptions
-    path_prompt="%B%F{$prompt_gentoo_prompt}%T %1~"
+    path_prompt="%B%F{$prompt_gentoo_prompt}%T %3~"
     PROMPT="$base_prompt $path_prompt %# $post_prompt"
 }
 

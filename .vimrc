@@ -5,9 +5,7 @@ set ignorecase
 set smartcase
 highlight comment ctermfg=blue
 set guifont=Droid\ Sans\ Mono\ 8
-set softtabstop=4
 set shiftwidth=4
-set expandtab
 set textwidth=79
 inoremap <Home> <C-O>^
 inoremap <C-A> <C-O>^
