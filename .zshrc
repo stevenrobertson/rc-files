@@ -82,6 +82,8 @@ fi
 # The following lines were added by compinstall
 zstyle :compinstall filename "$HOME/.zshrc"
 zstyle ':completion:*' list-colors ''
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
 
 autoload -Uz compinit
 compinit
