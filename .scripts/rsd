@@ -1,0 +1,81 @@
+#!/usr/bin/python
+
+import paramiko, dialog, os, sys, stat, time, subprocess
+
+#def getf(d, s, fn, base = '', indent = ''):
+#   bfn = os.path.join(base, fn)
+#   st = s.stat(bfn)
+#   if stat.S_ISDIR(st.st_mode):
+#      
+#      if not os.path.isdir(bfn):
+#         os.mkdir(bfn)
+#
+#      print indent + fn + ':'
+#      ls = s.listdir(bfn)
+#      ls.sort()
+#
+#      for subfn in ls:
+#         getf(d, s, subfn, bfn, indent = indent + ' | ')
+#   else:
+#      g = d.gauge_start()
+#      if os.path.isfile(bfn):
+#         lst = os.stat(bfn)
+#         if lst.st_size == st.st_size:
+#         return
+#         elif lst.st_size > st.st_size:
+#            f = open(bfn, 'w')
+#         elif lst.st_size
+#            f = open(bfn, 'a+')
+#      else:
+#         
+#      print indent + fn
+
+def getf(d, s, fn):
+    print fn
+    subprocess.check_call([
+        'rsync', '-rPz4t', '--bwlimit',  '1350', '--inplace',
+        'rsync://ninjacomputer.com:8873/complete/%s' % (fn), '.'])
+
+def nuke(s, fn):
+    print 'Removing ' + fn
+    st = s.stat(fn)
+    if stat.S_ISDIR(st.st_mode):
+        ls = s.listdir(fn)
+        for subfn in ls:
+            nuke(s, os.path.join(fn, subfn))
+        s.rmdir(fn)
+    else:
+        s.remove(fn)
+
+try:
+    d = dialog.Dialog()
+    c = paramiko.SSHClient()
+    c.load_system_host_keys()
+    c.connect('ninjacomputer.com', username='steven')
+    s = c.open_sftp()
+    s.chdir('/home/steven/d/c')
+    ls = s.listdir()
+    if len(ls) == 0:
+        print ("No files in remote directory!")
+        sys.exit(0)
+    ls.sort()
+    choices = []
+    for i in range(len(ls)):
+        choices.append((repr(i), ls[i], 0))
+    print choices
+    (exit, selected) = d.checklist(text="Select a file / directory", 
+                                   list_height = 15, choices = choices, 
+                                   width = 90, height = 22)
+
+    for i_s in selected:
+        i = int(i_s)
+        getf(d, s, ls[i])
+        nuke(s, ls[i])
+
+except:
+    c.close()
+    raise
+
+c.close()
+sys.exit(0)
+
