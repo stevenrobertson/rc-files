@@ -29,10 +29,8 @@ if [ $TERM = "xterm" -o $TERM = "xterm-color" ]; then
     preexec () { print -Pn "\e]0;$1\a" }
 fi
 
-
 if [ "$(uname)" = "Linux" ]; then
     export BROWSER="firefox"
-    export PATH="${PATH}:/home/steven/scripts/"
     if [ -x $(which dircolors) ]; then
         eval $( dircolors -b )
         alias ls='ls --color=auto'
@@ -44,6 +42,8 @@ elif [ "$(uname)" = "Darwin" ]; then
     fi
     source ${HOME}/.profile
 fi
+
+export PATH="${PATH}:${HOME}/.scripts"
 
 export EDITOR="vim"
 setopt AUTO_CONTINUE
