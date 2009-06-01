@@ -83,7 +83,7 @@ fi
 zstyle :compinstall filename "$HOME/.zshrc"
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path ~/.zsh/cache
+zstyle ':completion:*' cache-path ~/.zsh_cache
 
 autoload -Uz compinit
 compinit
