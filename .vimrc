@@ -7,6 +7,7 @@ highlight comment ctermfg=blue
 set guifont=Droid\ Sans\ Mono\ 8
 set shiftwidth=4
 set softtabstop=4
+set tabstop=4
 set textwidth=79
 set expandtab
 inoremap <Home> <C-O>^
