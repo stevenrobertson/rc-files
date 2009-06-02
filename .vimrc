@@ -42,7 +42,7 @@ if hostname() == "vpanghal"
     set tw=0
 endif
 
-syntax match Error /\s*$/
+match Error /\s\+$/
 
 if has("gui_running")
     colorscheme ir_black
