@@ -31,16 +31,25 @@ import paramiko, dialog, os, sys, stat, time, subprocess
 #      print indent + fn
 
 def getf(d, s, fn):
-    print fn
+    if sys.argv[-1] == '-i':
+        bleg = 'incomplete'
+    else:
+        bleg = 'complete'
     subprocess.check_call([
-        'rsync', '-rPz4t', '--bwlimit',  '1350', '--inplace',
-        'rsync://ninjacomputer.com:8873/complete/%s' % (fn), '.'])
+        'rsync', '-rP4t', '--bwlimit',  '1500', '--inplace',
+        '--exclude', '*r[0123456789][0123456789]',
+        '--exclude', 'Sample',
+        'rsync://ninjacomputer.com:8873/%s/%s' % (bleg, fn), '.'])
+    subprocess.check_call([
+        'rsync', '-rP4t', '--bwlimit',  '1500', '--inplace', '--chmod=+rX',
+        'rsync://ninjacomputer.com:8873/%s/%s' % (bleg, fn), '.'])
+
 
 def nuke(s, fn):
     print 'Removing ' + fn
     st = s.stat(fn)
     if stat.S_ISDIR(st.st_mode):
-        ls = s.listdir(fn)
+        ls = sorted(s.listdir(fn))
         for subfn in ls:
             nuke(s, os.path.join(fn, subfn))
         s.rmdir(fn)
@@ -53,7 +62,11 @@ try:
     c.load_system_host_keys()
     c.connect('ninjacomputer.com', username='steven')
     s = c.open_sftp()
-    s.chdir('/home/steven/d/c')
+    print sys.argv
+    if sys.argv[-1] == '-i':
+        s.chdir('/home/steven/d/i')
+    else:
+        s.chdir('/home/steven/d/c')
     ls = s.listdir()
     if len(ls) == 0:
         print ("No files in remote directory!")
@@ -70,7 +83,8 @@ try:
     for i_s in selected:
         i = int(i_s)
         getf(d, s, ls[i])
-        nuke(s, ls[i])
+        if sys.argv[-1] != '-i':
+            nuke(s, ls[i])
 
 except:
     c.close()
