@@ -12,10 +12,10 @@ from mutagen import flac, mp4
 
 # MUSIC and TRANSCODE _must_ include trailing slash!
 
-MUSIC=u'/home/steven/d/music/'
-TRANSCODE=u'/home/steven/d/transcode/'
-TEMP=u'/tmp/flac2aac-thread'
-THREADS=1
+MUSIC='/opt/media/music/'
+TRANSCODE='/opt/media/transcode/'
+TEMP='/tmp/flac2aac-thread'
+THREADS=6
 TARGET_QUALITY='0.45'
 
 str_map = {
@@ -25,7 +25,7 @@ str_map = {
         }
 tup_map = {
         'tracknumber': 'trkn',
-        'discnumber': 'disc'
+        'discnumber': 'disk'
         }
 
 def tagmap(flac_file, mp4_file):
@@ -69,6 +69,8 @@ def transcode(queue, thread_id, start_len):
 
         except Queue.Empty:
             break
+        except KeyboardInterrupt:
+            raise
         except:
             print "\n\nOn file %s:\n\t" % src_fn
             traceback.print_exc()

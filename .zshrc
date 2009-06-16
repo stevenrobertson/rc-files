@@ -1,3 +1,7 @@
+if [ "`pwd`" = '/' ]; then
+    cd
+fi
+
 source /etc/profile
 
 prompt_gentoo_setup () {
@@ -80,7 +84,6 @@ if test -n "$(ssh-add -L 2>&1 | grep 'Could not open a connection')"; then
 fi
 
 # The following lines were added by compinstall
-
 zstyle ':completion:*' cache-path ~/.zsh_cache
 zstyle ':completion:*' completer _list _complete _ignored _approximate
 zstyle ':completion:*' condition 0
@@ -96,6 +99,7 @@ zstyle ':completion:*' preserve-prefix '//[^/]##/'
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' verbose true
+zstyle ':completion:*' cache-path ~/.zsh_cache
 zstyle :compinstall filename '/home/steven/.zshrc'
 
 autoload -Uz compinit
@@ -106,7 +110,8 @@ alias mq='hg -R $(hg root)/.hg/patches'
 alias vm='kvm -m 1024 -usb -usbdevice tablet -soundhw ac97 -vga std'
 alias js='jackd -R -d freebob -r 44100'
 alias burn360iso='growisofs -use-the-force-luke=dao -use-the-force-luke=break:1913760  -dvd-compat -speed=4'
-alias trivm="kvm -m 1024 -hda /dev/sda -cpu core2duo -smp 6 -vga std -usb -usbdevice tablet"
+alias trivm="kvm -m 1024 -drive file=/dev/sda,cache=none -smp 2 -vga std -usb -usbdevice tablet -net nic,vlan=0 -net user,vlan=0 -net nic,vlan=1 -net tap,vlan=1,ifname=local0 -localtime"
+
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
 HISTSIZE=1000
@@ -115,3 +120,4 @@ setopt appendhistory extendedglob notify
 unsetopt beep nomatch
 bindkey -e
 # End of lines configured by zsh-newuser-install
+

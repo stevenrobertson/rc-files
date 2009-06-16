@@ -4,7 +4,7 @@ set numberwidth=3
 set ignorecase
 set smartcase
 highlight comment ctermfg=blue
-set guifont=Droid\ Sans\ Mono\ 8
+set guifont=Droid\ Sans\ Mono\ 10
 set shiftwidth=4
 set softtabstop=4
 set tabstop=4
