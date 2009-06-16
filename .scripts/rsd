@@ -2,46 +2,22 @@
 
 import paramiko, dialog, os, sys, stat, time, subprocess
 
-#def getf(d, s, fn, base = '', indent = ''):
-#   bfn = os.path.join(base, fn)
-#   st = s.stat(bfn)
-#   if stat.S_ISDIR(st.st_mode):
-#      
-#      if not os.path.isdir(bfn):
-#         os.mkdir(bfn)
-#
-#      print indent + fn + ':'
-#      ls = s.listdir(bfn)
-#      ls.sort()
-#
-#      for subfn in ls:
-#         getf(d, s, subfn, bfn, indent = indent + ' | ')
-#   else:
-#      g = d.gauge_start()
-#      if os.path.isfile(bfn):
-#         lst = os.stat(bfn)
-#         if lst.st_size == st.st_size:
-#         return
-#         elif lst.st_size > st.st_size:
-#            f = open(bfn, 'w')
-#         elif lst.st_size
-#            f = open(bfn, 'a+')
-#      else:
-#         
-#      print indent + fn
-
 def getf(d, s, fn):
     if sys.argv[-1] == '-i':
         bleg = 'incomplete'
     else:
         bleg = 'complete'
+    try:
+        limit = str(int(sys.argv[1]))
+    except:
+        limit = '1500'
     subprocess.check_call([
-        'rsync', '-rP4t', '--bwlimit',  '1500', '--inplace',
+        'rsync', '-rPz4t', '--bwlimit', limit, '--inplace',
         '--exclude', '*r[0123456789][0123456789]',
         '--exclude', 'Sample',
         'rsync://ninjacomputer.com:8873/%s/%s' % (bleg, fn), '.'])
     subprocess.check_call([
-        'rsync', '-rP4t', '--bwlimit',  '1500', '--inplace', '--chmod=+rX',
+        'rsync', '-rPz4t', '--bwlimit', limit, '--inplace', '--chmod=+rX',
         'rsync://ninjacomputer.com:8873/%s/%s' % (bleg, fn), '.'])
 
 
@@ -76,8 +52,8 @@ try:
     for i in range(len(ls)):
         choices.append((repr(i), ls[i], 0))
     print choices
-    (exit, selected) = d.checklist(text="Select a file / directory", 
-                                   list_height = 15, choices = choices, 
+    (exit, selected) = d.checklist(text="Select a file / directory",
+                                   list_height = 15, choices = choices,
                                    width = 90, height = 22)
 
     for i_s in selected:

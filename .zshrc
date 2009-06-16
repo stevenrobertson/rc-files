@@ -80,10 +80,23 @@ if test -n "$(ssh-add -L 2>&1 | grep 'Could not open a connection')"; then
 fi
 
 # The following lines were added by compinstall
-zstyle :compinstall filename "$HOME/.zshrc"
-zstyle ':completion:*' list-colors ''
-zstyle ':completion:*' use-cache on
+
 zstyle ':completion:*' cache-path ~/.zsh_cache
+zstyle ':completion:*' completer _list _complete _ignored _approximate
+zstyle ':completion:*' condition 0
+zstyle ':completion:*' expand prefix suffix
+zstyle ':completion:*' format 'Completing %d'
+zstyle ':completion:*' list-colors ''
+zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+zstyle ':completion:*' list-suffixes true
+zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]} r:|[._-]=* r:|=*' 'm:{[:lower:]}={[:upper:]}'
+zstyle ':completion:*' max-errors 2
+zstyle ':completion:*' menu select=3
+zstyle ':completion:*' preserve-prefix '//[^/]##/'
+zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' verbose true
+zstyle :compinstall filename '/home/steven/.zshrc'
 
 autoload -Uz compinit
 compinit
@@ -94,3 +107,11 @@ alias vm='kvm -m 1024 -usb -usbdevice tablet -soundhw ac97 -vga std'
 alias js='jackd -R -d freebob -r 44100'
 alias burn360iso='growisofs -use-the-force-luke=dao -use-the-force-luke=break:1913760  -dvd-compat -speed=4'
 alias trivm="kvm -m 1024 -hda /dev/sda -cpu core2duo -smp 6 -vga std -usb -usbdevice tablet"
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+setopt appendhistory extendedglob notify
+unsetopt beep nomatch
+bindkey -e
+# End of lines configured by zsh-newuser-install
