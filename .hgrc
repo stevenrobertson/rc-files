@@ -4,12 +4,15 @@ hgext.mq=
 hgk=
 color=
 
+[defaults]
+log = -r -5:tip
+
 [diff]
 git = True
 showfunc = True
 
 [ui]
-username = Steven Robertson <root@parseit.org>
+username = Steven Robertson <steven@strobe.cc>
 
 [merge-tools]
 gvim.args = -f -d $local $other
