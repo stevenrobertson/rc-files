@@ -1,0 +1,14 @@
+! This just gets more and more ridiculous.
+pointer = 1 2 3 4 5 6 7 9 8 10
+
+! This one's for Xdmx.
+!pointer = 1 2 3 4 5 8 9 6 7
+
+!keycode 22 = BackSpace
+!keycode 176 = XF86AudioRaiseVolume
+!keycode 174 = XF86AudioLowerVolume
+!keycode 160 = XF86AudioMute
+!keycode 153 = XF86AudioNext
+!keycode 144 = XF86AudioPrev
+!keycode 162 = XF86AudioPlay
+!keycode 179 = XF86AudioMedia
