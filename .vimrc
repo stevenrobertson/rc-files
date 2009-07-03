@@ -4,7 +4,7 @@ set numberwidth=3
 set ignorecase
 set smartcase
 highlight comment ctermfg=blue
-set guifont=Droid\ Sans\ Mono\ 10
+set guifont=Droid\ Sans\ Mono\ 8
 set shiftwidth=4
 set softtabstop=4
 set tabstop=4
@@ -34,6 +34,10 @@ inoremap <C-space> <C-x><C-o>
 if hostname() == "tantalus"
     set dir=/mnt/offload/vim-swap
     set backupdir=/mnt/offload/vim-swap
+endif
+
+if hostname() == "hermes"
+    set guifont=Consolas\ 7
 endif
 
 if hostname() == "vpanghal"
