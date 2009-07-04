@@ -1,6 +1,7 @@
 [extensions]
 hgext.convert=
 hgext.mq=
+hgext.keyword=
 hgk=
 color=
 
@@ -17,3 +18,9 @@ username = Steven Robertson <steven@strobe.cc>
 [merge-tools]
 gvim.args = -f -d $local $other
 gvim.priority = 1
+
+[keyword]
+**.py =
+
+[keywordmaps]
+Id = {file|basename} {node|short} {date|utcdate}
