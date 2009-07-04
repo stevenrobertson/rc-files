@@ -11,7 +11,7 @@ xset dpms 7200 7200 7200
 
 eval "$(dbus-launch --sh-syntax)"
 
-if [ $HN = 'hera' ]; then
+if [ $HN = 'hera' ] || [ $HN = 'hermes' ]; then
     xrandr --output DVI-0 --auto --right-of LVDS
     awesome
     sleep 100d

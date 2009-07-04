@@ -1,0 +1,4 @@
+#!/bin/zsh
+
+PYTHONPATH="$HOME/code/quodlibet/quodlibet" python $HOME/code/quodlibet/quodlibet/quodlibet.py $@
+
