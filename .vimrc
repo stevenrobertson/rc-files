@@ -37,7 +37,7 @@ if hostname() == "tantalus"
 endif
 
 if hostname() == "hermes"
-    set guifont=Consolas\ 7
+    set guifont=Droid\ Sans\ Mono\ 8
 endif
 
 if hostname() == "hera"
