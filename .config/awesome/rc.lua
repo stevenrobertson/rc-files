@@ -29,7 +29,8 @@ k_w = {"Mod4"}
 k_wc = {"Mod4", "Control"}
 
 -- This is used later as the default terminal to run.
-terminal = "xterm -j -s -si -sk -sl 1000 -vb -bg '#202020' -fg '#f6f3e8' -fa 'Consolas' -fs 9 -geometry 104x28 -tn xterm-color -ls"
+-- terminal = "xterm -j -s -si -sk -sl 1000 -vb -bg '#000' -fg '#f6f3e8' -fa 'Droid Sans Mono' -fs 8 -geometry 104x28 -tn xterm-color -ls"
+terminal = 'xterm'
 editor_cmd = "gvim"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.

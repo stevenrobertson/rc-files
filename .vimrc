@@ -40,6 +40,11 @@ if hostname() == "hermes"
     set guifont=Consolas\ 7
 endif
 
+if hostname() == "hera"
+    set guifont=Droid\ Sans\ Mono\ 8
+endif
+
+
 if hostname() == "vpanghal"
     set guifont=Bitstream\ Vera\ Sans\ Mono\ 12
     set tabstop=4
