@@ -459,7 +459,7 @@ awful.hooks.timer.register(1, function ()
 end)
 
 mybottombar = wibox({ position = "bottom", fg=beautiful.fg_normal, bg = beautiful.bg_normal})
-mybottombar.screen = 2 -- screen.count()
+mybottombar.screen = screen.count()
 
 myquodbox = widget({ type = "textbox", align = "left" })
 myquodbox.text = ""

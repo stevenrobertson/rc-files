@@ -1,7 +1,7 @@
 [extensions]
 hgext.convert=
 hgext.mq=
-hgext.keyword=
+#hgext.keyword=
 hgk=
 color=
 
