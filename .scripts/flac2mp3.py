@@ -30,23 +30,17 @@ def transcode(queue, thread_id, start_len):
             for fn in os.listdir(dst_dir):
                 os.unlink(os.path.join(dst_dir, fn))
 
-            for fn in filter(lambda s: s.endswith('.flac'),
-                    os.listdir(src_dir)):
+            for fn in sorted(filter(lambda s: s.endswith('.flac'),
+                    os.listdir(src_dir))):
                 src_fn = os.path.join(src_dir, fn)
-                tmp_fn = os.path.join(tmp_dir, '%s.wav' % fn[:-5])
-                print "Decoding %s" % src_fn
-                subprocess.check_call(['flac', '-d', src_fn, '-o', tmp_fn],
-                        stdout=n, stderr=n, stdin=n)
-                wavs.append(tmp_fn)
+                dst_fn = os.path.join(dst_dir, '%s.mp3' % fn[:-5])
+                print "Thread %d: encoding %s" % (thread_id, dst_fn)
+                dec = subprocess.Popen(['flac', '-s', '-d', src_fn, '-c'],
+                        stdout=subprocess.PIPE, stdin=n)
+                subprocess.check_call(['lame', '--preset', 'standard', '-h',
+                    '--quiet', '-', dst_fn], stdout=n, stdin=dec.stdout)
+                dec.wait()
 
-            wavs.sort()
-            subprocess.check_call(['lame', '--preset', 'fast', 'standard',
-                '-h', '--quiet', '--nogapout', dst_dir, '--nogap'] + wavs)
-
-            for fn in filter(lambda s: s.endswith('.mp3'),
-                    os.listdir(dst_dir)):
-                src_fn = os.path.join(src_dir, '%s.flac' % fn[:-4])
-                dst_fn = os.path.join(dst_dir, fn)
                 src_f = quodlibet.formats.xiph.FLACFile(src_fn)
                 dst_f = quodlibet.formats.mp3.MP3File(dst_fn)
                 for k in filter(lambda k: not k.startswith('~'), src_f.keys()):
@@ -77,10 +71,10 @@ def transcode(queue, thread_id, start_len):
             for fn in os.listdir(dst_dir):
                 os.unlink(os.path.join(dst_dir, fn))
             queue.task_done()
-        finally:
-            for fn in os.listdir(tmp_dir):
-                os.unlink(os.path.join(tmp_dir, fn))
-            os.rmdir(tmp_dir)
+        #finally:
+        #    for fn in os.listdir(tmp_dir):
+        #        os.unlink(os.path.join(tmp_dir, fn))
+        #    os.rmdir(tmp_dir)
 
 def get_stale(delete = False):
     """Returns the list of mp3s in TRANSCODE whose counterpart flacs in MUSIC
@@ -102,6 +96,7 @@ def get_stale(delete = False):
 
     if delete:
         for file in stale:
+            print "Unlinking %s" % file
             os.unlink(file)
     return stale
 
