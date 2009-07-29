@@ -14,6 +14,7 @@ inoremap <Home> <C-O>^
 inoremap <C-A> <C-O>^
 inoremap <C-E> <C-O>$
 inoremap <C-H> <BS>
+map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 
 set modeline
 set foldmethod=indent
