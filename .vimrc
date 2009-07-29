@@ -10,6 +10,7 @@ set softtabstop=4
 set tabstop=4
 set textwidth=79
 set expandtab
+set hlsearch
 inoremap <Home> <C-O>^
 inoremap <C-A> <C-O>^
 inoremap <C-E> <C-O>$
