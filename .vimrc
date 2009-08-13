@@ -3,6 +3,7 @@ set number
 set numberwidth=3
 set ignorecase
 set smartcase
+set vb
 highlight comment ctermfg=blue
 set guifont=Droid\ Sans\ Mono\ 9
 set shiftwidth=4
@@ -33,33 +34,7 @@ set tags+=$HOME/.vim/tags/python.ctags
 autocmd FileType python set omnifunc=pythoncomplete#Complete
 inoremap <C-space> <C-x><C-o>
 
-if hostname() == "tantalus"
-    set dir=/mnt/offload/vim-swap
-    set backupdir=/mnt/offload/vim-swap
-endif
-
-if hostname() == "hermes"
-    set guifont=Droid\ Sans\ Mono\ 8
-endif
-
-if hostname() == "hera"
-    set guifont=Droid\ Sans\ Mono\ 8
-endif
-
-
-if hostname() == "vpanghal"
-    set guifont=Bitstream\ Vera\ Sans\ Mono\ 12
-    set tabstop=4
-    set noexpandtab
-    set tw=0
-endif
-
 match Error /\s\+$/
-
-if has("gui_running")
-    colorscheme ir_black
-    set columns=83
-endif
 
 setlocal wrap linebreak nolist
 set virtualedit=

@@ -3,7 +3,6 @@
 import sys
 import os
 import threading
-import tempfile
 import Queue
 import subprocess
 import traceback
@@ -14,17 +13,14 @@ quodlibet.config.init()
 
 # MUSIC and TRANSCODE _must_ include trailing slash!
 
-MUSIC='/opt/media/music/'
-TRANSCODE='/opt/media/transcode/'
-TEMP='/tmp/flac2mp3-thread'
-THREADS=7
+MUSIC='/home/steven/Music/'
+TRANSCODE='/home/steven/transcode/'
+THREADS=2
 
 def transcode(queue, thread_id, start_len):
     n = open('/dev/null', 'rw')
     while True:
     	try:
-            tmp_dir = tempfile.mkdtemp()
-            wavs = []
             src_dir, dst_dir = queue.get_nowait()
 
             for fn in os.listdir(dst_dir):
