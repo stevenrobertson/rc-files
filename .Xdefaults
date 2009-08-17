@@ -1,4 +1,4 @@
-Xft.dpi: 105.0
+Xft.dpi: 100.0
 XTerm*faceName: Droid Sans Mono
 XTerm*faceSize: 8
 !XTerm*font: -*-terminus-medium-*-*-*-14-*-*-*-*-*-koi8-*
@@ -12,5 +12,5 @@ XTerm*scrollKey: true
 XTerm*visualBell: true
 XTerm*termName: xterm-color
 XTerm*loginShell: true
-XTerm*geometry: 104x30
+XTerm*geometry: 102x29
 

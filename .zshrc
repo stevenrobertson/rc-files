@@ -83,6 +83,12 @@ if test -n "$(ssh-add -L 2>&1 | grep 'Could not open a connection')"; then
     source ~/.ssh-agent-info > /dev/null
 fi
 
+# From Gentoo-wiki. Ironically, this is only needed on Arch.
+#local _myhosts
+#_myhosts=( ${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[0-9]*}%%\ *}%%,*} )
+#zstyle ':completion:*' hosts $_myhosts
+
+
 # The following lines were added by compinstall
 zstyle ':completion:*' cache-path ~/.zsh_cache
 zstyle ':completion:*' completer _list _complete _ignored _approximate
