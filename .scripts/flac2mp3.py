@@ -13,8 +13,8 @@ quodlibet.config.init()
 
 # MUSIC and TRANSCODE _must_ include trailing slash!
 
-MUSIC='/home/steven/Music/'
-TRANSCODE='/home/steven/transcode/'
+MUSIC='/opt/media/music/'
+TRANSCODE='/opt/media/transcode/'
 THREADS=2
 
 def transcode(queue, thread_id, start_len):
@@ -60,7 +60,7 @@ def transcode(queue, thread_id, start_len):
         except Queue.Empty:
             break
         except KeyboardInterrupt:
-            raise
+            sys.exit(1)
         except:
             print "\n\nIn dir %s:\n\t" % src_dir
             traceback.print_exc()

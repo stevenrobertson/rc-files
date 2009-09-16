@@ -90,6 +90,7 @@ fi
 
 
 # The following lines were added by compinstall
+
 zstyle ':completion:*' cache-path ~/.zsh_cache
 zstyle ':completion:*' completer _list _complete _ignored _approximate
 zstyle ':completion:*' condition 0
@@ -98,14 +99,13 @@ zstyle ':completion:*' format 'Completing %d'
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
 zstyle ':completion:*' list-suffixes true
-zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]} r:|[._-]=* r:|=*' 'm:{[:lower:]}={[:upper:]}'
+zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]}' 'm:{[:lower:]}={[:upper:]}'
 zstyle ':completion:*' max-errors 2
 zstyle ':completion:*' menu select=3
 zstyle ':completion:*' preserve-prefix '//[^/]##/'
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' verbose true
-zstyle ':completion:*' cache-path ~/.zsh_cache
 zstyle :compinstall filename '/home/steven/.zshrc'
 
 autoload -Uz compinit
