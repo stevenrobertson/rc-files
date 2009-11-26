@@ -1,7 +1,7 @@
 Xft.dpi: 100.0
-XTerm*faceName: Droid Sans Mono
-XTerm*faceSize: 8
-!XTerm*font: -*-terminus-medium-*-*-*-14-*-*-*-*-*-koi8-*
+!XTerm*faceName: Droid Sans Mono
+!XTerm*faceSize: 8
+XTerm*font: -*-terminus-medium-*-*-*-14-*-*-*-*-*-koi8-*
 XTerm*background: black
 XTerm*foreground: white
 XTerm*saveLines: 1000

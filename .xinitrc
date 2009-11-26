@@ -15,5 +15,7 @@ if [ $HN = 'hera' ] || [ $HN = 'hermes' ]; then
     xrandr --output DVI-0 --auto --right-of LVDS
     awesome
     sleep 100d
+else
+    gnome-session
 fi
 

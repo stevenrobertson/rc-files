@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Change this to match your correct profile
-PROFILE="tmpfs.default"
-STORE="/opt/firefox-profile"
+PROFILE="i0tl7wua.default"
+STORE="/opt/media/firefox-profile"
 
 cd "${HOME}/.mozilla/firefox"
 

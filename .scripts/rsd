@@ -41,17 +41,15 @@ try:
     print sys.argv
     if sys.argv[-1] == '-i':
         s.chdir('/home/steven/d/i')
+        l = sorted(s.listdir_attr(), key = lambda k: -k.st_mtime)
+        ls = map(lambda o: o.filename, l)
     else:
         s.chdir('/home/steven/d/c')
-    ls = s.listdir()
+        ls = sorted(s.listdir())
     if len(ls) == 0:
         print ("No files in remote directory!")
         sys.exit(0)
-    ls.sort()
-    choices = []
-    for i in range(len(ls)):
-        choices.append((repr(i), ls[i], 0))
-    print choices
+    choices = [ (str(i), fn, 0) for (i, fn) in enumerate(ls) ]
     (exit, selected) = d.checklist(text="Select a file / directory",
                                    list_height = 15, choices = choices,
                                    width = 90, height = 22)
