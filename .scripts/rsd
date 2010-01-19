@@ -12,12 +12,12 @@ def getf(d, s, fn):
     except:
         limit = '1500'
     subprocess.check_call([
-        'rsync', '-rPz4t', '--bwlimit', limit, '--inplace',
+        'rsync', '-rP4t', '--bwlimit', limit, '--sparse',
         '--exclude', '*r[0123456789][0123456789]',
         '--exclude', 'Sample',
         'rsync://ninjacomputer.com:8873/%s/%s' % (bleg, fn), '.'])
     subprocess.check_call([
-        'rsync', '-rPz4t', '--bwlimit', limit, '--inplace', '--chmod=+rX',
+        'rsync', '-rP4t', '--bwlimit', limit, '--sparse', '--chmod=+rX',
         'rsync://ninjacomputer.com:8873/%s/%s' % (bleg, fn), '.'])
 
 
@@ -41,7 +41,7 @@ try:
     print sys.argv
     if sys.argv[-1] == '-i':
         s.chdir('/home/steven/d/i')
-        l = sorted(s.listdir_attr(), key = lambda k: -k.st_mtime)
+        l = sorted(s.listdir_attr(), key = lambda k: -k.st_mtime)[:100]
         ls = map(lambda o: o.filename, l)
     else:
         s.chdir('/home/steven/d/c')

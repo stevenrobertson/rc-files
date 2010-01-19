@@ -105,6 +105,7 @@ zstyle ':completion:*' menu select=3
 zstyle ':completion:*' preserve-prefix '//[^/]##/'
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
 zstyle ':completion:*' use-cache on
+zstyle ':completion:*' rehash true
 zstyle ':completion:*' verbose true
 zstyle :compinstall filename '/home/steven/.zshrc'
 

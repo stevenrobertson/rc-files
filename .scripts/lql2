@@ -1,0 +1,4 @@
+#!/bin/zsh
+HOME="/home/steven/.fakehome/" \
+PYTHONPATH="/home/steven/code/quodlibet/quodlibet" python /home/steven/code/quodlibet/quodlibet/quodlibet.py $@
+

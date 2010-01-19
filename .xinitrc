@@ -16,6 +16,6 @@ if [ $HN = 'hera' ] || [ $HN = 'hermes' ]; then
     awesome
     sleep 100d
 else
-    gnome-session
+    openbox
 fi
 

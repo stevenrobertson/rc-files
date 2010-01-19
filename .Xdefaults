@@ -12,5 +12,5 @@ XTerm*scrollKey: true
 XTerm*visualBell: true
 XTerm*termName: xterm-color
 XTerm*loginShell: true
-XTerm*geometry: 102x29
+XTerm*geometry: 99x29
 

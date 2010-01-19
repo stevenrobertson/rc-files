@@ -31,6 +31,7 @@ filetype indent on
 
 " from http://blog.sontek.net/2008/05/11/python-with-a-modular-ide-vim/
 set tags+=$HOME/.vim/tags/python.ctags
+set tags+=$HOME/.vim/tags/current.ctags
 autocmd FileType python set omnifunc=pythoncomplete#Complete
 inoremap <C-space> <C-x><C-o>
 

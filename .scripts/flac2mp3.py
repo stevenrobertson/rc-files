@@ -6,37 +6,64 @@ import multiprocessing
 import subprocess
 import traceback
 
+from mutagen.flac import FLAC
+
 import quodlibet.formats
 import quodlibet.config
 quodlibet.config.init()
 
-def transcode_mp3((src, dst)):
-    try:
-        n = open('/dev/null', 'rw')
-        dec = subprocess.Popen(['flac', '-s', '-d', src, '-c'],
-                stdout=subprocess.PIPE, stdin=n)
-        subprocess.check_call(['lame', '--preset', 'standard', '-h',
-            '--quiet', '--resample', '44.1', '-', dst + '.wip'], stdout=n,
-            stdin=dec.stdout)
-        dec.wait()
+def qlopen(dst):
+    if dst.endswith('.mp3') or dst.endswith('.mp3.wip'):
+        return quodlibet.formats.mp3.MP3File(dst)
+    else:
+        return quodlibet.formats.xiph.OggFile(dst)
 
-        src_f = quodlibet.formats.xiph.FLACFile(src)
-        dst_f = quodlibet.formats.mp3.MP3File(dst + '.wip')
-        for k in filter(lambda k: not k.startswith('~'), src_f.keys()):
-            if k == 'tracknumber':
-                dst_f[k] = src_f[k].split('/')[0]
-            else:
-                dst_f[k] = src_f[k]
-        dst_f.write()
+def retag(src, dst):
+    srcf = quodlibet.formats.xiph.FLACFile(src)
+    dstf = qlopen(dst)
+    for key in filter(lambda k: not k.startswith('~'), srcf.keys()):
+        if key == 'tracknumber':
+            dstf['tracknumber'] = srcf['tracknumber'].split('/')[0]
+        else:
+            dstf[key] = srcf[key]
+    dstf['flac_md5'] = '%x' % FLAC(src).info.md5_signature
+    dstf.write()
+
+def check_md5(src, dst):
+    srcf = FLAC(src)
+    dstf = qlopen(dst)
+    return dstf.get('flac_md5') == '%x' % srcf.info.md5_signature
+
+def decider((src, dst)):
+    """multiprocessing tries (and fails) to pickle the functions"""
+    if dst.endswith('.mp3'):
+        return transcode_mp3(src, dst)
+    else:
+        return transcode_ogg(src, dst)
+
+def transcode_mp3(src, dst):
+    try:
+        dec = subprocess.Popen(['flac', '-s', '-d', src, '-c'],
+            stdout=subprocess.PIPE)
+        subprocess.check_call(['nice', '-n', '+19', 'lame', '--preset',
+            'standard', '-h', '--quiet', '--resample', '44.1', '-',
+            dst + '.wip'], stdin=dec.stdout)
+        dec.wait()
+        retag(src, dst + '.wip')
         os.rename(dst + '.wip', dst)
         return dst
     except:
         traceback.print_exc()
         return None
 
-def transcode_ogg((src, dst)):
+def transcode_ogg(src, dst):
     try:
-        subprocess.check_call(['oggenc', '-Q', '-q', '3.5', '-o', dst + '.wip', src])
+        dec = subprocess.Popen(['flac', '-s', '-d', src, '-c'],
+            stdout=subprocess.PIPE)
+        subprocess.check_call(['nice', '-n', '+19', 'oggenc', '-Q',
+            '-q', '3.5', '-o', dst+'.wip', '-'], stdin=dec.stdout)
+        dec.wait()
+        retag(src, dst + '.wip')
         os.rename(dst + '.wip', dst)
         return dst
     except:
@@ -45,14 +72,21 @@ def transcode_ogg((src, dst)):
 
 def clean_stale(src_dir, dst_dir, ext):
     for root, dirs, files in os.walk(dst_dir):
-        for file in files:
+        for file in sorted(files):
             dst = os.path.join(root, file)
             rel = os.path.splitext(os.path.relpath(dst, dst_dir))[0]
             src = os.path.join(src_dir, rel + '.flac')
             if dst.endswith('.wip'): os.unlink(dst)
             if dst.endswith(ext):
-                if (not os.path.isfile(src) or
-                        os.path.getmtime(src) > os.path.getmtime(dst)):
+                unlink = False
+                if os.path.isfile(src):
+                    if os.path.getmtime(src) > os.path.getmtime(dst):
+                        if check_md5(src, dst):
+                            print "Retagging %s" % file
+                            retag(src, dst)
+                        else: unlink = True
+                else: unlink = True
+                if unlink:
                     print "Unlinking %s" % file
                     os.unlink(dst)
                     files.remove(file)
@@ -88,24 +122,29 @@ def main():
     src_dir = '/opt/media/music/'
 
     dsts =  [
-                ('/opt/media/transcode/', '.mp3', transcode_mp3),
-                ('/opt/media/oggtranscode/', '.ogg', transcode_ogg),
+                ('/opt/media/transcode/', '.mp3'),
+                ('/opt/media/oggtranscode/', '.ogg'),
             ]
 
     pool = multiprocessing.Pool()
 
     new = []
 
-    for (dst_dir, ext, func) in dsts:
-        clean_stale(src_dir, dst_dir, ext)
-        new += get_new(src_dir, dst_dir, ext)
+    for (dst_d, ext) in dsts:
+        clean_stale(src_dir, dst_d, ext)
+        new += get_new(src_dir, dst_d, ext)
     new.sort()
+    if len(sys.argv) > 1:
+        print "Matching " + sys.argv[1]
+        new = filter(lambda srcdst: sys.argv[1] in srcdst[0], new)
+    print "Starting encoding"
 
-    for idx, fn in enumerate(pool.imap(func, new)):
-        print "Finished encoding %s (%2.1f%%)" % (fn, 100.*idx/len(new))
+    for idx, fn in enumerate(pool.imap(decider, new)):
+        print "Finished encoding %s (%d/%d)" % (fn, idx, len(new))
         if not fn:
             print "Exception caught, terminating"
             pool.terminate()
+            break
 
 if __name__ == '__main__':
     main()
