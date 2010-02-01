@@ -22,18 +22,19 @@ set modeline
 set foldmethod=indent
 set nofoldenable
 set diffopt+=filler
-set diffopt+=iwhite
 set ruler
 set laststatus=2
 
 filetype on
-filetype indent on
+filetype plugin indent on
 
 " from http://blog.sontek.net/2008/05/11/python-with-a-modular-ide-vim/
 set tags+=$HOME/.vim/tags/python.ctags
 set tags+=$HOME/.vim/tags/current.ctags
 autocmd FileType python set omnifunc=pythoncomplete#Complete
 inoremap <C-space> <C-x><C-o>
+inoremap <F5> <C-o>gqap
+noremap <F5> gqap
 
 match Error /\s\+$/
 

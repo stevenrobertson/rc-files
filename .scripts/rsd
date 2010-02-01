@@ -12,12 +12,12 @@ def getf(d, s, fn):
     except:
         limit = '1500'
     subprocess.check_call([
-        'rsync', '-rP4t', '--bwlimit', limit, '--sparse',
+        'rsync', '-rPz4t', '--bwlimit', limit, '--sparse',
         '--exclude', '*r[0123456789][0123456789]',
         '--exclude', 'Sample',
         'rsync://ninjacomputer.com:8873/%s/%s' % (bleg, fn), '.'])
     subprocess.check_call([
-        'rsync', '-rP4t', '--bwlimit', limit, '--sparse', '--chmod=+rX',
+        'rsync', '-rPz4t', '--bwlimit', limit, '--sparse', '--chmod=+rX',
         'rsync://ninjacomputer.com:8873/%s/%s' % (bleg, fn), '.'])
 
 
