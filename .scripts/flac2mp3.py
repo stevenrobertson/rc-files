@@ -61,7 +61,7 @@ def transcode_ogg(src, dst):
         dec = subprocess.Popen(['flac', '-s', '-d', src, '-c'],
             stdout=subprocess.PIPE)
         subprocess.check_call(['nice', '-n', '+19', 'oggenc', '-Q',
-            '-q', '3.5', '-o', dst+'.wip', '-'], stdin=dec.stdout)
+            '-q', '4', '-o', dst+'.wip', '-'], stdin=dec.stdout)
         dec.wait()
         retag(src, dst + '.wip')
         os.rename(dst + '.wip', dst)

@@ -1,9 +1,8 @@
 #!/bin/bash
 
-SQUASHFS_DIR=/root/fs
 
 PORT_DIR=/usr/portage
-PORT_SQUASH="$SQUASHFS_DIR/portage.sfs"
+PORT_SQUASH="$( find /dev/mapper -iname '*portage' | head -n 1 )"
 
 function my_umount () {	
 
@@ -21,11 +20,9 @@ function my_mount_tmpfs () {
 }
 
 function my_repack () {
-	
-	rm -f ${2}.tmp
-	if ! (mksquashfs $1 ${2}.tmp && \
-        chmod a+r ${2}.tmp && \
-	mv ${2}.tmp ${2}); then
+	if ! (mksquashfs $1 /tmp/portage.sfs && \
+	dd if=/tmp/portage.sfs of=$PORT_SQUASH bs=1M && \
+    rm /tmp/portage.sfs); then
 	echo "Error repacking ${2}." && exit -1; fi
 
 }
