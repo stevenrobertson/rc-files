@@ -1,4 +1,4 @@
-set guifont=Anonymous\ Pro\ 9
+set guifont=Dina\ 10
 colorscheme ir_black
 set lines=50 
 set columns=83
