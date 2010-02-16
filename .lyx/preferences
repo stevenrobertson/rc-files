@@ -1,0 +1,87 @@
+# This file is written by LyX, if you want to make your own
+# modifications you should do them from inside LyX and save
+
+
+#
+# MISC SECTION ######################################
+#
+
+# The default papersize to use.
+\default_papersize "usletter"
+\user_name "Steven Robertson"
+\user_email "steven@strobe.cc"
+
+#
+# SCREEN & FONTS SECTION ############################
+#
+
+\screen_zoom 115
+\screen_font_roman "Skolar"
+\screen_font_sans "Gill Sans Std"
+\fullscreen_limit true
+
+#
+# COLOR SECTION ###################################
+#
+
+
+#
+# PRINTER SECTION ###################################
+#
+
+
+#
+# EXPORT SECTION ####################################
+#
+
+
+#
+# TEX SECTION #######################################
+#
+
+
+#
+# FILE SECTION ######################################
+#
+
+\mouse_wheel_speed 3
+\completion_popup_delay 1
+
+#
+# PLAIN TEXT EXPORT SECTION ##############################
+#
+
+
+#
+# SPELLCHECKER SECTION ##############################
+#
+
+
+#
+# LANGUAGE SUPPORT SECTION ##########################
+#
+
+
+#
+# 2nd MISC SUPPORT SECTION ##########################
+#
+
+\default_language dutch
+\gui_language english
+
+#
+# FORMATS SECTION ##########################
+#
+
+\format "pdf4" "pdf" "XeTeX" "" "evince" "" "document,vector"
+
+#
+# CONVERTERS SECTION ##########################
+#
+
+\converter "pdflatex" "pdf2" "xelatex $$i" "latex"
+
+#
+# COPIERS SECTION ##########################
+#
+
