@@ -13,6 +13,7 @@ set textwidth=79
 set expandtab
 set hlsearch
 set enc=utf-8
+set fo+=2
 inoremap <Home> <C-O>^
 inoremap <C-A> <C-O>^
 inoremap <C-E> <C-O>$

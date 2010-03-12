@@ -8,3 +8,8 @@ if hostname() == "anubis"
     set guifont=Anonymous\ Pro\ 9
 endif
 
+" lean back
+func LB()
+    set guifont=Droid\ Sans\ Mono\ 13
+endfunc
+
