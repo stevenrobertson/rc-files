@@ -1,7 +1,8 @@
 set guifont=Dina\ 10
 colorscheme ir_black
-set lines=50 
+set lines=49
 set columns=83
+set numberwidth=4
 set guioptions-=T
 
 if hostname() == "anubis"
@@ -13,3 +14,9 @@ func LB()
     set guifont=Droid\ Sans\ Mono\ 13
 endfunc
 
+" vsplit, fix height
+func VS()
+    set columns=165
+    vsplit
+    set wiw=79
+endfunc

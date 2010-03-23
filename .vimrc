@@ -82,3 +82,13 @@ function ToggleWrap()
   endif
 endfunction
 
+function ToggleAutoformat()
+    if &fo =~ "a"
+        set fo-=a
+    else
+        set fo+=a
+    endif
+endfunction
+inoremap <F6> <C-o>:call ToggleAutoformat()<CR>
+
+vmap <Leader>/ : s:^  ://:<CR>
