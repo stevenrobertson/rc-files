@@ -28,7 +28,7 @@ for zsh in filter(lambda p: p.get('name') == 'zsh', tree.values()):
     while parent:
         if parent['pid'] == '1':
             break
-        if parent['name'] == 'xterm':
+        if parent['name'] == 'xterm' or parent['name'] == 'gnome-terminal':
             try:
                 os.kill(int(zsh['pid']), 1)
             except:
