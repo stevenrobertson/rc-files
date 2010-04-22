@@ -51,8 +51,6 @@ function sync () {
 	open && \
 	layman -S &&\
 	emerge --sync &&\
-	echo "Sleeping 10s for user activity..." &&\
-	sleep 10 &&\
 	close ||\
 	echo "Error, sync incomplete.  Investigate."
 }

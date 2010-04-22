@@ -6,8 +6,8 @@ hgext.mq=
 hgk=
 color=
 
-[defaults]
-log = -r -5:tip
+[alias]
+latest = log --limit 10
 
 [diff]
 git = True
@@ -25,3 +25,9 @@ gvim.priority = 1
 
 [keywordmaps]
 Id = {file|basename} {node|short} {date|utcdate}
+
+[encode]
+**.py = pipe: sed 's: *$::'
+**.rst = pipe: sed 's: *$::'
+
+%include .hgrc_credentials

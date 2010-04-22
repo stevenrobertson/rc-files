@@ -10,7 +10,7 @@ def getf(d, s, fn):
     try:
         limit = str(int(sys.argv[1]))
     except:
-        limit = '1500'
+        limit = '1800'
     subprocess.check_call([
         'rsync', '-rPz4t', '--bwlimit', limit, '--sparse',
         '--exclude', '*r[0123456789][0123456789]',
