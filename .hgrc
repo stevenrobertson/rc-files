@@ -7,7 +7,7 @@ hgk=
 color=
 
 [alias]
-latest = log --limit 10
+latest = log --rev -10:tip
 
 [diff]
 git = True

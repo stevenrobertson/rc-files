@@ -4,21 +4,30 @@ import paramiko, dialog, os, sys, stat, time, subprocess
 
 def getf(d, s, fn):
     if sys.argv[-1] == '-i':
-        bleg = 'incomplete'
+        bleg = 'i'
     else:
-        bleg = 'complete'
+        bleg = 'c'
     try:
         limit = str(int(sys.argv[1]))
     except:
-        limit = '1800'
-    subprocess.check_call([
-        'rsync', '-rPz4t', '--bwlimit', limit, '--sparse',
+        limit = '500'
+    path = "ninjacomputer.com:d/%s/%s" % (bleg, fn)
+    subprocess.call([
+        'rsync', '-rPztSs', '--bwlimit', limit,
         '--exclude', '*r[0123456789][0123456789]',
-        '--exclude', 'Sample',
-        'rsync://ninjacomputer.com:8873/%s/%s' % (bleg, fn), '.'])
-    subprocess.check_call([
-        'rsync', '-rPz4t', '--bwlimit', limit, '--sparse', '--chmod=+rX',
-        'rsync://ninjacomputer.com:8873/%s/%s' % (bleg, fn), '.'])
+        '--exclude', 'Sample', '--timeout', '20', path, '.'])
+    def remain():
+        sub = subprocess.Popen(['rsync', '-rzsin', path, '.'],
+                               stdout=subprocess.PIPE)
+        stdout, stderr = sub.communicate()
+        if sub.returncode:
+            raise EnvironmentError("rsync call failed")
+        return bool(stdout)
+    while remain():
+        subprocess.call([
+            'rsync', '-rPzts', '--bwlimit', limit, '--sparse', '--chmod=+rX',
+            '--timeout', '20',
+            "ninjacomputer.com:d/%s/%s" % (bleg, fn), '.'])
 
 
 def nuke(s, fn):

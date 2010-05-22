@@ -46,7 +46,7 @@ def transcode_mp3(src, dst):
         dec = subprocess.Popen(['flac', '-s', '-d', src, '-c'],
             stdout=subprocess.PIPE)
         subprocess.check_call(['nice', '-n', '+19', 'lame', '--preset',
-            'standard', '-h', '--quiet', '--resample', '44.1', '-',
+            'fast', 'medium', '-h', '--quiet', '--resample', '44.1', '-',
             dst + '.wip'], stdin=dec.stdout)
         dec.wait()
         retag(src, dst + '.wip')

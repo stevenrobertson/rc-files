@@ -16,7 +16,7 @@ endfunc
 
 " vsplit, fix height
 func VS()
-    set columns=165
+    set columns=166
     vsplit
-    set wiw=79
+    set wiw=80
 endfunc
