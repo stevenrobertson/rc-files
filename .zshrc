@@ -47,7 +47,7 @@ elif [ "$(uname)" = "Darwin" ]; then
     source ${HOME}/.profile
 fi
 
-export PATH="${PATH}:${HOME}/.scripts"
+export PATH="${PATH}:${HOME}/.scripts:${HOME}/.cabal/bin"
 
 export EDITOR="vim"
 setopt AUTO_CONTINUE
@@ -77,10 +77,12 @@ bindkey '\e[3~' delete-char
 bindkey '^?'    backward-delete-char
 
 # set up agent.  horribly dangerous, but screw it.
-test -f ~/.ssh/id_dsa && test -f ~/.ssh-agent-info && source ~/.ssh-agent-info > /dev/null
-if test -n "$(ssh-add -L 2>&1 | grep 'Could not open a connection')"; then
-    ssh-agent >~/.ssh-agent-info
-    source ~/.ssh-agent-info > /dev/null
+if [ -z "$SSH_AUTH_SOCK" ]; then
+    test -f ~/.ssh/id_dsa && test -f ~/.ssh-agent-info && source ~/.ssh-agent-info > /dev/null
+    if test -n "$(ssh-add -L 2>&1 | grep 'Could not open a connection')"; then
+        ssh-agent >~/.ssh-agent-info
+        source ~/.ssh-agent-info > /dev/null
+    fi
 fi
 
 # From Gentoo-wiki. Ironically, this is only needed on Arch.
