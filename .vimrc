@@ -38,8 +38,6 @@ inoremap <C-space> <C-x><C-o>
 inoremap <F5> <C-o>gqap
 noremap <F5> gqap
 
-match Error /\s\+$/
-
 setlocal wrap linebreak nolist
 set virtualedit=
 setlocal display+=lastline
@@ -91,4 +89,22 @@ function ToggleAutoformat()
 endfunction
 inoremap <F6> <C-o>:call ToggleAutoformat()<CR>
 
+
 vmap <Leader>/ : s:^  ://:<CR>
+
+autocmd BufWritePre * :%s/\s\+$//e
+
+function DoVimRun()
+    let s:vrpath = findfile(".vimrun.sh", ".;")
+    if s:vrpath != ""
+        w
+        let s:vrpath = fnamemodify(s:vrpath, ":p")
+        call system("xterm -e 'zsh " . s:vrpath . "' &")
+    endif
+endfunction
+
+inoremap <F7> <C-o>:w<CR>
+noremap <F7> :w<CR>
+inoremap <F8> <C-o>:call DoVimRun()<CR>
+noremap <F8> :call DoVimRun()<CR>
+
