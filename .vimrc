@@ -94,17 +94,21 @@ vmap <Leader>/ : s:^  ://:<CR>
 
 autocmd BufWritePre * :%s/\s\+$//e
 
-function DoVimRun()
+function DoVimRun(arg)
     let s:vrpath = findfile(".vimrun.sh", ".;")
     if s:vrpath != ""
         w
         let s:vrpath = fnamemodify(s:vrpath, ":p")
-        call system("xterm -e 'zsh " . s:vrpath . "' &")
+        call system("xterm -e 'zsh " . s:vrpath . a:arg . "' &")
     endif
 endfunction
 
 inoremap <F7> <C-o>:w<CR>
 noremap <F7> :w<CR>
-inoremap <F8> <C-o>:call DoVimRun()<CR>
-noremap <F8> :call DoVimRun()<CR>
+inoremap <F8> <C-o>:call DoVimRun("")<CR>
+noremap <F8> :call DoVimRun("")<CR>
+inoremap <C-F8> <C-o>:call DoVimRun(" 1")<CR>
+noremap <C-F8> :call DoVimRun(" 1")<CR>
+
+
 
