@@ -1,0 +1,23 @@
+Config {
+    font = "xft:Dina-11",
+    bgColor = "black",
+    fgColor = "lightskyblue",
+    position = Top,
+    lowerOnStart = False,
+    commands = [
+        Run Weather "KTPA" ["-t","<tempC>°C, <skyCondition>, <rh>%",
+                            "-L","24","-H","32","--normal","aquamarine2",
+                            "--high","chocolate1","--low","lightskyblue"] 36000,
+        Run MultiCpu ["-L","3","-H","50","--normal","green","--high","red",
+                      "-W","5","-t","CPU: <bar0> <bar1> <bar2> <bar3>"] 3,
+        Run CpuFreq ["-t","Freq: <cpu0> <cpu1> <cpu2> <cpu3>"] 30,
+        Run Network "eth0" ["-t","<rx> <tx>"] 3,
+        Run Memory ["-t","<usedbar> <rest>M"] 3,
+        Run Date "%a %b %_d %l:%M" "date" 3,
+        Run Com "quodlibet" ["--print-playing"] "song" 30,
+        Run StdinReader ],
+    sepChar = "%",
+    alignSep = "}{",
+    template = "%StdinReader% }{ %song%  |  %multicpu%  %cpufreq%  |  %eth0%  |  %memory%   |  %KTPA%    <fc=#ee9a00>%date%</fc>"
+}
+

@@ -10,8 +10,8 @@ def getf(d, s, fn):
     try:
         limit = str(int(sys.argv[1]))
     except:
-        limit = '500'
-    path = "ninjacomputer.com:d/%s/%s" % (bleg, fn)
+        limit = '8000'
+    path = "osiris.local:d/%s/%s" % (bleg, fn)
     subprocess.call([
         'rsync', '-rPztSs', '--bwlimit', limit,
         '--exclude', '*r[0123456789][0123456789]',
@@ -26,9 +26,7 @@ def getf(d, s, fn):
     while remain():
         subprocess.call([
             'rsync', '-rPzts', '--bwlimit', limit, '--sparse', '--chmod=+rX',
-            '--timeout', '20',
-            "ninjacomputer.com:d/%s/%s" % (bleg, fn), '.'])
-
+            '--timeout', '20', path, '.'])
 
 def nuke(s, fn):
     print 'Removing ' + fn

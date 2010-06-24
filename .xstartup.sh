@@ -3,12 +3,17 @@
 
 xrdb .Xdefaults
 
+xmodmap -e "remove Lock = Caps_Lock"
+xmodmap -e "add Mod4 = Caps_Lock"
+
 if [ "`hostname`" = "isis" ]; then
     $HOME/.scripts/pack_ffox.sh
-    xchat &!
+    smuxi-frontend-gnome &!
+#    xchat &!
 fi
-compiz --replace --indirect-rendering --loose-binding ccp &!
-mail-notification --sm-disable &!
+#compiz --replace --indirect-rendering --loose-binding ccp &!
+#mail-notification --sm-disable &!
+#xmonad &!
 
 if which mitter; then
     mitter &!

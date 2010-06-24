@@ -110,5 +110,7 @@ noremap <F8> :call DoVimRun("")<CR>
 inoremap <C-F8> <C-o>:call DoVimRun(" 1")<CR>
 noremap <C-F8> :call DoVimRun(" 1")<CR>
 
+au BufEnter *.hs compiler ghc
+let g:haddock_browser="/usr/bin/chromium-bin"
 
 

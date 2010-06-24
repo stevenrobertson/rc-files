@@ -34,7 +34,7 @@ if [ $TERM = "xterm" -o $TERM = "xterm-color" ]; then
 fi
 
 if [ "$(uname)" = "Linux" ]; then
-    export BROWSER="firefox"
+    export BROWSER="chromium-bin"
     if [ -x $(which dircolors) ]; then
         eval $( dircolors -b )
         alias ls='ls --color=auto'
