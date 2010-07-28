@@ -7,7 +7,11 @@ if [ -d /home/steven/.mozilla/firefox/tmpfs.default ]; then
 fi
 
 xmodmap $HOME/.xmodmap-$HN
-xset dpms 7200 7200 7200
+
+xterm &
+sleep 100d
+
+#xset dpms 7200 7200 7200
 
 eval "$(dbus-launch --sh-syntax)"
 

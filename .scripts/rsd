@@ -10,14 +10,14 @@ def getf(d, s, fn):
     try:
         limit = str(int(sys.argv[1]))
     except:
-        limit = '8000'
+        limit = '100000'
     path = "osiris.local:d/%s/%s" % (bleg, fn)
     subprocess.call([
-        'rsync', '-rPztSs', '--bwlimit', limit,
+        'rsync', '-rPtSs', '--bwlimit', limit,
         '--exclude', '*r[0123456789][0123456789]',
         '--exclude', 'Sample', '--timeout', '20', path, '.'])
     def remain():
-        sub = subprocess.Popen(['rsync', '-rzsin', path, '.'],
+        sub = subprocess.Popen(['rsync', '-rsin', path, '.'],
                                stdout=subprocess.PIPE)
         stdout, stderr = sub.communicate()
         if sub.returncode:
@@ -25,7 +25,7 @@ def getf(d, s, fn):
         return bool(stdout)
     while remain():
         subprocess.call([
-            'rsync', '-rPzts', '--bwlimit', limit, '--sparse', '--chmod=+rX',
+            'rsync', '-rPts', '--bwlimit', limit, '--sparse', '--chmod=+rX',
             '--timeout', '20', path, '.'])
 
 def nuke(s, fn):

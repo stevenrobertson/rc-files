@@ -35,8 +35,8 @@ set tags+=$HOME/.vim/tags/python.ctags
 set tags+=$HOME/.vim/tags/current.ctags
 autocmd FileType python set omnifunc=pythoncomplete#Complete
 inoremap <C-space> <C-x><C-o>
-inoremap <F5> <C-o>gqap
-noremap <F5> gqap
+inoremap <C-F7> <C-o>gqap
+noremap <C-F7> gqap
 
 setlocal wrap linebreak nolist
 set virtualedit=
@@ -87,7 +87,7 @@ function ToggleAutoformat()
         set fo+=a
     endif
 endfunction
-inoremap <F6> <C-o>:call ToggleAutoformat()<CR>
+inoremap <S-F8> <C-o>:call ToggleAutoformat()<CR>
 
 
 vmap <Leader>/ : s:^  ://:<CR>
@@ -111,6 +111,12 @@ inoremap <C-F8> <C-o>:call DoVimRun(" 1")<CR>
 noremap <C-F8> :call DoVimRun(" 1")<CR>
 
 au BufEnter *.hs compiler ghc
-let g:haddock_browser="/usr/bin/chromium-bin"
+let g:haddock_browser="/usr/bin/firefox"
 
+" aw, hell.
+inoremap kj <Esc>
+inoremap <Left>  <NOP>
+inoremap <Right> <NOP>
+inoremap <Up>    <NOP>
+inoremap <Down>  <NOP>
 

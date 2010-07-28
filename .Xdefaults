@@ -14,4 +14,10 @@ XTerm*visualBell: true
 XTerm*termName: xterm-color
 XTerm*loginShell: true
 XTerm*geometry: 99x29
+#if SCREEN_NUM == 0
+Xft.rgba:       bgr
+#endif
+#if SCREEN_NUM == 1
+Xft.rgba:       vrgb
+#endif
 
