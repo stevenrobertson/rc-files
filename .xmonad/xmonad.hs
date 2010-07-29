@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleInstances, MultiParamTypeClasses, PatternGuards #-}
+{-# LANGUAGE FlexibleInstances, MultiParamTypeClasses, PatternGuards, NoMonomorphismRestriction #-}
 
 import XMonad
 import XMonad.Hooks.DynamicLog
@@ -108,7 +108,7 @@ handleFocusEvent _ = return $ All True
 -- Config file is shared across desktop and laptop; host-specific configuration
 -- is all done here
 
-data Host = Isis | IsisSecondary | Anubis
+data Host = Isis | IsisSecondary | Anubis deriving (Read, Show, Eq)
 
 getHostname :: IO Host
 getHostname = do
@@ -121,16 +121,32 @@ getHostname = do
         "isis" | '1' `elem` disp    -> IsisSecondary
         "isis"                      -> Isis
 
-{- I can't figure out what type this needs to be to allow host-based switching
-myLayouts :: l a
-myLayouts Isis = GridRatio (5/4) ||| CodingLayout (186/360) |||
-                 ThreeCol 1 (4/360) (188/360) ||| Full
-myLayouts IsisSecondary = GridRatio (5/4) ||| Full
-myLayouts Anubis = ThreeColMid 1 (3/100) (1/4) ||| GridRatio (5/4) ||| Full
--}
+-- Different Layout types can't be used with 'if'.
+data ExtChoice l1 l2 a = ExtChoice Bool (l1 a) (l2 a) deriving (Show, Read)
 
-myLayouts _ = GridRatio (5/4) ||| layoutHints (CodingLayout (186/360)) |||
-              ThreeCol 1 (4/360) (188/360) ||| Full
+instance (LayoutClass l1 a, LayoutClass l2 a) => LayoutClass (ExtChoice l1 l2) a where
+    runLayout (W.Workspace i (ExtChoice True  l1 l2) ms) r = do
+        fmap (\(wrs, mlt') -> (wrs, fmap (flip (ExtChoice True) l2) mlt')) $
+            runLayout (W.Workspace i l1 ms) r
+    runLayout (W.Workspace i (ExtChoice False l1 l2) ms) r = do
+        fmap (\(wrs, mlt') -> (wrs, fmap (ExtChoice False l1) mlt')) $
+            runLayout (W.Workspace i l2 ms) r
+
+    description (ExtChoice True  l1 l2) = description l1
+    description (ExtChoice False l1 l2) = description l2
+
+    handleMessage (ExtChoice True  l1 l2) m = do
+        fmap (fmap (flip (ExtChoice True) l2)) $ handleMessage l1 m
+    handleMessage (ExtChoice False l1 l2) m = do
+        fmap (fmap $ ExtChoice False l1) $ handleMessage l2 m
+
+-- myLayouts :: LayoutClass l a => Host -> l a
+myLayouts host =
+    ExtChoice (host == Isis) (GridRatio (5/4) |||
+                              layoutHints (CodingLayout (186/360)) |||
+                              ThreeCol 1 (4/360) (188/360) ||| Full) $
+    ExtChoice (host == IsisSecondary) (GridRatio (5/4) ||| Full) $
+              Tall 1 (1/100) (50/100) ||| GridRatio (5/4) ||| Full
 
 modm = mod4Mask
 
@@ -145,8 +161,6 @@ myManageHook = composeAll
                 [ className =? "qemu-system-x86_64" --> doFloat
                 , className =? "Do"                 --> doFloat ]
 
-
-
 myKeys host =
     [
         ((modm, xK_i), spawn (browser host)),
@@ -159,6 +173,7 @@ myKeys host =
     [ ((m, k), windows $ f i) |
         (i, k) <- zip shiftWorkspaces [xK_F1 .. xK_F6],
         (f, m) <- [(W.greedyView, shiftMask), (W.shift, shiftMask .|. modm)]]
+
 
 launchBar Isis = spawnPipe "/home/steven/.cabal/bin/xmobar"
 launchBar IsisSecondary =

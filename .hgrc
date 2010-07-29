@@ -15,6 +15,7 @@ showfunc = True
 
 [ui]
 username = Steven Robertson <steven@strobe.cc>
+ignore.global = ~/.hgignore.global
 
 [merge-tools]
 gvim.args = -f -d $local $other

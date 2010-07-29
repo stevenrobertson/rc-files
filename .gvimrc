@@ -1,13 +1,9 @@
-set guifont=Dina\ 10
+set guifont=Dina\ 11
 colorscheme ir_black
 "set lines=49
 set columns=83
 set numberwidth=4
 set guioptions-=T
-
-if hostname() == "anubis"
-    set guifont=Anonymous\ Pro\ 9
-endif
 
 " lean back
 func LB()
