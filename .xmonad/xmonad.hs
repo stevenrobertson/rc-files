@@ -10,6 +10,7 @@ import XMonad.Layout.Grid
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.NoBorders
 import XMonad.Layout.LayoutHints
+import XMonad.Config.Gnome
 import System.IO
 import System.Process
 import System.Environment
@@ -108,7 +109,7 @@ handleFocusEvent _ = return $ All True
 -- Config file is shared across desktop and laptop; host-specific configuration
 -- is all done here
 
-data Host = Isis | IsisSecondary | Anubis deriving (Read, Show, Eq)
+data Host = Isis | IsisSecondary | Anubis | Aten deriving (Read, Show, Eq)
 
 getHostname :: IO Host
 getHostname = do
@@ -118,6 +119,7 @@ getHostname = do
     disp <- getEnv "DISPLAY"
     return $ case host of
         "anubis"                    -> Anubis
+        "aten"                      -> Aten
         "isis" | '1' `elem` disp    -> IsisSecondary
         "isis"                      -> Isis
 
@@ -164,7 +166,7 @@ myManageHook = composeAll
 myKeys host =
     [
         ((modm, xK_i), spawn (browser host)),
-        ((modm, xK_t), spawn "xterm"),
+        ((modm, xK_t), spawn "gnome-terminal"),
         ((modm .|. shiftMask, xK_t), withFocused $ windows . W.sink)
     ] ++
     [ ((m, k), windows $ f i) |
@@ -180,6 +182,7 @@ launchBar IsisSecondary =
     spawnPipe "/home/steven/.cabal/bin/xmobar /home/steven/.xmobarrc-isis-sec"
 launchBar Anubis =
     spawnPipe "/home/steven/.cabal/bin/xmobar /home/steven/.xmobarrc-anubis"
+launchBar Aten = launchBar Anubis
 
 myXmobarPP = xmobarPP {
     ppTitle  = xmobarColor "#ddddff" "" . shorten 80,
@@ -193,6 +196,7 @@ myXmobarPP = xmobarPP {
 main = do
     host <- getHostname
     xmobar <- launchBar host
+    gnomeRegister
     xmonad $ defaultConfig {
         workspaces  = myWorkspaces,
         manageHook  = myManageHook <+> manageDocks <+> manageHook defaultConfig,

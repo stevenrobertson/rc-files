@@ -7,15 +7,12 @@ xmodmap -e "remove Lock = Caps_Lock"
 xmodmap -e "add Mod4 = Caps_Lock"
 
 if [ "`hostname`" = "isis" ]; then
-    DISPLAY=:0.1 xmonad &!
-    xcompmgr -a &!
     /home/steven/.scripts/lql
 #    xchat &!
 fi
 
-if [ "`hostname`" = "anubis" ]; then
-    xmonad &!
-    xcompmgr -a &!
+if [ "`hostname`" = "aten" ]; then
+    synergyc -n right isis
 fi
 
 mail-notification --sm-disable &!
