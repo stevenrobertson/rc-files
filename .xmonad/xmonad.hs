@@ -11,6 +11,7 @@ import XMonad.Layout.ThreeColumns
 import XMonad.Layout.NoBorders
 import XMonad.Layout.LayoutHints
 import XMonad.Config.Gnome
+import XMonad.Actions.WindowBringer
 import System.IO
 import System.Process
 import System.Environment
@@ -142,13 +143,15 @@ instance (LayoutClass l1 a, LayoutClass l2 a) => LayoutClass (ExtChoice l1 l2) a
     handleMessage (ExtChoice False l1 l2) m = do
         fmap (fmap $ ExtChoice False l1) $ handleMessage l2 m
 
--- myLayouts :: LayoutClass l a => Host -> l a
 myLayouts host =
-    ExtChoice (host == Isis) (GridRatio (5/4) |||
-                              layoutHints (CodingLayout (186/360)) |||
-                              ThreeCol 1 (4/360) (188/360) ||| Full) $
-    ExtChoice (host == IsisSecondary) (GridRatio (5/4) ||| Full) $
-              Tall 1 (1/100) (50/100) ||| GridRatio (5/4) ||| Full
+    ExtChoice (host == Isis) isisLayouts $
+    ExtChoice (host == IsisSecondary) isisSecLayouts anubisLayouts
+    where
+        isisLayouts =   Tall 1 (1/100) (50/100) |||
+                        layoutHints (CodingLayout (186/360)) |||
+                        ThreeCol 1 (4/360) (186/360) ||| Full
+        isisSecLayouts = GridRatio (5/4) ||| Full
+        anubisLayouts = Tall 1 (1/100) (50/100) ||| GridRatio (5/4) ||| Full
 
 modm = mod4Mask
 
@@ -167,7 +170,8 @@ myKeys host =
     [
         ((modm, xK_i), spawn (browser host)),
         ((modm, xK_t), spawn "gnome-terminal"),
-        ((modm .|. shiftMask, xK_t), withFocused $ windows . W.sink)
+        ((modm .|. shiftMask, xK_t), withFocused $ windows . W.sink),
+        ((modm, xK_g), gotoMenu' "dmenul")
     ] ++
     [ ((m, k), windows $ f i) |
         (i, k) <- zip normWorkspaces [xK_F1 .. xK_F6],

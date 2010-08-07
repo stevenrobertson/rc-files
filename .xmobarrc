@@ -1,6 +1,6 @@
 Config {
     font = "xft:Dina-11",
-    bgColor = "black",
+    bgColor = "#00000000",
     fgColor = "lightskyblue",
     position = Top,
     lowerOnStart = False,

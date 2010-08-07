@@ -7,6 +7,7 @@ xmodmap -e "remove Lock = Caps_Lock"
 xmodmap -e "add Mod4 = Caps_Lock"
 
 if [ "`hostname`" = "isis" ]; then
+    pack_ffox.sh
     /home/steven/.scripts/lql
 #    xchat &!
 fi

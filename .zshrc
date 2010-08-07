@@ -34,7 +34,7 @@ if [ $TERM = "xterm" -o $TERM = "xterm-color" ]; then
 fi
 
 if [ "$(uname)" = "Linux" ]; then
-    export BROWSER="chromium-bin"
+    export BROWSER="firefox"
     if [ -x $(which dircolors) ]; then
         eval $( dircolors -b )
         alias ls='ls --color=auto'
@@ -47,7 +47,7 @@ elif [ "$(uname)" = "Darwin" ]; then
     source ${HOME}/.profile
 fi
 
-export PATH="${PATH}:${HOME}/.scripts:${HOME}/.cabal/bin"
+export PATH="${HOME}/.scripts:${HOME}/.cabal/bin:$PATH"
 
 export EDITOR="vim"
 setopt AUTO_CONTINUE
@@ -121,7 +121,6 @@ alias js='jackd -R -d freebob -r 44100'
 alias burn360iso='growisofs -use-the-force-luke=dao -use-the-force-luke=break:1913760  -dvd-compat -speed=4'
 alias trivm="kvm -m 1700 -hda /dev/sda -smp 2 -vga std -usb -usbdevice tablet -net nic,vlan=0 -net tap,vlan=0,ifname=local0 -localtime"
 alias grep='grep --color'
-alias pdfcrop='pdfcrop --hires --verbose --margins 3 --resolution 100'
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
