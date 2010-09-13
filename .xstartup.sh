@@ -1,14 +1,18 @@
 #!/bin/zsh
 # Post-desktop-environment program launch commands
 
+. ~/.zshrc
+
 xrdb .Xdefaults
 
 xmodmap -e "remove Lock = Caps_Lock"
-xmodmap -e "add Mod4 = Caps_Lock"
+xmodmap -e "keysym Caps_Lock = Escape"
 
 if [ "`hostname`" = "isis" ]; then
     pack_ffox.sh
     /home/steven/.scripts/lql
+    synergys -n localhost
+    DISPLAY=:0.1 xmonad &!
 #    xchat &!
 fi
 
@@ -30,4 +34,6 @@ if which pidgin; then
     pidgin &!
 fi
 
-
+if which nvidia-settings; then
+    nvidia-settings -l
+fi

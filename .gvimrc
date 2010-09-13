@@ -16,3 +16,8 @@ func VS()
     vsplit
     set wiw=80
 endfunc
+
+inoremap <F11> <C-O>:set wiw=80<CR>
+noremap <F11> :set wiw=80<CR>
+
+set winaltkeys=no

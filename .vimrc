@@ -1,6 +1,7 @@
 syntax on
+set autoread
 set number
-set numberwidth=3
+set numberwidth=4
 set ignorecase
 set smartcase
 set vb
@@ -13,10 +14,12 @@ set textwidth=79
 set expandtab
 set hlsearch
 set enc=utf-8
-set fo+=2
+set fo+=2nl
 inoremap <Home> <C-O>^
 inoremap <C-A> <C-O>^
 inoremap <C-E> <C-O>$
+noremap <C-A> ^
+noremap <C-E> $
 inoremap <C-H> <BS>
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 
@@ -35,8 +38,6 @@ set tags+=$HOME/.vim/tags/python.ctags
 set tags+=$HOME/.vim/tags/current.ctags
 autocmd FileType python set omnifunc=pythoncomplete#Complete
 inoremap <C-space> <C-x><C-o>
-inoremap <C-F7> <C-o>gqap
-noremap <C-F7> gqap
 
 setlocal wrap linebreak nolist
 set virtualedit=
@@ -80,21 +81,19 @@ function ToggleWrap()
   endif
 endfunction
 
-function ToggleAutoformat()
+function! ToggleAutoformat()
     if &fo =~ "a"
         set fo-=a
     else
         set fo+=a
     endif
 endfunction
-inoremap <S-F8> <C-o>:call ToggleAutoformat()<CR>
-
-
-vmap <Leader>/ : s:^  ://:<CR>
+inoremap <F9> <C-o>:call ToggleAutoformat()<CR>
+noremap <F9> :call ToggleAutoformat()<CR>
 
 autocmd BufWritePre * :%s/\s\+$//e
 
-function DoVimRun(arg)
+function! DoVimRun(arg)
     let s:vrpath = findfile(".vimrun.sh", ".;")
     if s:vrpath != ""
         w
@@ -105,10 +104,13 @@ endfunction
 
 inoremap <F7> <C-o>:w<CR>
 noremap <F7> :w<CR>
-inoremap <F8> <C-o>:call DoVimRun("")<CR>
-noremap <F8> :call DoVimRun("")<CR>
-inoremap <C-F8> <C-o>:call DoVimRun(" 1")<CR>
-noremap <C-F8> :call DoVimRun(" 1")<CR>
+inoremap <F8> <C-o>gqap
+noremap <F8> gqap
+
+"inoremap <F8> <C-o>:call DoVimRun("")<CR>
+"noremap <F8> :call DoVimRun("")<CR>
+"inoremap <C-F8> <C-o>:call DoVimRun(" 1")<CR>
+"noremap <C-F8> :call DoVimRun(" 1")<CR>
 
 au BufEnter *.hs compiler ghc
 let g:haddock_browser="/usr/bin/firefox"
@@ -123,4 +125,15 @@ noremap <Left>  <NOP>
 noremap <Right> <NOP>
 noremap <Up>    <NOP>
 noremap <Down>  <NOP>
+
+inoremap <A-h> <C-o>h
+inoremap <A-j> <C-o>j
+inoremap <A-k> <C-o>k
+inoremap <A-l> <C-o>l
+
+let NERDTreeQuitOnOpen=1
+let NERDTreeWinPos="right"
+let NERDTreeShowBookmarks=1
+inoremap <F12> <C-o>:NERDTreeToggle<CR>
+noremap <F12> :NERDTreeToggle<CR>
 

@@ -3,6 +3,8 @@
 import XMonad
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.ManageHelpers
+import XMonad.Hooks.SetWMName
 import XMonad.Util.Run(spawnPipe, runProcessWithInput)
 import XMonad.Util.EZConfig(additionalKeys)
 import qualified XMonad.StackSet as W
@@ -64,7 +66,7 @@ tileCoding :: Rational -> Rectangle -> Int -> [Rectangle]
 tileCoding frac rect n
     | n == 1    = [rect]
     | n == 2    = [r1, r2]
-    | n < 6     = r1 : tileNSlaves 2 (n-1) r2
+    | n < 5     = r1 : tileNSlaves 2 (n-1) r2
     | otherwise = r1a : splitHorizontally 2 r1b ++ tileNSlaves 2 (n-3) r2
         where (r1, r2) = splitHorizontallyBy frac rect
               (r1a, r1b) = splitVerticallyBy (3/5) r1
@@ -149,7 +151,8 @@ myLayouts host =
     where
         isisLayouts =   Tall 1 (1/100) (50/100) |||
                         layoutHints (CodingLayout (186/360)) |||
-                        ThreeCol 1 (4/360) (186/360) ||| Full
+                        ThreeCol 1 (4/360) (186/360) |||
+                        NCol 4 1 (1/100) (25/100) ||| Full
         isisSecLayouts = GridRatio (5/4) ||| Full
         anubisLayouts = Tall 1 (1/100) (50/100) ||| GridRatio (5/4) ||| Full
 
@@ -164,7 +167,8 @@ browser host = "firefox"
 
 myManageHook = composeAll
                 [ className =? "qemu-system-x86_64" --> doFloat
-                , className =? "Do"                 --> doFloat ]
+                , className =? "Do"                 --> doFloat
+                , isFullscreen                      --> doFullFloat ]
 
 myKeys host =
     [
@@ -203,6 +207,7 @@ main = do
     gnomeRegister
     xmonad $ defaultConfig {
         workspaces  = myWorkspaces,
+        startupHook = setWMName "LG3D",
         manageHook  = myManageHook <+> manageDocks <+> manageHook defaultConfig,
         layoutHook  = avoidStruts  $  smartBorders $ myLayouts host,
         logHook = dynamicLogWithPP myXmobarPP {ppOutput = hPutStrLn xmobar},

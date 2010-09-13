@@ -121,13 +121,16 @@ alias js='jackd -R -d freebob -r 44100'
 alias burn360iso='growisofs -use-the-force-luke=dao -use-the-force-luke=break:1913760  -dvd-compat -speed=4'
 alias trivm="kvm -m 1700 -hda /dev/sda -smp 2 -vga std -usb -usbdevice tablet -net nic,vlan=0 -net tap,vlan=0,ifname=local0 -localtime"
 alias grep='grep --color'
+alias bopen='source `which _bopen.sh`'
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
 setopt appendhistory extendedglob notify
+unsetopt no_case_glob
 unsetopt beep nomatch
 bindkey -e
 # End of lines configured by zsh-newuser-install
 
+export GNOME_DISABLE_CRASH_DIALOG=1

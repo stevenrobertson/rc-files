@@ -82,12 +82,12 @@ def clean_stale(src_dir, dst_dir, ext):
                 if os.path.isfile(src):
                     if os.path.getmtime(src) > os.path.getmtime(dst):
                         if check_md5(src, dst):
-                            print "Retagging %s" % file
+                            print "Retagging %s/%s" % (rel, file)
                             retag(src, dst)
                         else: unlink = True
                 else: unlink = True
                 if unlink:
-                    print "Unlinking %s" % file
+                    print "Unlinking %s/%s" % (rel, file)
                     os.unlink(dst)
                     files.remove(file)
         if files == ['.folder.jpg']: os.unlink(os.path.join(root, files[0]))

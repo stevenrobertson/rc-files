@@ -1,4 +1,4 @@
 #!/bin/zsh
 HOME=/home/steven/.fakehome/ \
-PYTHONPATH="/home/steven/code/quodlibet/quodlibet" python /home/steven/code/quodlibet/quodlibet/quodlibet.py $@
+PYTHONPATH="/home/steven/code/apiquod/quodlibet" python /home/steven/code/apiquod/quodlibet/quodlibet.py $@
 
