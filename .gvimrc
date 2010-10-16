@@ -1,7 +1,7 @@
 set guifont=Dina\ 11
 colorscheme ir_black
 "set lines=49
-set columns=83
+set columns=85
 set numberwidth=4
 set guioptions-=T
 

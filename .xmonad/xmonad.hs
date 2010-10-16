@@ -145,12 +145,12 @@ instance (LayoutClass l1 a, LayoutClass l2 a) => LayoutClass (ExtChoice l1 l2) a
     handleMessage (ExtChoice False l1 l2) m = do
         fmap (fmap $ ExtChoice False l1) $ handleMessage l2 m
 
-myLayouts host =
+myLayouts host = layoutHints $
     ExtChoice (host == Isis) isisLayouts $
     ExtChoice (host == IsisSecondary) isisSecLayouts anubisLayouts
     where
         isisLayouts =   Tall 1 (1/100) (50/100) |||
-                        layoutHints (CodingLayout (186/360)) |||
+                        CodingLayout (186/360) |||
                         ThreeCol 1 (4/360) (186/360) |||
                         NCol 4 1 (1/100) (25/100) ||| Full
         isisSecLayouts = GridRatio (5/4) ||| Full
@@ -162,7 +162,7 @@ normWorkspaces = map show [1..6]
 shiftWorkspaces = map show [7..12]
 myWorkspaces = normWorkspaces ++ shiftWorkspaces
 
-browser IsisSecondary = "chromium-bin"
+browser IsisSecondary = "firefox -P secondary"
 browser host = "firefox"
 
 myManageHook = composeAll

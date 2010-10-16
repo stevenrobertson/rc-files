@@ -4,6 +4,10 @@ fi
 
 source /etc/profile
 
+unset LC_ALL
+export LANG="en_US.UTF-8"
+export LC_COLLATE="C"
+
 prompt_gentoo_setup () {
     prompt_gentoo_prompt=${1:-'blue'}
     prompt_gentoo_user=${2:-'green'}
@@ -134,3 +138,4 @@ bindkey -e
 # End of lines configured by zsh-newuser-install
 
 export GNOME_DISABLE_CRASH_DIALOG=1
+export __GL_SINGLE_THREADED=1

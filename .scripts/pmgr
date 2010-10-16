@@ -4,7 +4,7 @@
 PORT_DIR=/usr/portage
 PORT_SQUASH="$( find /dev/mapper -iname '*portage' | head -n 1 )"
 
-function my_umount () {	
+function my_umount () {
 
 	if [ -n "$(mount | grep $1)" ]; then
 		umount "$1" && return 0 || \
@@ -20,7 +20,7 @@ function my_mount_tmpfs () {
 }
 
 function my_repack () {
-	if ! (mksquashfs $1 /tmp/portage.sfs && \
+	if ! (time mksquashfs $1 /tmp/portage.sfs -no-xattrs -no-progress && \
 	dd if=/tmp/portage.sfs of=$PORT_SQUASH bs=1M && \
     rm /tmp/portage.sfs); then
 	echo "Error repacking ${2}." && exit -1; fi
@@ -37,14 +37,14 @@ function lay () {
 
 function open () {
 	my_mount_tmpfs $PORT_DIR && \
-	unsquashfs -f -d $PORT_DIR $PORT_SQUASH
+	time unsquashfs -n -no -f -d $PORT_DIR $PORT_SQUASH
 }
 
 function close () {
 	my_repack $PORT_DIR $PORT_SQUASH &&\
 	umount $PORT_DIR &&\
 	mount $PORT_DIR
-} 
+}
 
 function sync () {
 
