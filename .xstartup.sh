@@ -20,8 +20,6 @@ if [ "`hostname`" = "aten" ]; then
     synergyc -n right isis
 fi
 
-mail-notification --sm-disable &!
-
 if which mitter; then
     mitter &!
 fi
