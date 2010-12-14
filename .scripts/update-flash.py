@@ -99,8 +99,10 @@ def main():
         cprob_dict[cprob] = src_dir
         cprob += prob / total_prob
 
+    l = 0
     for k, v in sorted(cprob_dict.items()):
-        print '%01.6f %s' % (k, v)
+        print '%01.6f %01.6f %s' % (k, k - l, v)
+        l = k
 
     with open(os.path.join(DST, 'history.txt'), 'a') as histf:
         while True:
