@@ -5,6 +5,8 @@ hgext.mq=
 #hgext.keyword=
 hgk=
 color=
+hggit=
+hgext.bookmarks=
 
 [alias]
 latest = log --rev -10:tip
@@ -27,8 +29,7 @@ gvim.priority = 1
 [keywordmaps]
 Id = {file|basename} {node|short} {date|utcdate}
 
-[encode]
-**.py = pipe: sed 's: *$::'
-**.rst = pipe: sed 's: *$::'
+[web]
+port = 8001
 
 %include .hgrc_credentials
