@@ -5,12 +5,10 @@ PORT_DIR=/usr/portage
 PORT_SQUASH="$( find /dev/mapper -iname '*portage' | head -n 1 )"
 
 function my_umount () {
-
 	if [ -n "$(mount | grep $1)" ]; then
 		umount "$1" && return 0 || \
 		echo "Error unmounting $1" && exit -1
 	fi
-
 }
 
 function my_mount_tmpfs () {
@@ -47,9 +45,8 @@ function close () {
 }
 
 function sync () {
-
+    layman -S &
 	open && \
-	layman -S &&\
 	emerge --sync &&\
 	close ||\
 	echo "Error, sync incomplete.  Investigate."
