@@ -14,10 +14,10 @@ endfunc
 func VS()
     set columns=166
     vsplit
-    set wiw=80
+    set wiw=85
 endfunc
 
-inoremap <F11> <C-O>:set wiw=80<CR>
-noremap <F11> :set wiw=80<CR>
+inoremap <F11> <C-O>:set wiw=85<CR>
+noremap <F11> :set wiw=85<CR>
 
 set winaltkeys=no
