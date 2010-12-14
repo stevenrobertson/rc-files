@@ -6,7 +6,6 @@ set ignorecase
 set smartcase
 set vb
 highlight comment ctermfg=blue
-set guifont=Droid\ Sans\ Mono\ 9
 set shiftwidth=4
 set softtabstop=4
 set tabstop=4
@@ -88,24 +87,27 @@ function! ToggleAutoformat()
         set fo+=a
     endif
 endfunction
-inoremap <F9> <C-o>:call ToggleAutoformat()<CR>
-noremap <F9> :call ToggleAutoformat()<CR>
+
+inoremap <F9> <C-o>gqap
+noremap <F9> gqap
+inoremap <F10> <C-o>:call ToggleAutoformat()<CR>
+noremap <F10> :call ToggleAutoformat()<CR>
 
 autocmd BufWritePre * :%s/\s\+$//e
 
-function! DoVimRun(arg)
+function! DoVimRun()
     let s:vrpath = findfile(".vimrun.sh", ".;")
     if s:vrpath != ""
         w
         let s:vrpath = fnamemodify(s:vrpath, ":p")
-        call system("xterm -e 'zsh " . s:vrpath . a:arg . "' &")
+        call system(s:vrpath)
     endif
 endfunction
 
 inoremap <F7> <C-o>:w<CR>
 noremap <F7> :w<CR>
-inoremap <F8> <C-o>gqap
-noremap <F8> gqap
+inoremap <F8> <C-o>:w<CR><C-o>:call DoVimRun()<CR>
+noremap <F8> :w<CR>:call DoVimRun()<CR>
 
 "inoremap <F8> <C-o>:call DoVimRun("")<CR>
 "noremap <F8> :call DoVimRun("")<CR>
@@ -113,6 +115,8 @@ noremap <F8> gqap
 "noremap <C-F8> :call DoVimRun(" 1")<CR>
 
 let g:haddock_browser="/usr/bin/firefox"
+au Bufenter *.hs compiler ghc
+let g:hs_allow_hash_operator=1
 
 " aw, hell.
 inoremap kj <Esc>
@@ -133,6 +137,8 @@ inoremap <A-l> <C-o>l
 let NERDTreeQuitOnOpen=1
 let NERDTreeWinPos="right"
 let NERDTreeShowBookmarks=1
-inoremap <F12> <C-o>:NERDTreeToggle<CR>
+let NERDTreeSortOrder=['\/$', '\.hs$', '\.py$', '*', '\.swp$',  '\.bak$', '\~$']
+inoremap <F12> <Esc>:NERDTreeToggle<CR>
 noremap <F12> :NERDTreeToggle<CR>
-
+inoremap <C-F12> <C-o>:tabnew<CR>
+noremap <C-F12> :tabnew<CR>
