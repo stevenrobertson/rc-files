@@ -16,6 +16,9 @@ import XMonad.Layout.NoBorders
 import XMonad.Layout.LayoutHints
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.IndependentScreens
+import XMonad.Layout.Tabbed
+import XMonad.Layout.TwoPane
+import XMonad.Layout.Combo
 import XMonad.Config.Gnome
 import XMonad.Actions.WindowBringer
 import System.IO
@@ -82,10 +85,8 @@ tileCoding frac nm rect n
     | nm == 0   = r1 : tileNSlaves 2 (n-1) r2
     | n <= nm+1 = r1a : splitHorizontally (n-1) r1b
     | otherwise = r1a : splitHorizontally nm r1b ++ tileNSlaves 2 (n-nm-1) r2
-        where (r1, r2) = splitHorizontallyBy horizFrac rect
+        where (r1, r2) = splitHorizontallyBy 0.5 rect
               (r1a, r1b) = splitVerticallyBy frac r1
-              -- make right side of screen support 2 80-col GVim windows
-              horizFrac = (186/360)
 
 -- Tile N windows across a number of columns. If the number of windows don't
 -- divide evenly across the number of columns, push the (n `mod` cols) extra
@@ -169,17 +170,19 @@ myLayouts host = layoutHints $
     ExtChoice (host == Isis) isisLayouts $
     ExtChoice (host == IsisSecondary) isisSecLayouts anubisLayouts
     where
-        isisLayouts =   CodingLayout (3/5) 1 |||
-                        Tall 1 (1/100) (50/100) |||
-                        ThreeCol 1 (4/360) (186/360) |||
-                        NCol 4 1 (1/100) (25/100) ||| Full
-        isisSecLayouts = GridRatio 1 ||| Tall 1 (1/100) (70/100) ||| Full
+        isisLayouts =   combineTwo (TwoPane 0.03 0.5) simpleTabbed simpleTabbed
+                    ||| (CodingLayout (3/5) 1)
+                    ||| Tall 1 (1/100) (50/100)
+                    -- ||| ThreeCol 1 (4/360) (186/360)
+                    -- ||| NCol 4 1 (1/100) (25/100)
+                    ||| simpleTabbed
+        isisSecLayouts = GridRatio 1 ||| Tall 1 (1/100) (70/100) ||| simpleTabbed
         anubisLayouts = Tall 1 (1/100) (50/100) ||| GridRatio (5/4) ||| Full
 
 modm = mod4Mask
 
-normWorkspaces  = map show [1..6]
-shiftWorkspaces = map show [7..12]
+normWorkspaces  = map show [1..4]
+shiftWorkspaces = map show [5..8]
 myWorkspaces nScreens = withScreens nScreens $ normWorkspaces ++ shiftWorkspaces
 
 browser IsisSecondary = "firefox -P secondary"
@@ -230,10 +233,7 @@ myXmobarPP screenNo outhnd = xmobarPP {
     ppHidden    = ppHidden  xmobarPP . filtScr,
     ppVisible   = \_ -> "",
     ppSep       = "  ",
-    ppLayout    = \lay ->
-        if "Full" `isInfixOf` lay
-            then xmobarColor "#000000" "#cc1111" " Full "
-            else xmobarColor "#667799" "#000000" lay
+    ppLayout    = xmobarColor "#667799" "#000000"
     }
   where
     filtScr "NSP" = ""
@@ -252,7 +252,7 @@ main = do
                    <+> manageDocks
                    <+> scratchpadManageHook (W.RationalRect 0.25 0.25 0.5 0.5)
                    <+> manageHook defaultConfig,
-        layoutHook  = avoidStruts  $  smartBorders $ myLayouts host,
+        layoutHook  = avoidStruts . smartBorders $ myLayouts host,
         logHook = mapM_ (dynamicLogWithPP . uncurry myXmobarPP) $ zip [0..] bars,
         handleEventHook = mappend handleFocusEvent $
                           handleEventHook defaultConfig,
