@@ -49,6 +49,11 @@ def main():
         EXT='.ogg'
         MIN_FREE=1000
 
+    if not os.listdir(SRC):
+        SRC="/home/steven/Music"
+    if not os.listdir(SRC):
+        raise EnvironmentError("No songs found!")
+
     # Create list of current source directories holding music
     src_dirs = set()
     for root, dirs, files in os.walk(SRC):

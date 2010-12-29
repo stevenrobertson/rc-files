@@ -210,7 +210,7 @@ myKeys host =
     [ ((m, k), windows $ onCurrentScreen f i) |
         (i, k) <- zip shiftWorkspaces [xK_F1 .. xK_F6],
         (f, m) <- [(W.greedyView, shiftMask), (W.shift, shiftMask .|. modm)]]
-    ++ [ ((modm, k), changeDisplay i) | (k, i) <- zip [xK_w, xK_e, xK_r] [2,0,1] ]
+--    ++ [ ((modm, k), changeDisplay i) | (k, i) <- zip [xK_w, xK_e, xK_r] [2,0,1] ]
 changeDisplay i = spawn $ "/home/steven/.scripts/change_display.py " ++ show i
 
 xmobarCmd cfg scr = unwords ["/home/steven/.cabal/bin/xmobar",
