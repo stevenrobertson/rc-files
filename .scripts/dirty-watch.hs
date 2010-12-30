@@ -6,8 +6,6 @@ import Data.List
 import Text.Printf
 
 microseconds = (* 1000000) . truncate
-minSec :: Int -> (Int, Int)
-minSec t = (t `div` 60, t `mod` 60)
 
 main = estimator 10 0.99 1000 =<< getDirty
 
@@ -16,10 +14,11 @@ estimator period alpha est val = do
     newVal <- getDirty
     let delta = (val - newVal) / period
         newEst = est * alpha + delta * (1 - alpha)
-        trem = truncate $ newVal / newEst
-    putStrLn $ uncurry (printf "New estimate: %d:%02d") $ minSec trem
+        trem = truncate $ newVal / newEst :: Int
+    putStrLn $ printf "Time until cleared: %d:%02d (%1.1f kB/s)"
+               (trem `div` 60) (trem `mod` 60) newEst
     threadDelay $ microseconds period
-    estimator period alpha newEst newVal
+    estimator period alpha (max 1 newEst) newVal
 
 getDirty :: IO Double
 getDirty = do
