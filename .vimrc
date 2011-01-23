@@ -1,3 +1,7 @@
+filetype off
+call pathogen#runtime_append_all_bundles()
+filetype plugin indent on
+
 syntax on
 set autoread
 set number
@@ -28,9 +32,6 @@ set nofoldenable
 set diffopt+=filler
 set ruler
 set laststatus=2
-
-filetype on
-filetype plugin indent on
 
 " from http://blog.sontek.net/2008/05/11/python-with-a-modular-ide-vim/
 set tags+=$HOME/.vim/tags/python.ctags
@@ -103,6 +104,8 @@ function! DoVimRun()
         call system(s:vrpath)
     endif
 endfunction
+
+command! Hgd diffthis | let res = system('~/.scripts/pickfromdiff.py ' . shellescape(expand('%'))) | vert new | set bt=nofile | put=res | diffthis
 
 inoremap <F7> <C-o>:w<CR>
 noremap <F7> :w<CR>

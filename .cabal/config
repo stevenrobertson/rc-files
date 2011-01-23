@@ -19,7 +19,7 @@ remote-repo-cache: /home/steven/.cabal/packages
 -- program-prefix:
 -- program-suffix:
 -- library-vanilla: True
--- library-profiling: True
+library-profiling: True
 -- shared: False
 -- executable-profiling: False
 -- optimization: True
@@ -68,3 +68,4 @@ install-dirs global
   -- docdir: $datadir/doc/$pkgid
   -- htmldir: $docdir/html
   -- haddockdir: $htmldir
+

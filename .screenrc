@@ -1,5 +1,5 @@
 startup_message off
-defscrollback 3000
+defscrollback 5000
 hardstatus alwayslastline "%{+b kr}[ %H ] %{ky} Load: %l %-= %c  %d.%m.%Y"
 caption always "%{= kw}%?%-Lw%?%{+b kw}%n*%t%f %?(%u)%?%{= kw}%?%+Lw%?"
 shell zsh

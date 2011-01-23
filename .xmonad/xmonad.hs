@@ -19,6 +19,7 @@ import XMonad.Layout.IndependentScreens
 import XMonad.Layout.Tabbed
 import XMonad.Layout.TwoPane
 import XMonad.Layout.Combo
+import XMonad.Layout.WindowNavigation (Navigate(..), windowNavigation)
 import XMonad.Config.Gnome
 import XMonad.Actions.WindowBringer
 import System.IO
@@ -124,13 +125,7 @@ handleFocusEvent e@(CrossingEvent {ev_window = w, ev_event_type = t})
 
 handleFocusEvent _ = return $ All True
 
-
-
 -- The actual configuration begins below --
-
-
--- Config file is shared across desktop and laptop; host-specific configuration
--- is all done here
 
 data Host = Isis | IsisSecondary | Anubis | Aten deriving (Read, Show, Eq)
 
@@ -169,15 +164,17 @@ instance (LayoutClass l1 a, LayoutClass l2 a) => LayoutClass (ExtChoice l1 l2) a
 myLayouts host = layoutHints $
     ExtChoice (host == Isis) isisLayouts $
     ExtChoice (host == IsisSecondary) isisSecLayouts anubisLayouts
-    where
-        isisLayouts =   combineTwo (TwoPane 0.03 0.5) simpleTabbed simpleTabbed
-                    ||| (CodingLayout (3/5) 1)
-                    ||| Tall 1 (1/100) (50/100)
-                    -- ||| ThreeCol 1 (4/360) (186/360)
-                    -- ||| NCol 4 1 (1/100) (25/100)
-                    ||| simpleTabbed
-        isisSecLayouts = GridRatio 1 ||| Tall 1 (1/100) (70/100) ||| simpleTabbed
-        anubisLayouts = Tall 1 (1/100) (50/100) ||| GridRatio (5/4) ||| Full
+  where
+
+    isisLayouts =
+        windowNavigation (combineTwo (TwoPane 0.03 0.5) simpleTabbed simpleTabbed)
+        ||| (CodingLayout (3/5) 1)
+        -- ||| Tall 1 (1/100) (50/100)
+        -- ||| ThreeCol 1 (4/360) (186/360)
+        -- ||| NCol 4 1 (1/100) (25/100)
+        ||| simpleTabbed
+    isisSecLayouts = GridRatio 1 ||| Tall 1 (1/100) (70/100) ||| simpleTabbed
+    anubisLayouts = Tall 1 (1/100) (50/100) ||| GridRatio (5/4) ||| Full
 
 modm = mod4Mask
 
@@ -186,7 +183,7 @@ shiftWorkspaces = map show [5..8]
 myWorkspaces nScreens = withScreens nScreens $ normWorkspaces ++ shiftWorkspaces
 
 browser IsisSecondary = "firefox -P secondary"
-browser host = "firefox"
+browser host = "chromium"
 
 myManageHook = composeAll
                 [ className =? "qemu-system-x86_64" --> doFloat
@@ -196,12 +193,13 @@ myManageHook = composeAll
                 , isFullscreen                      --> doFullFloat ]
 
 myKeys host =
-    [
-        ((modm, xK_i), spawn (browser host)),
-        ((modm, xK_t), spawn "gnome-terminal"),
-        ((modm .|. shiftMask, xK_t), withFocused $ windows . W.sink),
-        ((modm, xK_g), gotoMenu' "dmenul"),
-        ((modm, xK_BackSpace), scratchpadSpawnActionCustom
+    [ ((modm, xK_i), spawn (browser host))
+    , ((modm, xK_t), spawn "gnome-terminal")
+    , ((modm .|. shiftMask, xK_t), withFocused $ windows . W.sink)
+    , ((modm, xK_g), gotoMenu' "dmenul")
+    , ((modm, xK_Left),     sendMessage $ Move L)
+    , ((modm, xK_Right),    sendMessage $ Move R)
+    , ((modm, xK_BackSpace), scratchpadSpawnActionCustom
             "xterm -name scratchpad -e screen -S scratch -d -R")
     ] ++
     [ ((m, k), windows $ onCurrentScreen f i) |
@@ -210,8 +208,6 @@ myKeys host =
     [ ((m, k), windows $ onCurrentScreen f i) |
         (i, k) <- zip shiftWorkspaces [xK_F1 .. xK_F6],
         (f, m) <- [(W.greedyView, shiftMask), (W.shift, shiftMask .|. modm)]]
---    ++ [ ((modm, k), changeDisplay i) | (k, i) <- zip [xK_w, xK_e, xK_r] [2,0,1] ]
-changeDisplay i = spawn $ "/home/steven/.scripts/change_display.py " ++ show i
 
 xmobarCmd cfg scr = unwords ["/home/steven/.cabal/bin/xmobar",
                              "-x", show (fromIntegral scr),
@@ -233,7 +229,7 @@ myXmobarPP screenNo outhnd = xmobarPP {
     ppHidden    = ppHidden  xmobarPP . filtScr,
     ppVisible   = \_ -> "",
     ppSep       = "  ",
-    ppLayout    = xmobarColor "#667799" "#000000"
+    ppLayout    = xmobarColor "#667799" "#000000" . head . reverse . words
     }
   where
     filtScr "NSP" = ""

@@ -126,6 +126,7 @@ alias burn360iso='growisofs -use-the-force-luke=dao -use-the-force-luke=break:19
 alias trivm="kvm -m 1700 -hda /dev/sda -smp 2 -vga std -usb -usbdevice tablet -net nic,vlan=0 -net tap,vlan=0,ifname=local0 -localtime"
 alias grep='grep --color'
 alias bopen='source `which _bopen.sh`'
+alias donemail='echo done | mail -s done steven@strobe.cc 8137287254@vtext.com'
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
@@ -138,4 +139,3 @@ bindkey -e
 # End of lines configured by zsh-newuser-install
 
 export GNOME_DISABLE_CRASH_DIALOG=1
-export __GL_SINGLE_THREADED=1

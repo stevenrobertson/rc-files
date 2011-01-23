@@ -1,5 +1,5 @@
 Config {
-    font = "xft:Dina-11",
+    font = "xft:Dina-9",
     bgColor = "#00000000",
     fgColor = "lightskyblue",
     position = Top,
