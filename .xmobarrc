@@ -1,7 +1,7 @@
 Config {
-    font = "xft:Dina-9",
-    bgColor = "#00000000",
-    fgColor = "lightskyblue",
+    font = "xft:Ubuntu-10",
+    bgColor = "#e1e1e1",
+    fgColor = "#333333",
     position = Top,
     lowerOnStart = False,
     commands = [
@@ -11,7 +11,7 @@ Config {
         Run MultiCpu ["-L","3","-H","50","--normal","green","--high","red",
                       "-W","5","-t","CPU: <bar0> <bar1> <bar2> <bar3>"] 10,
         Run CpuFreq ["-t","Freq: <cpu0> <cpu1> <cpu2> <cpu3>"] 10,
-        Run DiskIO [("/", "<fc=lightblue><read></fc> <fc=#bb5566><write></fc>")] [] 30,
+        Run DiskIO [("/", "<fc=darkblue><read></fc> <fc=#992233><write></fc>")] [] 30,
         Run Network "eth1" ["-t","<rx> <tx>","-w","5"] 10,
         Run Memory ["-t","<usedbar> <rest>M"] 10,
         Run Date "%a %b %_d %H:%M:%S" "date" 10,
@@ -19,6 +19,6 @@ Config {
         Run StdinReader ],
     sepChar = "%",
     alignSep = "}{",
-    template = "%StdinReader% }{ %diskio%  |  %music%  |  %multicpu%  %cpufreq%  |  %eth1%  |  %memory%   |  %KTPA%    <fc=#ee9a00>%date%</fc>"
+    template = "%StdinReader% }{ %diskio%  |  %music%  |  %multicpu%  %cpufreq%  |  %eth1%  |  %memory%   |  %KTPA%    <fc=#224422>%date%</fc>"
 }
 

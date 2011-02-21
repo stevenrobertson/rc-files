@@ -183,12 +183,14 @@ shiftWorkspaces = map show [5..8]
 myWorkspaces nScreens = withScreens nScreens $ normWorkspaces ++ shiftWorkspaces
 
 browser IsisSecondary = "firefox -P secondary"
-browser host = "chromium"
+browser host = "firefox"
 
 myManageHook = composeAll
                 [ className =? "qemu-system-x86_64" --> doFloat
                 , className =? "Do"                 --> doFloat
+                , className =? "Display"            --> doFloat
                 , title     =? "MusicBrainz lookup" --> doFloat
+                , title     =? "cuburn"             --> doFloat
                 , title     =? "ChangeScreen"       --> doFullFloat
                 , isFullscreen                      --> doFullFloat ]
 
@@ -222,14 +224,14 @@ launchBar host n = spawnPipe $ xmobarCmd cfg n
 
 myXmobarPP screenNo outhnd = xmobarPP {
     ppOutput    = hPutStrLn outhnd,
-    ppTitle     = xmobarColor "#ddddff" "" . shorten 140,
+    ppTitle     = xmobarColor "#551155" "" . shorten 140,
     ppUrgent    = xmobarColor "" "#ff0000" . snd . unmarshall,
     ppWsSep     = "",
-    ppCurrent   = \n -> (ppCurrent xmobarPP . snd $ unmarshall n) ++ " ",
+    ppCurrent   = (++" ") . xmobarColor "#000000" "#aaaaaa" . snd . unmarshall,
     ppHidden    = ppHidden  xmobarPP . filtScr,
     ppVisible   = \_ -> "",
     ppSep       = "  ",
-    ppLayout    = xmobarColor "#667799" "#000000" . head . reverse . words
+    ppLayout    = xmobarColor "#223355" "" . head . reverse . words
     }
   where
     filtScr "NSP" = ""
@@ -253,6 +255,8 @@ main = do
         handleEventHook = mappend handleFocusEvent $
                           handleEventHook defaultConfig,
         borderWidth = 1,
+        normalBorderColor = "#e1e1e1",
+        focusedBorderColor = "#44aa66",
         modMask     = modm
         } `additionalKeys` (myKeys host)
 
