@@ -19,5 +19,8 @@ endfunc
 
 inoremap <F11> <C-O>:set wiw=85<CR>
 noremap <F11> :set wiw=85<CR>
+inoremap <C-F11> <C-O>:set columns=85<CR>
+noremap <C-F11> :set columns=85<CR>
+
 
 set winaltkeys=no
