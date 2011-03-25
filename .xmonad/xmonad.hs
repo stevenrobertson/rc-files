@@ -8,7 +8,7 @@ import XMonad.Hooks.SetWMName
 import XMonad.Hooks.UrgencyHook
 import XMonad.Util.Run(spawnPipe, runProcessWithInput)
 import XMonad.Util.EZConfig(additionalKeys)
-import XMonad.Util.Scratchpad
+import XMonad.Util.NamedScratchpad
 import qualified XMonad.StackSet as W
 import XMonad.Layout.Grid
 import XMonad.Layout.ThreeColumns
@@ -198,11 +198,10 @@ myKeys host =
     [ ((modm, xK_i), spawn (browser host))
     , ((modm, xK_t), spawn "gnome-terminal")
     , ((modm .|. shiftMask, xK_t), withFocused $ windows . W.sink)
-    , ((modm, xK_g), gotoMenu' "dmenul")
     , ((modm, xK_Left),     sendMessage $ Move L)
     , ((modm, xK_Right),    sendMessage $ Move R)
-    , ((modm, xK_BackSpace), scratchpadSpawnActionCustom
-            "xterm -name scratchpad -e screen -S scratch -d -R")
+    , ((modm, xK_BackSpace), namedScratchpadAction scratchpads "screen")
+    , ((modm, xK_n),        namedScratchpadAction scratchpads "notes")
     ] ++
     [ ((m, k), windows $ onCurrentScreen f i) |
         (i, k) <- zip normWorkspaces [xK_F1 .. xK_F6],
@@ -238,6 +237,17 @@ myXmobarPP screenNo outhnd = xmobarPP {
     filtScr wname = (\(i,n) -> if i == screenNo then n++" " else "")
                     $ unmarshall wname
 
+scratchpads =
+    [ NS "screen" "xterm -name scratchpad -e screen -S scratch -d -R"
+         (className =? "scratchpad" <||>
+          (className =? "XTerm" <&&> title =? "screen")) float
+    , NS "notes" "gvim -c 'cd ~/notes' --role notes"
+         (role =? "notes") float
+    ]
+  where
+    role = stringProperty "WM_WINDOW_ROLE"
+    float = customFloating (W.RationalRect 0.25 0.25 0.5 0.5)
+
 main = do
     host <- getHostname
     nScreens <- countScreens
@@ -248,7 +258,7 @@ main = do
         startupHook = setWMName "LG3D",
         manageHook  = myManageHook
                    <+> manageDocks
-                   <+> scratchpadManageHook (W.RationalRect 0.25 0.25 0.5 0.5)
+                   <+> namedScratchpadManageHook scratchpads
                    <+> manageHook defaultConfig,
         layoutHook  = avoidStruts . smartBorders $ myLayouts host,
         logHook = mapM_ (dynamicLogWithPP . uncurry myXmobarPP) $ zip [0..] bars,
