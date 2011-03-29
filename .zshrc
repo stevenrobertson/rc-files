@@ -117,7 +117,7 @@ zstyle :compinstall filename '/home/steven/.zshrc'
 
 fpath=(~/.zsh_functions $fpath)
 autoload -Uz compinit
-compinit
+compinit -i
 # End of lines added by compinstall
 
 alias mq='hg -R $(hg root)/.hg/patches'
