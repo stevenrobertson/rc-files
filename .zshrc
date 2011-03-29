@@ -115,6 +115,7 @@ zstyle ':completion:*' rehash true
 zstyle ':completion:*' verbose true
 zstyle :compinstall filename '/home/steven/.zshrc'
 
+fpath=(~/.zsh_functions $fpath)
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
@@ -127,6 +128,7 @@ alias trivm="kvm -m 1700 -hda /dev/sda -smp 2 -vga std -usb -usbdevice tablet -n
 alias grep='grep --color'
 alias bopen='source `which _bopen.sh`'
 alias donemail='echo done | mail -s done steven@strobe.cc 8137287254@vtext.com'
+alias unrarx='unrar x -kb -o+'
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
