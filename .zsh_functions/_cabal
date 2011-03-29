@@ -53,7 +53,7 @@ _cabal_command ()
             _call_function ret _cabal_$cmd
         else
             _message "unknown cabal command: $WORDS[2]"
-        fi            
+        fi
     fi
 }
 
@@ -129,7 +129,7 @@ _cabal_configure ()
         '--extra-lib-dirs=[A list of directories to search for externallibraries]:directory:_files -/' \
         '--constraint=[A list of additional constraints on the dependencies]' \
         '--cabal-lib-version=[Select which version of the Cabal lib to use]' \
-        '--preference=[Specify preferences on the version of a package]'    
+        '--preference=[Specify preferences on the version of a package]'
 }
 
 _cabal_copy ()
@@ -260,7 +260,9 @@ _cabal_install ()
         '--build-summary=[Save build summaries to file]:file:_files' \
         '--build-log=[Log all builds to file]:file:_files' \
         '--remote-build-reporting=[Generate build reports to send to a remote]:level:(none anonymous detailed)' \
-        '*:package:_cabal_list_packages'        
+        '--upgrade-dependencies[Pick the latest version for all dependencies]' \
+        '--only-dependencies[Install only the dependencies necessary to build the given packages]' \
+        '*:package:_cabal_list_packages'
 }
 
 _cabal_list ()
