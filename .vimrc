@@ -17,7 +17,7 @@ set textwidth=79
 set expandtab
 set hlsearch
 set enc=utf-8
-set fo+=2nl
+set fo+=2l
 inoremap <Home> <C-O>^
 inoremap <C-A> <C-O>^
 inoremap <C-E> <C-O>$
@@ -84,8 +84,10 @@ endfunction
 function! ToggleAutoformat()
     if &fo =~ "a"
         set fo-=a
+        set fo+=r
     else
         set fo+=a
+        set fo-=r
     endif
 endfunction
 
