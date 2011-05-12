@@ -49,6 +49,7 @@ elif [ "$(uname)" = "Darwin" ]; then
         alias ls='gls --color=auto'
     fi
     source ${HOME}/.profile
+    zstyle ':completion:*:users' users steven strobe zenia root
 fi
 
 export PATH="${HOME}/.scripts:${HOME}/.cabal/bin:$PATH"
@@ -141,3 +142,4 @@ bindkey -e
 # End of lines configured by zsh-newuser-install
 
 export GNOME_DISABLE_CRASH_DIALOG=1
+
