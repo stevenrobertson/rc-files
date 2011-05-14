@@ -7,7 +7,7 @@ highlight comment ctermfg=blue
 
 set autoread number numberwidth=4 ignorecase smartcase vb
 set shiftwidth=4 softtabstop=4 tabstop=4 textwidth=79 expandtab
-set hlsearch enc=utf-8 fo+=2l
+set hlsearch enc=utf-8 fo+=2l bs=2
 "set modeline
 set foldmethod=indent nofoldenable diffopt+=filler
 set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P%{AfCheck()}
