@@ -6,9 +6,9 @@ syntax on
 highlight comment ctermfg=blue
 
 set autoread number numberwidth=4 ignorecase smartcase vb
-set shiftwidth=4 softtabstop=4 tabstop=4 textwidth=79 expandtab
+set shiftwidth=4 softtabstop=4 tabstop=4 textwidth=78 expandtab
 set hlsearch enc=utf-8 fo+=2l bs=2
-"set modeline
+set modeline
 set foldmethod=indent nofoldenable diffopt+=filler
 set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P%{AfCheck()}
 set laststatus=2
@@ -44,6 +44,7 @@ noremap <F10> :call ToggleAutoformat()<CR>
 let NERDTreeQuitOnOpen=1
 let NERDTreeWinPos="right"
 let NERDTreeShowBookmarks=1
+let NERDTreeHijackNetrw=1
 let NERDTreeSortOrder=['\/$', '\.hs$', '\.py$', '*', '\.swp$',  '\.bak$', '\~$']
 inoremap <F12> <Esc>:NERDTreeToggle<CR>
 noremap <F12> :NERDTreeToggle<CR>
@@ -62,4 +63,5 @@ let g:hs_allow_hash_operator=1
 
 autocmd BufWritePre * :%s/\s\+$//e
 command! Hgd diffthis | let res = system('~/.scripts/pickfromdiff.py ' . shellescape(expand('%'))) | vert new | set bt=nofile | put=res | diffthis
+command! Goo set sw=2 sts=2 ts=2
 

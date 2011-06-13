@@ -1,5 +1,5 @@
 colorscheme ir_black
-set guifont=Dina\ 11  columns=85 guioptions-=T
+set guifont=Dina\ 11  columns=83 guioptions=agim
 
 " lean back
 func! LB()
@@ -8,11 +8,11 @@ endfunc
 
 " vsplit, fix height
 func! VS()
-    set columns=166 | vsplit | set wiw=85
+    set columns=166 | vsplit | set wiw=83
 endfunc
 
-inoremap <F11> <C-O>:set wiw=85<CR>
-noremap <F11> :set wiw=85<CR>
-inoremap <C-F11> <C-O>:set columns=85<CR>
-noremap <C-F11> :set columns=85<CR>
+inoremap <F11> <C-O>:set wiw=83<CR>
+noremap <F11> :set wiw=83<CR>
+inoremap <C-F11> <C-O>:set columns=83<CR>
+noremap <C-F11> :set columns=83<CR>
 set winaltkeys=no
