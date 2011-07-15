@@ -5,7 +5,7 @@ filetype plugin indent on
 syntax on
 highlight comment ctermfg=blue
 
-set autoread number numberwidth=4 ignorecase smartcase vb
+set autoread number numberwidth=4 ignorecase smartcase vb ai
 set shiftwidth=4 softtabstop=4 tabstop=4 textwidth=78 expandtab
 set hlsearch enc=utf-8 fo+=2l bs=2
 set modeline
