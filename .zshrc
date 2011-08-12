@@ -52,7 +52,15 @@ elif [ "$(uname)" = "Darwin" ]; then
     zstyle ':completion:*:users' users steven strobe zenia root
 fi
 
-export PATH="${HOME}/.scripts:${HOME}/.cabal/bin:$PATH"
+add_to_path () {
+  if [ -z "$(echo $PATH | grep $1)" ]; then
+    export PATH="$1:$PATH"
+  fi
+}
+
+add_to_path "$HOME/.scripts"
+add_to_path "$HOME/.cabal/bin"
+add_to_path "/usr/NX/bin"
 
 export EDITOR="vim"
 setopt AUTO_CONTINUE
