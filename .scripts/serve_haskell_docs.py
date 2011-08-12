@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import os, re
+from os.path import *
 from subprocess import Popen, PIPE
 from BaseHTTPServer import HTTPServer
 from SimpleHTTPServer import SimpleHTTPRequestHandler
@@ -12,10 +13,10 @@ def get_global_doc_dir():
 
 class DocHandler(SimpleHTTPRequestHandler):
     doc_dirs = [ get_global_doc_dir()
-               , os.path.expanduser('~/.cabal/share/doc') ]
+               , realpath(expanduser('~/.cabal/share/doc')) ]
 
     def translate_path(self, path):
-        path = os.path.normpath(path)
+        path = normpath(path)
         for dir in self.doc_dirs:
             if path.startswith(dir):
                 return path
