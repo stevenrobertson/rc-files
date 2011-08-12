@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import os, re
 from subprocess import Popen, PIPE
 from BaseHTTPServer import HTTPServer
