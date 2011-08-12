@@ -9,6 +9,7 @@ import XMonad.Hooks.UrgencyHook
 import XMonad.Util.Run(spawnPipe, runProcessWithInput)
 import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Util.NamedScratchpad
+import XMonad.Util.WorkspaceCompare
 import qualified XMonad.StackSet as W
 import XMonad.Layout.Grid
 import XMonad.Layout.ThreeColumns
@@ -86,7 +87,7 @@ tileCoding frac nm rect n
     | nm == 0   = r1 : tileNSlaves 2 (n-1) r2
     | n <= nm+1 = r1a : splitHorizontally (n-1) r1b
     | otherwise = r1a : splitHorizontally nm r1b ++ tileNSlaves 2 (n-nm-1) r2
-        where (r1, r2) = splitHorizontallyBy 0.5 rect
+        where (r1, r2) = splitHorizontallyBy (2/3) rect
               (r1a, r1b) = splitVerticallyBy frac r1
 
 -- Tile N windows across a number of columns. If the number of windows don't
@@ -127,17 +128,19 @@ handleFocusEvent _ = return $ All True
 
 -- The actual configuration begins below --
 
-data Host = Isis | IsisSecondary | Anubis | Aten deriving (Read, Show, Eq)
+data Host = Isis | IsisSecondary | Anubis | Aten | Ptah
+            deriving (Read, Show, Eq)
 
 getHostname :: IO Host
 getHostname = do
     -- XMonad might be intercepting the process with an extra wait call?
     -- out <- readProcess "hostname" [] ""
-    host <- fmap (head . words) $ runProcessWithInput "hostname" [] ""
+    host <- fmap (head . words) $ runProcessWithInput "hostname" ["-s"] ""
     disp <- getEnv "DISPLAY"
     return $ case host of
         "anubis"                    -> Anubis
         "aten"                      -> Aten
+        "ptah"                      -> Ptah
         "isis" | '1' `elem` disp    -> IsisSecondary
         "isis" | '2' `elem` disp    -> IsisSecondary
         "isis"                      -> Isis
@@ -162,10 +165,15 @@ instance (LayoutClass l1 a, LayoutClass l2 a) => LayoutClass (ExtChoice l1 l2) a
         fmap (fmap $ ExtChoice False l1) $ handleMessage l2 m
 
 myLayouts host = layoutHints $
+    ExtChoice (host == Ptah) ptahLayouts $
     ExtChoice (host == Isis) isisLayouts $
     ExtChoice (host == IsisSecondary) isisSecLayouts anubisLayouts
   where
-
+    ptahLayouts =
+      windowNavigation (combineTwo (Mirror $ Tall 1 0.05 0.75)
+                        simpleTabbed simpleTabbedBottom)
+      ||| Mirror (Tall 1 0.05 0.75)
+      ||| simpleTabbed
     isisLayouts =
         windowNavigation (combineTwo (TwoPane 0.03 0.5) simpleTabbed simpleTabbed)
         ||| (CodingLayout (3/5) 1)
@@ -196,10 +204,13 @@ myManageHook = composeAll
 
 myKeys host =
     [ ((modm, xK_i), spawn (browser host))
+    , ((modm, xK_c), spawn "google-chrome")
     , ((modm, xK_t), spawn "gnome-terminal")
     , ((modm .|. shiftMask, xK_t), withFocused $ windows . W.sink)
     , ((modm, xK_Left),     sendMessage $ Move L)
     , ((modm, xK_Right),    sendMessage $ Move R)
+    , ((modm, xK_Up),       sendMessage $ Move U)
+    , ((modm, xK_Down),     sendMessage $ Move D)
     , ((modm, xK_BackSpace), namedScratchpadAction scratchpads "screen")
     , ((modm, xK_n),        namedScratchpadAction scratchpads "notes")
     ] ++
@@ -210,12 +221,14 @@ myKeys host =
         (i, k) <- zip shiftWorkspaces [xK_F1 .. xK_F6],
         (f, m) <- [(W.greedyView, shiftMask), (W.shift, shiftMask .|. modm)]]
 
-xmobarCmd cfg scr = unwords ["/home/steven/.cabal/bin/xmobar",
+xmobarCmd cfg scr = unwords [".cabal/bin/xmobar",
                              "-x", show (fromIntegral scr),
-                             "/home/steven/.xmobarrc-" ++ cfg]
-launchBar Isis 0 = spawnPipe "/home/steven/.cabal/bin/xmobar"
+                             ".xmobarrc-" ++ cfg]
+launchBar :: Host -> ScreenId -> IO Handle
+launchBar Isis 0 = spawnPipe ".cabal/bin/xmobar"
 launchBar host n = spawnPipe $ xmobarCmd cfg n
   where cfg = case host of
+                   Ptah            -> "ptah" ++ show (fromIntegral n)
                    Isis            -> "isis-sec"
                    IsisSecondary   -> "isis-sec"
                    Anubis          -> "anubis"
@@ -227,15 +240,18 @@ myXmobarPP screenNo outhnd = xmobarPP {
     ppUrgent    = xmobarColor "" "#ff0000" . snd . unmarshall,
     ppWsSep     = "",
     ppCurrent   = (++" ") . xmobarColor "#000000" "#aaaaaa" . snd . unmarshall,
-    ppHidden    = ppHidden  xmobarPP . filtScr,
-    ppVisible   = \_ -> "",
+    ppHidden    = ppHidden xmobarPP . filtScr,
+    ppVisible   = filtScr,
+    ppSort      = getSortByTag,
     ppSep       = "  ",
     ppLayout    = xmobarColor "#223355" "" . head . reverse . words
     }
   where
     filtScr "NSP" = ""
-    filtScr wname = (\(i,n) -> if i == screenNo then n++" " else "")
-                    $ unmarshall wname
+    filtScr wname = case i of
+      screenNo  -> n ++ " "
+      _         -> xmobarColor "#cc55cc" "#cccccc" (n ++ " ")
+      where (i, n) = unmarshall wname
 
 scratchpads =
     [ NS "screen" "xterm -name scratchpad -e screen -S scratch -d -R"
@@ -266,7 +282,7 @@ main = do
                           handleEventHook defaultConfig,
         borderWidth = 1,
         normalBorderColor = "#e1e1e1",
-        focusedBorderColor = "#44aa66",
+        focusedBorderColor = "#4466aa",
         modMask     = modm
         } `additionalKeys` (myKeys host)
 
