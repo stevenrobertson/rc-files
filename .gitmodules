@@ -25,3 +25,6 @@
 [submodule ".deps/vim-gnupg"]
 	path = .deps/vim-gnupg
 	url = git://gitorious.org/vim-gnupg/vim-gnupg.git
+[submodule ".deps/xcompose"]
+	path = .deps/xcompose
+	url = git://github.com/kragen/xcompose.git

@@ -14,4 +14,4 @@ _add_to_path "/usr/NX/bin"
 
 export EDITOR="vim"
 export GNOME_DISABLE_CRASH_DIALOG=1
-
+export GTK_IM_MODULE="xim"
