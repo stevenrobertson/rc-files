@@ -2,11 +2,8 @@ if [ "`pwd`" = '/' ]; then
     cd
 fi
 
-source /etc/profile
-
-unset LC_ALL
-export LANG="en_US.UTF-8"
-export LC_COLLATE="C"
+# Reload PATH (probably blown away by /etc/zsh/zprofile)
+source $HOME/.zshenv
 
 prompt_gentoo_setup () {
     prompt_gentoo_prompt=${1:-'blue'}
@@ -28,14 +25,20 @@ prompt_gentoo_setup () {
 
 if [ -n "$SSH_CLIENT" ]; then
     prompt_gentoo_setup gray
+    export _CMD_HOST="$(hostname -s):"
 else
     prompt_gentoo_setup blue
 fi
 
-if [ $TERM = "xterm" -o $TERM = "xterm-color" ]; then
-    precmd() { print -Pn "\e]0;%m:%~\a" }
-    preexec () { print -Pn "\e]0;$1\a" }
-fi
+case $TERM in
+    xterm*)
+        precmd() { print -Pn "\e]0;%m:%~\a" }
+        preexec() { print -Pn "\e]0;$_CMD_HOST$1\a" };;
+    screen*)
+        precmd() { print -Pn '\ek%m:%~\e\\' }
+        preexec() { print -Pn "\\ek$_CMD_HOST$1\\e\\\\" };;
+esac
+
 
 if [ "$(uname)" = "Linux" ]; then
     export BROWSER="firefox"
@@ -44,7 +47,7 @@ if [ "$(uname)" = "Linux" ]; then
         alias ls='ls --color=auto'
     fi
 elif [ "$(uname)" = "Darwin" ]; then
-    export PATH="${PATH}:/opt/local/bin"
+    _add_to_path "/opt/local/bin"
     if which gls 2>&1 > /dev/null ; then
         alias ls='gls --color=auto'
     fi
@@ -52,17 +55,6 @@ elif [ "$(uname)" = "Darwin" ]; then
     zstyle ':completion:*:users' users steven strobe zenia root
 fi
 
-add_to_path () {
-  if [ -z "$(echo $PATH | grep $1)" ]; then
-    export PATH="$1:$PATH"
-  fi
-}
-
-add_to_path "$HOME/.scripts"
-add_to_path "$HOME/.cabal/bin"
-add_to_path "/usr/NX/bin"
-
-export EDITOR="vim"
 setopt AUTO_CONTINUE
 unsetopt nomatch
 
@@ -131,11 +123,7 @@ compinit -i
 
 alias mq='hg -R $(hg root)/.hg/patches'
 #alias vm='kvm -m 1024 -usb -usbdevice tablet -soundhw ac97 -vga std'
-alias js='jackd -R -d freebob -r 44100'
-alias burn360iso='growisofs -use-the-force-luke=dao -use-the-force-luke=break:1913760  -dvd-compat -speed=4'
-alias trivm="kvm -m 1700 -hda /dev/sda -smp 2 -vga std -usb -usbdevice tablet -net nic,vlan=0 -net tap,vlan=0,ifname=local0 -localtime"
 alias grep='grep --color'
-alias bopen='source `which _bopen.sh`'
 alias donemail='echo done | mail -s done steven@strobe.cc 8137287254@vtext.com'
 alias unrarx='unrar x -kb -o+'
 
@@ -148,6 +136,4 @@ unsetopt no_case_glob
 unsetopt beep nomatch
 bindkey -e
 # End of lines configured by zsh-newuser-install
-
-export GNOME_DISABLE_CRASH_DIALOG=1
 

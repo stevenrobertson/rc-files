@@ -16,9 +16,9 @@ XTerm*termName: xterm-color
 XTerm*loginShell: true
 XTerm*geometry: 99x29
 #if SCREEN_NUM == 0
-Xft.rgba:       bgr
+Xft.rgba:       rgb
 #endif
 #if SCREEN_NUM == 1
-Xft.rgba:       vrgb
+Xft.rgba:       rgb
 #endif
 

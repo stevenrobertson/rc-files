@@ -205,7 +205,7 @@ myManageHook = composeAll
 myKeys host =
     [ ((modm, xK_i), spawn (browser host))
     , ((modm, xK_c), spawn "google-chrome")
-    , ((modm, xK_t), spawn "gnome-terminal")
+    , ((modm, xK_t), spawn "xterm -e screen -m")
     , ((modm .|. shiftMask, xK_t), withFocused $ windows . W.sink)
     , ((modm, xK_Left),     sendMessage $ Move L)
     , ((modm, xK_Right),    sendMessage $ Move R)
@@ -254,9 +254,8 @@ myXmobarPP screenNo outhnd = xmobarPP {
       where (i, n) = unmarshall wname
 
 scratchpads =
-    [ NS "screen" "xterm -name scratchpad -e screen -S scratch -d -R"
-         (className =? "scratchpad" <||>
-          (className =? "XTerm" <&&> title =? "screen")) float
+    [ NS "screen" "xterm -T scratchpad -xrm 'XTerm*allowTitleOps: False' -e screen -S scratch -d -R"
+         (title =? "scratchpad") float
     , NS "notes" "gvim -c 'cd ~/notes' --role notes"
          (role =? "notes") float
     ]
