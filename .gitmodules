@@ -22,3 +22,6 @@
 [submodule ".deps/pypdfcrop"]
 	path = .deps/pypdfcrop
 	url = git://github.com/stevenrobertson/pypdfcrop.git
+[submodule ".deps/vim-gnupg"]
+	path = .deps/vim-gnupg
+	url = git://gitorious.org/vim-gnupg/vim-gnupg.git
