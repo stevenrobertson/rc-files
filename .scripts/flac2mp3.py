@@ -36,10 +36,16 @@ def check_md5(src, dst):
 
 def decider((src, dst)):
     """multiprocessing tries (and fails) to pickle the functions"""
-    if dst.endswith('.mp3'):
-        return transcode_mp3(src, dst)
+    if src.endswith('.flac'):
+        if dst.endswith('.mp3'):
+            return transcode_mp3(src, dst)
+        else:
+            return transcode_ogg(src, dst)
     else:
-        return transcode_ogg(src, dst)
+        if os.path.isfile(dst):
+            os.unlink(dst)
+        os.link(src, dst)
+        return dst
 
 def transcode_mp3(src, dst):
     try:
@@ -75,13 +81,15 @@ def clean_stale(src_dir, dst_dir, ext):
         for file in sorted(files):
             dst = os.path.join(root, file)
             rel = os.path.splitext(os.path.relpath(dst, dst_dir))[0]
-            src = os.path.join(src_dir, rel + '.flac')
+            srcs = [os.path.join(src_dir, rel) + ext
+                    for ext in ['.flac', '.mp3', '.ogg']]
             if dst.endswith('.wip'): os.unlink(dst)
-            if dst.endswith(ext):
+            if dst.endswith('.mp3') or dst.endswith('.ogg'):
                 unlink = False
-                if os.path.isfile(src):
+                if any(map(os.path.isfile, srcs)):
+                    src = filter(os.path.isfile, srcs)[0]
                     if os.path.getmtime(src) > os.path.getmtime(dst):
-                        if check_md5(src, dst):
+                        if src.endswith('.flac') and check_md5(src, dst):
                             print "Retagging %s/%s" % (rel, file)
                             retag(src, dst)
                         else: unlink = True
@@ -99,9 +107,13 @@ def get_new(src_dir, dst_dir, ext):
     for root, dirs, files in os.walk(src_dir):
         dst_root = os.path.join(dst_dir, os.path.relpath(root, src_dir))
         for file in files:
-            if file.endswith('.flac'):
+            sext = file.rsplit('.', 1)[-1]
+            if sext in ['flac', 'mp3', 'ogg']:
+                # Don't want .oggs on MP3-only devices
+                if sext == 'ogg' and ext == '.mp3': continue
                 src = os.path.join(root, file)
-                dst = os.path.join(dst_root, os.path.splitext(file)[0] + ext)
+                dext = '.mp3' if ext == '.mp3' or sext == 'mp3' else '.ogg'
+                dst = os.path.join(dst_root, os.path.splitext(file)[0] + dext)
                 if not os.path.isdir(dst_root):
                     print "Creating %s" % dst_root
                     os.makedirs(dst_root)
