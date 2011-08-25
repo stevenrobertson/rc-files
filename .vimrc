@@ -1,5 +1,5 @@
 filetype off
-call pathogen#runtime_append_all_bundles()
+call pathogen#infect()
 filetype plugin indent on
 
 syntax on
@@ -57,11 +57,27 @@ autocmd FileType python set tags+=$HOME/.vim/tags/python.ctags
 autocmd FileType python set tags+=$HOME/.vim/tags/current.ctags
 inoremap <C-space> <C-x><C-o>
 
-let g:haddock_browser="/usr/bin/firefox"
-"au Bufenter *.hs compiler ghc
+let g:haddock_browser="open"
+au Bufenter *.hs compiler ghc
 let g:hs_allow_hash_operator=1
 
-autocmd BufWritePre * :%s/\s\+$//e
+autocmd BufReadPost * let b:had_whitespace = match(getline(0, "$"), '\s\+$')
+autocmd BufWritePre * if ! exists("b:had_whitespace") || b:had_whitespace == -1 | %s/\s\+$//e | endif
+
 command! Hgd diffthis | let res = system('~/.scripts/pickfromdiff.py ' . shellescape(expand('%'))) | vert new | set bt=nofile | put=res | diffthis
+set diffopt=vertical
 command! Goo set sw=2 sts=2 ts=2
+
+if &term =~ '^screen'
+    set t_ts=^[k
+    set t_fs=^[\
+    set term=xterm-color
+endif
+
+" for CSApprox
+if &term =~ '^xterm'
+    set title
+    set t_Co=256
+    colorscheme ir_black
+endif
 

@@ -1,0 +1,21 @@
+[submodule ".deps/command-t"]
+	path = .deps/command-t
+	url = git://git.wincent.com/command-t.git
+[submodule ".deps/vim-coffee-script"]
+	path = .deps/vim-coffee-script
+	url = git://github.com/kchmck/vim-coffee-script.git
+[submodule ".deps/nerdcommenter"]
+	path = .deps/nerdcommenter
+	url = git://github.com/scrooloose/nerdcommenter.git
+[submodule ".deps/nerdtree"]
+	path = .deps/nerdtree
+	url = git://github.com/scrooloose/nerdtree.git
+[submodule ".deps/vim-css-color"]
+	path = .deps/vim-css-color
+	url = git://github.com/ap/vim-css-color.git
+[submodule ".deps/csapprox"]
+	path = .deps/csapprox
+	url = git://github.com/godlygeek/csapprox.git
+[submodule ".deps/vim-pathogen"]
+	path = .deps/vim-pathogen
+	url = git://github.com/tpope/vim-pathogen.git
