@@ -19,3 +19,6 @@
 [submodule ".deps/vim-pathogen"]
 	path = .deps/vim-pathogen
 	url = git://github.com/tpope/vim-pathogen.git
+[submodule ".deps/pypdfcrop"]
+	path = .deps/pypdfcrop
+	url = git://github.com/stevenrobertson/pypdfcrop.git
