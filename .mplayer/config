@@ -1,0 +1,7 @@
+# Write your default config options here!
+delay=-0.075
+xineramascreen=0
+cache=20000
+af=scaletempo
+softvol=1
+fstype=none
