@@ -1,8 +1,17 @@
 [alias]
     ci = commit
-    st = status
-    ss = status -s -uno
+    co = checkout
     dc = diff --cached
+    ss = status -sb -uno
+    st = status -sb
+[color]
+    ui = always
+[core]
+    excludesfile = ~/.gitignore.global
 [user]
     name = Steven Robertson
     email = steven@strobe.cc
+[help]
+    autocorrect = -1
+[merge]
+    tool = gvimdiff
