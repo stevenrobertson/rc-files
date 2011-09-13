@@ -1,4 +1,5 @@
-{-# LANGUAGE FlexibleInstances, MultiParamTypeClasses, PatternGuards, NoMonomorphismRestriction #-}
+{-# LANGUAGE FlexibleInstances, MultiParamTypeClasses, PatternGuards,
+             NoMonomorphismRestriction, TemplateHaskell, FlexibleContexts #-}
 
 import XMonad
 import XMonad.Hooks.DynamicLog
@@ -31,7 +32,10 @@ import System.FilePath
 import Data.Monoid
 import Data.Ratio
 import Data.List
+import Data.Word
 import Control.Monad
+import Network.BSD
+import Language.Haskell.TH
 
 -- Port of ThreeCol layout to a sensationally arbitrary number of columns
 data NCol a = NCol { nCol           :: !Int
@@ -131,58 +135,32 @@ handleFocusEvent _ = return $ All True
 data Host = Isis | IsisSecondary | Anubis | Aten | Ptah
             deriving (Read, Show, Eq)
 
-getHostname :: IO Host
-getHostname = do
-    -- XMonad might be intercepting the process with an extra wait call?
-    -- out <- readProcess "hostname" [] ""
-    host <- fmap (head . words) $ runProcessWithInput "hostname" ["-s"] ""
-    disp <- getEnv "DISPLAY"
-    return $ case host of
-        "anubis"                    -> Anubis
-        "aten"                      -> Aten
-        "ptah"                      -> Ptah
-        "isis" | '1' `elem` disp    -> IsisSecondary
-        "isis" | '2' `elem` disp    -> IsisSecondary
-        "isis"                      -> Isis
+vertTabbed  = windowNavigation (combineTwo (Mirror $ Tall 1 0.05 0.75)
+                                simpleTabbed simpleTabbedBottom)
+horizTabbed = windowNavigation (combineTwo (TwoPane 0.03 0.33)
+                                simpleTabbed simpleTabbed)
+ptahLayouts = vertTabbed ||| Mirror (Tall 1 0.05 0.75)
+isisLayouts = horizTabbed ||| CodingLayout (3/5) 1
+isisSecLayouts = GridRatio 1 ||| Tall 1 0.01 0.7
+defaultLayouts = Tall 1 0.01 0.5 ||| GridRatio 1.2
 
--- Different Layout types can't be used with 'if'.
-data ExtChoice l1 l2 a = ExtChoice Bool (l1 a) (l2 a) deriving (Show, Read)
-
-instance (LayoutClass l1 a, LayoutClass l2 a) => LayoutClass (ExtChoice l1 l2) a where
-    runLayout (W.Workspace i (ExtChoice True  l1 l2) ms) r = do
-        fmap (\(wrs, mlt') -> (wrs, fmap (flip (ExtChoice True) l2) mlt')) $
-            runLayout (W.Workspace i l1 ms) r
-    runLayout (W.Workspace i (ExtChoice False l1 l2) ms) r = do
-        fmap (\(wrs, mlt') -> (wrs, fmap (ExtChoice False l1) mlt')) $
-            runLayout (W.Workspace i l2 ms) r
-
-    description (ExtChoice True  l1 l2) = description l1
-    description (ExtChoice False l1 l2) = description l2
-
-    handleMessage (ExtChoice True  l1 l2) m = do
-        fmap (fmap (flip (ExtChoice True) l2)) $ handleMessage l1 m
-    handleMessage (ExtChoice False l1 l2) m = do
-        fmap (fmap $ ExtChoice False l1) $ handleMessage l2 m
-
-myLayouts host = layoutHints $
-    ExtChoice (host == Ptah) ptahLayouts $
-    ExtChoice (host == Isis) isisLayouts $
-    ExtChoice (host == IsisSecondary) isisSecLayouts anubisLayouts
-  where
-    ptahLayouts =
-      windowNavigation (combineTwo (Mirror $ Tall 1 0.05 0.75)
-                        simpleTabbed simpleTabbedBottom)
-      ||| Mirror (Tall 1 0.05 0.75)
-      ||| simpleTabbed
-    isisLayouts =
-        windowNavigation (combineTwo (TwoPane 0.03 0.5) simpleTabbed simpleTabbed)
-        ||| (CodingLayout (3/5) 1)
-        -- ||| Tall 1 (1/100) (50/100)
-        -- ||| ThreeCol 1 (4/360) (186/360)
-        -- ||| NCol 4 1 (1/100) (25/100)
-        ||| simpleTabbed
-    isisSecLayouts = GridRatio 1 ||| Tall 1 (1/100) (70/100) ||| simpleTabbed
-    anubisLayouts = Tall 1 (1/100) (50/100) ||| GridRatio (5/4) ||| Full
+-- This must be derived at compile-time, since the actual type of the layout
+-- changes based on which layouts are used in it (and the types are
+-- incompatible). Worse, since a TH splice can't call another, both the host and
+-- the layout must be determined in the same splice. This is uggo.
+hostAndLayouts = $( do
+    name <- runIO getHostName
+    disp <- runIO $ getEnv "DISPLAY"
+    case name of
+         "isis"     -> if '1' `elem` disp || '2' `elem` disp
+                          then [| (IsisSecondary, isisSecLayouts) |]
+                          else [| (Isis, isisLayouts) |]
+         "ptah"     -> [| (Ptah, ptahLayouts) |]
+         "anubis"   -> [| (Anubis, defaultLayouts) |]
+         "aten"     -> [| (Aten, defaultLayouts) |]
+    )
+host = fst hostAndLayouts
+layouts = snd hostAndLayouts ||| simpleTabbed
 
 modm = mod4Mask
 
@@ -190,8 +168,9 @@ normWorkspaces  = map show [1..4]
 shiftWorkspaces = map show [5..8]
 myWorkspaces nScreens = withScreens nScreens $ normWorkspaces ++ shiftWorkspaces
 
-browser IsisSecondary = "firefox -P secondary"
-browser host = "firefox"
+browser = case host of
+               IsisSecondary    -> "firefox -P secondary"
+               _                -> "firefox"
 
 myManageHook = composeAll
                 [ className =? "qemu-system-x86_64" --> doFloat
@@ -202,8 +181,8 @@ myManageHook = composeAll
                 , title     =? "ChangeScreen"       --> doFullFloat
                 , isFullscreen                      --> doFullFloat ]
 
-myKeys host =
-    [ ((modm, xK_i), spawn (browser host))
+myKeys =
+    [ ((modm, xK_i), spawn browser)
     , ((modm, xK_c), spawn "google-chrome")
     , ((modm, xK_t), spawn "xterm -e screen -m")
     , ((modm .|. shiftMask, xK_t), withFocused $ windows . W.sink)
@@ -221,12 +200,16 @@ myKeys host =
         (i, k) <- zip shiftWorkspaces [xK_F1 .. xK_F6],
         (f, m) <- [(W.greedyView, shiftMask), (W.shift, shiftMask .|. modm)]]
 
+
+
+
 xmobarCmd cfg scr = unwords [".cabal/bin/xmobar",
                              "-x", show (fromIntegral scr),
                              ".xmobarrc-" ++ cfg]
-launchBar :: Host -> ScreenId -> IO Handle
-launchBar Isis 0 = spawnPipe ".cabal/bin/xmobar"
-launchBar host n = spawnPipe $ xmobarCmd cfg n
+launchBar n =
+    if host == Isis && n == 0
+       then spawnPipe ".cabal/bin/xmobar"
+       else spawnPipe $ xmobarCmd cfg n
   where cfg = case host of
                    Ptah            -> "ptah" ++ show (fromIntegral n)
                    Isis            -> "isis-sec"
@@ -264,9 +247,8 @@ scratchpads =
     float = customFloating (W.RationalRect 0.25 0.25 0.5 0.5)
 
 main = do
-    host <- getHostname
     nScreens <- countScreens
-    bars <- mapM (launchBar host) [0 .. nScreens - 1]
+    bars <- mapM launchBar [0 .. nScreens - 1]
     gnomeRegister
     xmonad $ withUrgencyHook NoUrgencyHook $ defaultConfig {
         workspaces  = myWorkspaces nScreens,
@@ -275,7 +257,7 @@ main = do
                    <+> manageDocks
                    <+> namedScratchpadManageHook scratchpads
                    <+> manageHook defaultConfig,
-        layoutHook  = avoidStruts . smartBorders $ myLayouts host,
+        layoutHook  = avoidStruts . smartBorders $ layouts,
         logHook = mapM_ (dynamicLogWithPP . uncurry myXmobarPP) $ zip [0..] bars,
         handleEventHook = mappend handleFocusEvent $
                           handleEventHook defaultConfig,
@@ -283,6 +265,6 @@ main = do
         normalBorderColor = "#e1e1e1",
         focusedBorderColor = "#4466aa",
         modMask     = modm
-        } `additionalKeys` (myKeys host)
+        } `additionalKeys` myKeys
 
 
