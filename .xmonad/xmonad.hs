@@ -176,6 +176,7 @@ myManageHook = composeAll
                 [ className =? "qemu-system-x86_64" --> doFloat
                 , className =? "Do"                 --> doFloat
                 , className =? "Display"            --> doFloat
+                , className =? "Pidgin"             --> doFloat
                 , title     =? "MusicBrainz lookup" --> doFloat
                 , title     =? "cuburn"             --> doFloat
                 , title     =? "ChangeScreen"       --> doFullFloat
@@ -184,7 +185,8 @@ myManageHook = composeAll
 myKeys =
     [ ((modm, xK_i), spawn browser)
     , ((modm, xK_c), spawn "google-chrome")
-    , ((modm, xK_t), spawn "xterm -e screen -m")
+    , ((modm, xK_t), spawn "xterm -e tmux -2")
+    , ((modm, xK_p), spawn "dmenu_run")
     , ((modm .|. shiftMask, xK_t), withFocused $ windows . W.sink)
     , ((modm, xK_Left),     sendMessage $ Move L)
     , ((modm, xK_Right),    sendMessage $ Move R)
@@ -237,7 +239,7 @@ myXmobarPP screenNo outhnd = xmobarPP {
       where (i, n) = unmarshall wname
 
 scratchpads =
-    [ NS "screen" "xterm -T scratchpad -xrm 'XTerm*allowTitleOps: False' -e screen -S scratch -d -R"
+    [ NS "screen" "xterm -T scratchpad -xrm 'XTerm*allowTitleOps: False' -e start_scratch.sh"
          (title =? "scratchpad") float
     , NS "notes" "gvim -c 'cd ~/notes' --role notes"
          (role =? "notes") float

@@ -5,7 +5,7 @@ XTerm*faceName: Dina
 XTerm*faceSize: 11
 !XTerm*font: -*-dina-medium-r-*-*-13-*-*-*-*-*-*-*
 XTerm*background: black
-XTerm*foreground: white
+XTerm*foreground: azure
 XTerm*saveLines: 1000
 XTerm*jumpScroll: true
 XTerm*multiScroll: true
@@ -22,3 +22,6 @@ Xft.rgba:       rgb
 Xft.rgba:       rgb
 #endif
 
+*VT100*translations:    #override   \n\
+    Shift <KeyPress>Prior: insert() \n\
+    Shift <KeyPress>Next:  insert()
