@@ -1,7 +1,10 @@
 [alias]
+    ap = add --patch
     ci = commit
     co = checkout
     dc = diff --cached
+    dh = diff HEAD
+    q = stash
     ss = status -sb -uno
     st = status -sb
 [color]
