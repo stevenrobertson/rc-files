@@ -4,16 +4,16 @@
 . ~/.zshrc
 
 xrdb .Xdefaults
+[ -f "$HOME/.xmodmap-`hostname`" ] && xmodmap ~/.xmodmap-`hostname`
 
-#xmodmap -e "remove Lock = Caps_Lock"
-#xmodmap -e "keysym Caps_Lock = Escape"
-#xmodmap -e "keycode 66 = Super_L"
+setxkbmap -option caps:hyper -option compose:rwin
 
 if [ "`hostname`" = "isis" ]; then
     pack_ffox.sh
-    /home/steven/.scripts/lql
-    xchat &!
-    pidgin &!
+    /home/steven/.scripts/lql &!
+    #xchat &!
+    #pidgin &!
+    synergys -n localhost
 fi
 
 if [ "`hostname`" = "aten" ]; then
