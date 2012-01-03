@@ -2,13 +2,14 @@
     ap = add --patch
     ci = commit
     co = checkout
+    cp = checkout --patch
     dc = diff --cached
     dh = diff HEAD
     q = stash
     ss = status -sb -uno
     st = status -sb
 [color]
-    ui = always
+    ui = auto
 [core]
     excludesfile = ~/.gitignore.global
 [user]
@@ -18,3 +19,5 @@
     autocorrect = -1
 [merge]
     tool = gvimdiff
+[branch]
+	autosetuprebase = always
