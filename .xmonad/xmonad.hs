@@ -221,15 +221,15 @@ launchBar n =
 
 myXmobarPP screenNo outhnd = xmobarPP {
     ppOutput    = hPutStrLn outhnd,
-    ppTitle     = xmobarColor "#551155" "" . shorten 140,
+    ppTitle     = xmobarColor "#dd44dd" "" . shorten 140,
     ppUrgent    = xmobarColor "" "#ff0000" . snd . unmarshall,
     ppWsSep     = "",
-    ppCurrent   = (++" ") . xmobarColor "#000000" "#aaaaaa" . snd . unmarshall,
+    ppCurrent   = (++" ") . xmobarColor "#ffffff" "#005577" . snd . unmarshall,
     ppHidden    = ppHidden xmobarPP . filtScr,
     ppVisible   = filtScr,
     ppSort      = getSortByTag,
     ppSep       = "  ",
-    ppLayout    = xmobarColor "#223355" "" . head . reverse . words
+    ppLayout    = xmobarColor "#5566aa" "" . head . reverse . words
     }
   where
     filtScr "NSP" = ""
