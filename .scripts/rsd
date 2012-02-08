@@ -10,8 +10,8 @@ def getf(d, s, fn):
     try:
         limit = str(int(sys.argv[1]))
     except:
-        limit = '750000'
-    path = "osiris.local:d/%s/%s" % (bleg, fn)
+        limit = '1000'
+    path = "osiris.strobe.cc:d/%s/%s" % (bleg, fn)
     subprocess.call([
         'rsync', '-rPtSs', '--bwlimit', limit,
         '--exclude', '*r[0123456789][0123456789]',
@@ -43,7 +43,7 @@ try:
     d = dialog.Dialog()
     c = paramiko.SSHClient()
     c.load_system_host_keys()
-    c.connect('osiris.local', username='steven')
+    c.connect('osiris.strobe.cc', username='steven')
     s = c.open_sftp()
     print sys.argv
     if sys.argv[-1] == '-i':
