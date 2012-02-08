@@ -19,8 +19,8 @@ remote-repo-cache: /home/steven/.cabal/packages
 -- program-prefix:
 -- program-suffix:
 -- library-vanilla: True
-library-profiling: True
--- shared: False
+-- library-profiling: True
+-- shared: True
 -- executable-profiling: False
 -- optimization: True
 -- library-for-ghci: True
@@ -34,7 +34,7 @@ library-profiling: True
 -- constraint:
 -- cabal-lib-version:
 -- preference:
-documentation: True
+-- documentation: True
 -- doc-index-file: $datadir/doc/index.html
 -- root-cmd:
 -- symlink-bindir:
