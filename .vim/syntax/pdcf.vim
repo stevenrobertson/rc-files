@@ -39,6 +39,8 @@ syn sync linebreaks=1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Set embedded LaTex (pandox extension) highlighting
 syn include @LATEX syntax/tex.vim
+" Now reset the syncing to be much more conservative
+syn sync minlines=10 maxlines=50
 
 "   Single Tex command
 syn match pdcLatex	/\\\w\+{[^}]\+}/	contains=@LATEX
@@ -88,14 +90,14 @@ syn match pdcBlockquote2    /[^>].*/  nextgroup=pdcBlockquote2 skipnl contained
 syn match pdcCodeBlock   /\(\s\{4,}\|\t\{1,}\).*\n/ contained nextgroup=pdcCodeBlock
 
 "   HTML code blocks, pre and code
-syn match pdcCodeStartPre	/<pre>/ nextgroup=pdcCodeHTMLPre skipnl transparent
-syn match pdcCodeHTMLPre   /.*/  contained nextgroup=pdcCodeHTMLPre,pdcCodeEndPre skipnl
-syn match pdcCodeEndPre  /\s*<\/pre>/ contained transparent
+"syn match pdcCodeStartPre	/<pre>/ nextgroup=pdcCodeHTMLPre skipnl transparent
+"syn match pdcCodeHTMLPre   /.*/  contained nextgroup=pdcCodeHTMLPre,pdcCodeEndPre skipnl
+"syn match pdcCodeEndPre  /\s*<\/pre>/ contained transparent
 
 "   HTML code blocks, code
-syn match pdcCodeStartCode	/<code>/ nextgroup=pdcCodeHTMLCode skipnl transparent
-syn match pdcCodeHTMLCode   /.*/  contained nextgroup=pdcCodeHTMLCode,pdcCodeEndCode skipnl
-syn match pdcCodeEndCode  /\s*<\/code>/ contained transparent
+"syn match pdcCodeStartCode	/<code>/ nextgroup=pdcCodeHTMLCode skipnl transparent
+"syn match pdcCodeHTMLCode   /.*/  contained nextgroup=pdcCodeHTMLCode,pdcCodeEndCode skipnl
+"syn match pdcCodeEndCode  /\s*<\/code>/ contained transparent
 
 
 """""""""""""""""""""""""""""""""""""""
@@ -279,8 +281,8 @@ hi link pdcBlockquote2	    	Comment
 
 hi link pdcHTMLComment		Comment
 
-hi link pdcHRule		Underlined
-"hi link pdcHRule		Special
+"hi link pdcHRule		Underlined
+hi link pdcHRule		Special
 
 hi link pdcListItem		Operator
 hi link pdcDefinitions		Operator
@@ -300,9 +302,9 @@ hi link pdcFootnoteDef		Comment
 hi link pandocFootnoteCont 	Error
 
 hi link pdcCodeBlock		String
-hi link pdcCodeHTMLPre		String
-hi link pdcCodeHTMLCode		String
-hi link pdcHTML             String
+"hi link pdcCodeHTMLPre		String
+"hi link pdcCodeHTMLCode		String
+"hi link pdcHTML             String
 hi link pdcCode			String
 hi link pdcCodeStart		Comment
 hi link pdcCodeEnd		Comment
