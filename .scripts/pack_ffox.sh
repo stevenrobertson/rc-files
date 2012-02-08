@@ -1,22 +1,21 @@
 #!/bin/bash
 
 # Change this to match your correct profile
-PROFILE="i0tl7wua.default"
 STORE="/opt/media/firefox-profile"
 
-cd "${HOME}/.mozilla/firefox"
-
-if test -z "$(mount | grep -F "${HOME}/.mozilla/firefox/${PROFILE}" )"
+if test -z "$(mount | grep -F "${HOME}/.mozilla" )"
 then
-    mount "${HOME}/.mozilla/firefox/${PROFILE}"
+    mount "${HOME}/.mozilla"
 fi
+cd "${HOME}/.mozilla"
 
-if test -f "${PROFILE}/.unpacked"
+if test -f ".unpacked"
 then
-    tar --exclude '.unpacked' --exclude Cache -cpf ${STORE}/packed.tmp.tar "$PROFILE"
-    mv ${STORE}/packed.tar      ${STORE}/packed.tar.old
-    mv ${STORE}/packed.tmp.tar  ${STORE}/packed.tar
+    tar --exclude '.unpacked' --exclude Cache -c . | lzop -c > ${STORE}/packed.tmp.tar.lzo &&\
+    mv ${STORE}/packed.tar.lzo      ${STORE}/packed.tar.lzo.old
+    mv ${STORE}/packed.tmp.tar.lzo  ${STORE}/packed.tar.lzo
 else
-    tar xvpf ${STORE}/packed.tar &&\
-    touch "${PROFILE}/.unpacked"
+    lzop -d -c ${STORE}/packed.tar.lzo | tar x &&\
+    touch ".unpacked"
 fi
+
