@@ -2,7 +2,24 @@
              NoMonomorphismRestriction, TemplateHaskell, FlexibleContexts #-}
 
 import XMonad
+import qualified XMonad.StackSet as W
+
+import System.IO
+import System.Process
+import System.Environment
+import System.FilePath
+
+import Control.Monad
+import Control.Monad.Reader (ask)
+import qualified Data.Map as M
+import Data.Monoid
+import Data.Ratio
+import Data.List
+import Network.BSD
+import Language.Haskell.TH
+
 import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.FadeInactive
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.SetWMName
@@ -11,10 +28,10 @@ import XMonad.Util.Run(spawnPipe, runProcessWithInput)
 import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.WorkspaceCompare
-import qualified XMonad.StackSet as W
+import XMonad.Layout.Gaps
 import XMonad.Layout.Grid
 import XMonad.Layout.ThreeColumns
-import XMonad.Layout.NoBorders
+import XMonad.Layout.NoBorders (smartBorders)
 import XMonad.Layout.LayoutHints
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.IndependentScreens
@@ -24,18 +41,6 @@ import XMonad.Layout.Combo
 import XMonad.Layout.WindowNavigation (Navigate(..), windowNavigation)
 import XMonad.Config.Gnome
 import XMonad.Actions.WindowBringer
-import System.IO
-import System.Process
-import System.Environment
-import System.FilePath
-
-import Data.Monoid
-import Data.Ratio
-import Data.List
-import Data.Word
-import Control.Monad
-import Network.BSD
-import Language.Haskell.TH
 
 -- Port of ThreeCol layout to a sensationally arbitrary number of columns
 data NCol a = NCol { nCol           :: !Int
@@ -140,7 +145,7 @@ vertTabbed  = windowNavigation (combineTwo (Mirror $ Tall 1 0.05 0.75)
 horizTabbed = windowNavigation (combineTwo (TwoPane 0.03 0.33)
                                 simpleTabbed simpleTabbed)
 ptahLayouts = vertTabbed ||| Mirror (Tall 1 0.05 0.75)
-isisLayouts = horizTabbed ||| CodingLayout (3/5) 1
+isisLayouts = horizTabbed ||| NCol 3 1 (1/100) (1/3)
 isisSecLayouts = GridRatio 1 ||| Tall 1 0.01 0.7
 defaultLayouts = Tall 1 0.01 0.5 ||| GridRatio 1.2
 
@@ -149,12 +154,9 @@ defaultLayouts = Tall 1 0.01 0.5 ||| GridRatio 1.2
 -- incompatible). Worse, since a TH splice can't call another, both the host and
 -- the layout must be determined in the same splice. This is uggo.
 hostAndLayouts = $( do
-    name <- runIO getHostName
-    disp <- runIO $ getEnv "DISPLAY"
+    name <- fmap (takeWhile (/= '.')) $ runIO getHostName
     case name of
-         "isis"     -> if '1' `elem` disp || '2' `elem` disp
-                          then [| (IsisSecondary, isisSecLayouts) |]
-                          else [| (Isis, isisLayouts) |]
+         "isis"     -> [| (Isis, isisLayouts) |]
          "ptah"     -> [| (Ptah, ptahLayouts) |]
          "anubis"   -> [| (Anubis, defaultLayouts) |]
          "aten"     -> [| (Aten, defaultLayouts) |]
@@ -202,9 +204,6 @@ myKeys =
         (i, k) <- zip shiftWorkspaces [xK_F1 .. xK_F6],
         (f, m) <- [(W.greedyView, shiftMask), (W.shift, shiftMask .|. modm)]]
 
-
-
-
 xmobarCmd cfg scr = unwords [".cabal/bin/xmobar",
                              "-x", show (fromIntegral scr),
                              ".xmobarrc-" ++ cfg]
@@ -238,6 +237,15 @@ myXmobarPP screenNo outhnd = xmobarPP {
       _         -> xmobarColor "#cc55cc" "#cccccc" (n ++ " ")
       where (i, n) = unmarshall wname
 
+fadeInactiveFloating :: X ()
+fadeInactiveFloating = withWindowSet $ \s -> do
+    let screens = W.current s : W.visible s
+        xids = concat $ map (W.integrate' . W.stack . W.workspace) screens
+        floating = filter (`M.member` W.floating s) xids
+    forM_ floating $ \xid -> do
+        inactive <- runQuery isUnfocused xid
+        fadeOut (if inactive then 0.8 else 1.0) xid
+
 scratchpads =
     [ NS "screen" "xterm -T scratchpad -xrm 'XTerm*allowTitleOps: False' -e start_scratch.sh"
          (title =? "scratchpad") float
@@ -251,8 +259,12 @@ scratchpads =
 main = do
     nScreens <- countScreens
     bars <- mapM launchBar [0 .. nScreens - 1]
+    let logBarHook = mapM_ (dynamicLogWithPP . uncurry myXmobarPP)
+                   $ zip [0..] bars
+
     gnomeRegister
-    xmonad $ withUrgencyHook NoUrgencyHook $ defaultConfig {
+    xmonad $ withUrgencyHookC NoUrgencyHook (UrgencyConfig Never (Every 20))
+           $ defaultConfig {
         workspaces  = myWorkspaces nScreens,
         startupHook = setWMName "LG3D",
         manageHook  = myManageHook
@@ -260,13 +272,9 @@ main = do
                    <+> namedScratchpadManageHook scratchpads
                    <+> manageHook defaultConfig,
         layoutHook  = avoidStruts . smartBorders $ layouts,
-        logHook = mapM_ (dynamicLogWithPP . uncurry myXmobarPP) $ zip [0..] bars,
-        handleEventHook = mappend handleFocusEvent $
-                          handleEventHook defaultConfig,
+        logHook = fadeInactiveFloating >> logBarHook,
         borderWidth = 1,
         normalBorderColor = "#e1e1e1",
         focusedBorderColor = "#4466aa",
         modMask     = modm
-        } `additionalKeys` myKeys
-
-
+      } `additionalKeys` myKeys
