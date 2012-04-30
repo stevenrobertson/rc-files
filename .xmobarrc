@@ -17,6 +17,6 @@ Config {
         Run StdinReader ],
     sepChar = "%",
     alignSep = "}{",
-    template = "%StdinReader% }{  %music%  |  %multicpu%  |  %eth0%  |  %memory%   |  %KTPA%    <fc=#88cc88>%date%</fc>"
+    template = "%StdinReader% }{  %music%  |  %multicpu%  |  %eth0%  |  %memory%   |  %KNUQ%    <fc=#88cc88>%date%</fc>"
 }
 
