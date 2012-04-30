@@ -58,10 +58,6 @@ autocmd FileType python set tags+=$HOME/.vim/tags/python.ctags
 autocmd FileType python set tags+=$HOME/.vim/tags/current.ctags
 inoremap <C-space> <C-x><C-o>
 
-let g:haddock_browser="open"
-au Bufenter *.hs compiler ghc
-let g:hs_allow_hash_operator=1
-
 autocmd BufReadPost * let b:had_whitespace = match(getline(0, "$"), '\s\+$')
 autocmd BufWritePre * if ! exists("b:had_whitespace") || b:had_whitespace == -1 | %s/\s\+$//e | endif
 
