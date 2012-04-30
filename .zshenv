@@ -11,8 +11,8 @@ _add_to_path () {
 _add_to_path "$HOME/.scripts"
 _add_to_path "$HOME/.cabal/bin"
 _add_to_path "/usr/NX/bin"
-_add_to_path "/usr/local/cuda/bin"
 
 export EDITOR="vim"
+export BROWSER="google-chrome"
 export GNOME_DISABLE_CRASH_DIALOG=1
 export GTK_IM_MODULE="xim"
