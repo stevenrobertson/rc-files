@@ -8,6 +8,7 @@
     q = stash
     ss = status -sb -uno
     st = status -sb
+    ski = stash save --keep-index
 [color]
     ui = auto
 [core]
