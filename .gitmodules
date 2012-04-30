@@ -28,3 +28,6 @@
 [submodule ".deps/xcompose"]
 	path = .deps/xcompose
 	url = git://github.com/kragen/xcompose.git
+[submodule ".deps/ctrlp"]
+	path = .deps/ctrlp
+	url = https://github.com/kien/ctrlp.vim.git
