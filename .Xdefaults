@@ -12,7 +12,7 @@ XTerm*multiScroll: true
 XTerm*scrollTtyOutput: false
 XTerm*scrollKey: true
 XTerm*visualBell: true
-XTerm*termName: xterm-color
+XTerm*termName: xterm-256color
 XTerm*loginShell: true
 XTerm*geometry: 99x29
 #if SCREEN_NUM == 0

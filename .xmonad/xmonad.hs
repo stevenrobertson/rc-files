@@ -187,7 +187,7 @@ myManageHook = composeAll
 myKeys =
     [ ((modm, xK_i), spawn browser)
     , ((modm, xK_c), spawn "google-chrome")
-    , ((modm, xK_t), spawn "xterm -e tmux -2")
+    , ((modm, xK_t), spawn "xterm -e tmux")
     , ((modm, xK_p), spawn "dmenu_run")
     , ((modm .|. shiftMask, xK_t), withFocused $ windows . W.sink)
     , ((modm, xK_Left),     sendMessage $ Move L)
