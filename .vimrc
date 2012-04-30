@@ -12,6 +12,7 @@ set modeline
 set foldmethod=indent nofoldenable diffopt+=filler
 set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P%{AfCheck()}
 set laststatus=2
+set wildmode=longest,list,full wildmenu
 
 function! ToggleAutoformat()
     if &fo =~ "a" | setl fo-=a fo+=r | else | setl fo+=a fo-=r | endif
