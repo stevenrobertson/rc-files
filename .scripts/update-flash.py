@@ -40,24 +40,26 @@ def remove_dir(path):
 def main():
     SRC='/opt/media/transcode'
     DST='/mnt/floppy'
-    EXT='.mp3'
+    EXTS=('.mp3',)
     MIN_FREE=200
 
     if '-p' in sys.argv:
         SRC='/opt/media/oggtranscode'
         DST='/mnt/floppy/Music'
-        EXT='.ogg'
+        EXTS=('.ogg', '.mp3')
         MIN_FREE=1000
 
-    if not os.listdir(SRC):
-        SRC="/home/steven/Music"
+    if not os.path.isdir(SRC) or os.listdir(SRC):
+        SRC=os.path.expanduser("~/Music")
     if not os.listdir(SRC):
         raise EnvironmentError("No songs found!")
+
+    isext = lambda f: any([f.endswith(e) for e in EXTS])
 
     # Create list of current source directories holding music
     src_dirs = set()
     for root, dirs, files in os.walk(SRC):
-        if filter(lambda s: s.endswith(EXT), files):
+        if filter(isext, files):
             src_dirs.add(relpath(root, SRC))
 
     # Read history file, build (dst_dir => src_dir) map
@@ -78,7 +80,7 @@ def main():
     for root, dirs, files in os.walk(DST):
         if not dirs and not files and root != DST:
             remove_dir(root)
-        if filter(lambda s: s.endswith(EXT), files):
+        if filter(isext, files):
             if relpath(root, DST) not in drive_map:
                 remove_dir(root)
             else:
