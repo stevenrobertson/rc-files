@@ -102,21 +102,24 @@ zstyle ':completion:*' cache-path ~/.zsh_cache
 zstyle ':completion:*' completer _list _complete _ignored _approximate
 zstyle ':completion:*' condition 0
 zstyle ':completion:*' expand prefix suffix
+zstyle ':completion:*' file-sort name
 zstyle ':completion:*' format 'Completing %d'
+zstyle ':completion:*' ignore-parents parent pwd
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
 zstyle ':completion:*' list-suffixes true
 zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]}' 'm:{[:lower:]}={[:upper:]}'
-zstyle ':completion:*' max-errors 2
+zstyle ':completion:*' max-errors 1
 zstyle ':completion:*' menu select=3
 zstyle ':completion:*' preserve-prefix '//[^/]##/'
+zstyle ':completion:*' rehash true
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
 zstyle ':completion:*' use-cache on
-zstyle ':completion:*' rehash true
 zstyle ':completion:*' verbose true
 zstyle :compinstall filename '/home/steven/.zshrc'
 
 fpath=(~/.zsh_functions $fpath)
+
 autoload -Uz compinit
 compinit -i
 # End of lines added by compinstall
@@ -126,6 +129,7 @@ alias mq='hg -R $(hg root)/.hg/patches'
 alias grep='grep --color'
 alias donemail='echo done | mail -s done steven@strobe.cc 8137287254@vtext.com'
 alias unrarx='unrar x -kb -o+'
+alias open='xdg-open'
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
