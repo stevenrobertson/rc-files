@@ -5,7 +5,7 @@ Config {
     position = Top,
     lowerOnStart = False,
     commands = [
-        Run Weather "KTPA" ["-t","<tempC>C, <skyCondition>, <rh>%",
+        Run Weather "KNUQ" ["-t","<tempC>C, <skyCondition>, <rh>%",
                             "-L","24","-H","32","--normal","aquamarine2",
                             "--high","chocolate1","--low","lightskyblue"] 36000,
         Run MultiCpu ["-L","3","-H","50","--normal","green","--high","red",
