@@ -78,3 +78,7 @@ if &term =~ '^xterm'
     colorscheme ir_black
 endif
 
+" Don't use swapfile when started in diff mode (handy for 'git mergetool')
+if &diff
+  set uc=0
+endif
