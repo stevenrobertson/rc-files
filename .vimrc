@@ -63,8 +63,9 @@ autocmd FileType python set tags+=$HOME/.vim/tags/python.ctags
 autocmd FileType python set tags+=$HOME/.vim/tags/current.ctags
 inoremap <C-space> <C-x><C-o>
 
-autocmd BufReadPost * let b:had_whitespace = match(getline(0, "$"), '\s\+$')
-autocmd BufWritePre * if ! exists("b:had_whitespace") || b:had_whitespace == -1 | %s/\s\+$//e | endif
+" autocmd BufReadPost * let b:had_whitespace = match(getline(0, "$"), '\s\+$')
+" autocmd BufWritePre * if ! exists("b:had_whitespace") || b:had_whitespace == -1 | %s/\s\+$//e | endif
+autocmd BufWritePre * %s/\s\+$//e
 
 command! Hgd diffthis | let res = system('~/.scripts/pickfromdiff.py ' . shellescape(expand('%'))) | vert new | set bt=nofile | put=res | diffthis
 set diffopt=vertical
