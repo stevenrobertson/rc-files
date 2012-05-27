@@ -13,6 +13,6 @@ defbce on
 # Scroll support
 termcapinfo xterm* ti@:te@
 
-bindkey [5;5~ prev
-bindkey [6;5~ next
-bindkey  screen
+#bindkey [5;5~ prev
+#bindkey [6;5~ next
+#bindkey  screen
