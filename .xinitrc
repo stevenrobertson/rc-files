@@ -8,4 +8,7 @@ eval "$(dbus-launch --sh-syntax)"
 xset dpms 7200 7200 7200
 xterm
 xmodmap $HOME/.xmodmap-$HN
-xfce4-session
+gnome-settings-daemon &!
+./.xstartup.sh
+xmonad
+sleep 100d
