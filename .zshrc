@@ -144,3 +144,4 @@ unsetopt beep nomatch
 bindkey -e
 # End of lines configured by zsh-newuser-install
 
+export PYTHONDONTWRITEBYTECODE=1
