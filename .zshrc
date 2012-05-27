@@ -26,6 +26,10 @@ prompt_gentoo_setup () {
 if [ -n "$SSH_CLIENT" ]; then
     prompt_gentoo_setup gray
     export _CMD_HOST="$(hostname -s):"
+    if [ -z "$DISPLAY" ]; then
+        # Set up for xpra automatically
+        export DISPLAY=:1
+    fi
 else
     prompt_gentoo_setup blue
 fi
