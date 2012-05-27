@@ -1,16 +1,16 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 
 import paramiko, dialog, os, sys, stat, time, subprocess
 
 def getf(d, s, fn):
     if sys.argv[-1] == '-i':
-        bleg = 'i'
+        bleg = 'i2'
     else:
         bleg = 'c'
     try:
         limit = str(int(sys.argv[1]))
     except:
-        limit = '1000'
+        limit = '2000'
     path = "osiris.strobe.cc:d/%s/%s" % (bleg, fn)
     subprocess.call([
         'rsync', '-rPtSs', '--bwlimit', limit,
@@ -47,7 +47,7 @@ try:
     s = c.open_sftp()
     print sys.argv
     if sys.argv[-1] == '-i':
-        s.chdir('/home/steven/d/i')
+        s.chdir('/home/steven/d/i2')
         l = sorted(s.listdir_attr(), key = lambda k: -k.st_mtime)[:100]
         ls = map(lambda o: o.filename, l)
     else:
