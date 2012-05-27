@@ -175,6 +175,9 @@ browser = case host of
                IsisSecondary    -> "firefox -P secondary"
                _                -> "firefox"
 
+-- | Like =?, but matches the start of the string
+q =?. x = fmap (isPrefixOf x) q
+
 myManageHook = composeAll
                 [ className =? "qemu-system-x86_64" --> doFloat
                 , className =? "Do"                 --> doFloat
@@ -182,6 +185,7 @@ myManageHook = composeAll
                 , className =? "Pidgin"             --> doFloat
                 , title     =? "MusicBrainz lookup" --> doFloat
                 , title     =? "cuburn"             --> doFloat
+                , title     =?. "renderer"          --> doFloat
                 , title     =? "ChangeScreen"       --> doFullFloat
                 , isFullscreen                      --> doFullFloat ]
 
