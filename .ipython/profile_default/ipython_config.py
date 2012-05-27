@@ -20,7 +20,8 @@ c = get_config()
 
 # lines of code to run at IPython startup.
 c.TerminalIPythonApp.exec_lines = (
-    ['import numpy as np', 'from itertools import *'] + 
+    ['import numpy as np', 'from itertools import *',
+     'from functools import partial'] +
     ['import %s' % x for x in 
      'sys os urllib2 cPickle struct array math re'.split()] )
 # Enable GUI event loop integration ('qt', 'wx', 'gtk').
