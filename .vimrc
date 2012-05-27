@@ -2,8 +2,8 @@ filetype off
 call pathogen#infect()
 filetype plugin indent on
 
-if filereadable("/home/build/public/eng/vim/google.vim")
-    source /home/build/public/eng/vim/google.vim
+if filereadable("/usr/share/vim/google/google.vim")
+    source /usr/share/vim/google/google.vim
     set nolist
 endif
 
