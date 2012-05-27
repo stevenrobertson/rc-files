@@ -116,8 +116,7 @@ zstyle ':completion:*' rehash true
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' verbose true
-zstyle :compinstall filename '/home/steven/.zshrc'
-
+zstyle :compinstall filename '/home/strobe/.zshrc'
 fpath=(~/.zsh_functions $fpath)
 
 autoload -Uz compinit
