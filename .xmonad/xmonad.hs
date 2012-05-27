@@ -157,6 +157,7 @@ hostAndLayouts = $( do
     name <- fmap (takeWhile (/= '.')) $ runIO getHostName
     case name of
          "isis"     -> [| (Isis, isisLayouts) |]
+         "seshat"   -> [| (Ptah, ptahLayouts) |]
          "ptah"     -> [| (Ptah, ptahLayouts) |]
          "anubis"   -> [| (Anubis, defaultLayouts) |]
          "aten"     -> [| (Aten, defaultLayouts) |]
