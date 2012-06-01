@@ -183,9 +183,12 @@ myManageHook = composeAll
                 , className =? "Do"                 --> doFloat
                 , className =? "Display"            --> doFloat
                 , className =? "Pidgin"             --> doFloat
+                , className =? "Wine"               --> doFloat
                 , title     =? "MusicBrainz lookup" --> doFloat
                 , title     =? "cuburn"             --> doFloat
                 , title     =?. "renderer"          --> doFloat
+                , title     =? "sheep_player.py"    --> doFloat
+                , title     =? "xfce4-notifyd"      --> doIgnore
                 , title     =? "ChangeScreen"       --> doFullFloat
                 , isFullscreen                      --> doFullFloat ]
 
