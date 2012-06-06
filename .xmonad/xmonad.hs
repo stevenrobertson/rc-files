@@ -195,7 +195,8 @@ myManageHook = composeAll
 myKeys =
     [ ((modm, xK_i), spawn browser)
     , ((modm, xK_c), spawn "google-chrome")
-    , ((modm, xK_t), spawn "xterm -e tmux")
+    , ((modm, xK_t), spawn "urxvt -e tmux")
+    , ((modm, xK_x), spawn "urxvt")
     , ((modm, xK_p), spawn "dmenu_run")
     , ((modm .|. shiftMask, xK_t), withFocused $ windows . W.sink)
     , ((modm, xK_Left),     sendMessage $ Move L)
@@ -255,8 +256,8 @@ fadeInactiveFloating = withWindowSet $ \s -> do
         fadeOut (if inactive then 0.8 else 1.0) xid
 
 scratchpads =
-    [ NS "screen" "xterm -T scratchpad -xrm 'XTerm*allowTitleOps: False' -e start_scratch.sh"
-         (title =? "scratchpad") float
+    [ NS "screen" "urxvt -T scratchpad -e tmux attach -d -t scratch"
+         (title =? "scratchpad") widefloat
     , NS "notes" "gvim -c 'cd ~/notes' --role notes"
          (role =? "notes") float
     ]

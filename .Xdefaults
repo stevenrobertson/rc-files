@@ -1,20 +1,31 @@
 Xft.dpi: 96.0
-!XTerm*faceName: Droid Sans Mono
-!XTerm*faceName: Anonymous Pro
+*background: black
+*foreground: azure
+*saveLines: 1000
+*scrollBar: false
+*jumpScroll: true
+*skipScroll: true
+*scrollTtyOutput: false
+*scrollKey: true
+*visualBell: true
+
 XTerm*faceName: Dina
 XTerm*faceSize: 11
-!XTerm*font: -*-dina-medium-r-*-*-13-*-*-*-*-*-*-*
-XTerm*background: black
-XTerm*foreground: azure
-XTerm*saveLines: 1000
-XTerm*jumpScroll: true
-XTerm*multiScroll: true
-XTerm*scrollTtyOutput: false
-XTerm*scrollKey: true
-XTerm*visualBell: true
 XTerm*termName: xterm-256color
 XTerm*loginShell: true
 XTerm*geometry: 99x29
+
+*VT100*translations:    #override   \n\
+    Shift <KeyPress>Prior: insert() \n\
+    Shift <KeyPress>Next:  insert()
+
+URxvt.font: xft:Dina:size=11
+URxvt.color12: #4567ed
+URxvt.fading: 5
+URxvt.scrollTtyKeypress: true
+URxvt.keysym.S-Prior: \033[5;2~
+URxvt.keysym.S-Next: \033[6;2~
+
 #if SCREEN_NUM == 0
 Xft.rgba:       rgb
 #endif
@@ -22,6 +33,3 @@ Xft.rgba:       rgb
 Xft.rgba:       rgb
 #endif
 
-*VT100*translations:    #override   \n\
-    Shift <KeyPress>Prior: insert() \n\
-    Shift <KeyPress>Next:  insert()

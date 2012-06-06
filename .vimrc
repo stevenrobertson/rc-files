@@ -78,7 +78,7 @@ if &term =~ '^screen'
 endif
 
 " for CSApprox
-if &term =~ '^xterm'
+if &term =~ '^xterm' || &term =~ '^rxvt'
     set title
     set t_Co=256
     colorscheme ir_black
