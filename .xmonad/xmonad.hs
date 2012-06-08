@@ -144,7 +144,7 @@ vertTabbed  = windowNavigation (combineTwo (Mirror $ Tall 1 0.05 0.75)
                                 simpleTabbed simpleTabbedBottom)
 horizTabbed = windowNavigation (combineTwo (TwoPane 0.03 0.33)
                                 simpleTabbed simpleTabbed)
-ptahLayouts = vertTabbed ||| Mirror (Tall 1 0.05 0.75)
+ptahLayouts = Mirror (Tall 1 0.05 0.75)
 isisLayouts = horizTabbed ||| NCol 3 1 (1/100) (1/3)
 isisSecLayouts = GridRatio 1 ||| Tall 1 0.01 0.7
 defaultLayouts = Tall 1 0.01 0.5 ||| GridRatio 1.2
@@ -264,6 +264,7 @@ scratchpads =
   where
     role = stringProperty "WM_WINDOW_ROLE"
     float = customFloating (W.RationalRect 0.25 0.25 0.5 0.5)
+    widefloat = customFloating (W.RationalRect 0.1 0.25 0.8 0.5)
 
 main = do
     nScreens <- countScreens
