@@ -25,6 +25,7 @@ URxvt.fading: 5
 URxvt.scrollTtyKeypress: true
 URxvt.keysym.S-Prior: \033[5;2~
 URxvt.keysym.S-Next: \033[6;2~
+URxvt.colorIT: #ffffcc
 
 #if SCREEN_NUM == 0
 Xft.rgba:       rgb
