@@ -43,7 +43,7 @@ try:
     d = dialog.Dialog()
     c = paramiko.SSHClient()
     c.load_system_host_keys()
-    c.connect('osiris.strobe.cc', username='steven')
+    c.connect('osiris.strobe.cc', username='strobe')
     s = c.open_sftp()
     print sys.argv
     if sys.argv[-1] == '-i':
