@@ -39,6 +39,8 @@ inoremap <A-h> <C-o>h
 inoremap <A-j> <C-o>j
 inoremap <A-k> <C-o>k
 inoremap <A-l> <C-o>l
+vnoremap <S-j> j
+vnoremap <S-k> k
 
 inoremap <F7> <C-o>:w<CR>
 noremap <F7> :w<CR>
