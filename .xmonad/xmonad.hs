@@ -198,6 +198,8 @@ myKeys =
     , ((modm, xK_t), spawn "urxvt -e tmux")
     , ((modm, xK_x), spawn "urxvt")
     , ((modm, xK_p), spawn "dmenu_run")
+    , ((modm, xK_g), spawn "gvim")
+    , ((modm .|. shiftMask, xK_l), spawn "xscreensaver-command -lock")
     , ((modm .|. shiftMask, xK_t), withFocused $ windows . W.sink)
     , ((modm, xK_Left),     sendMessage $ Move L)
     , ((modm, xK_Right),    sendMessage $ Move R)
