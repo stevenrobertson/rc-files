@@ -90,3 +90,6 @@ endif
 if &diff
   set uc=0
 endif
+
+" Don't leave an exit message
+let &titleold=''
