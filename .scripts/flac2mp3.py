@@ -104,7 +104,7 @@ def clean_stale(src_dir, dst_dir, ext):
 
 def get_new(src_dir, dst_dir, ext):
     new = []
-    for root, dirs, files in os.walk(src_dir):
+    for root, dirs, files in os.walk(src_dir, followlinks=True):
         dst_root = os.path.join(dst_dir, os.path.relpath(root, src_dir))
         for file in files:
             sext = file.rsplit('.', 1)[-1]
@@ -131,20 +131,19 @@ def get_new(src_dir, dst_dir, ext):
     return new
 
 def main():
-    src_dir = '/opt/media/music/'
-
-    dsts =  [
-                ('/opt/media/transcode/', '.mp3'),
-                ('/opt/media/oggtranscode/', '.ogg'),
-            ]
-
+    dirs = {
+        '/opt/media/music/': [('/opt/media/transcode/', '.mp3'),
+                              ('/opt/media/oggtranscode/', '.ogg')],
+        '/opt/media/drone/': [('/opt/media/droneogg/', '.ogg')],
+    }
     pool = multiprocessing.Pool()
 
     new = []
 
-    for (dst_d, ext) in dsts:
-        clean_stale(src_dir, dst_d, ext)
-        new += get_new(src_dir, dst_d, ext)
+    for src, dsts in dirs.items():
+        for dst, ext in dsts:
+            clean_stale(src, dst, ext)
+            new += get_new(src, dst, ext)
     new.sort()
     if len(sys.argv) > 1:
         print "Matching " + sys.argv[1]
