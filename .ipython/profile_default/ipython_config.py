@@ -22,8 +22,7 @@ c = get_config()
 c.TerminalIPythonApp.exec_lines = (
     ['import numpy as np', 'from itertools import *',
      'from functools import partial'] +
-    ['import %s' % x for x in 
-     'sys os urllib2 cPickle struct array math re'.split()] )
+    ['import %s' % x for x in 'sys os math re'.split()] )
 # Enable GUI event loop integration ('qt', 'wx', 'gtk').
 # c.TerminalIPythonApp.gui = None
 
@@ -75,10 +74,10 @@ c.TerminalIPythonApp.display_banner = False
 #------------------------------------------------------------------------------
 
 # A Mixin for applications that start InteractiveShell instances.
-# 
+#
 # Provides configurables for loading extensions and executing files as part of
 # configuring a Shell environment.
-# 
+#
 # Provides init_extensions() and init_code() methods, to be called after
 # init_shell(), which must be implemented by subclasses.
 
@@ -114,10 +113,10 @@ c.TerminalIPythonApp.display_banner = False
 # color codes, this capability can be turned off.
 # c.TerminalInteractiveShell.color_info = True
 
-# 
+#
 # c.TerminalInteractiveShell.history_length = 10000
 
-# 
+#
 # c.TerminalInteractiveShell.separate_in = '\n'
 
 # Set the color scheme (NoColor, Linux, or LightBG).
@@ -126,16 +125,16 @@ c.TerminalIPythonApp.display_banner = False
 # Autoindent IPython code entered interactively.
 # c.TerminalInteractiveShell.autoindent = True
 
-# 
+#
 # c.TerminalInteractiveShell.readline_omit__names = 2
 
-# 
+#
 # c.TerminalInteractiveShell.prompt_in2 = '   .\\D.: '
 
-# 
+#
 # c.TerminalInteractiveShell.separate_out = ''
 
-# 
+#
 # c.TerminalInteractiveShell.prompt_in1 = 'In [\\#]: '
 
 # Enable deep (recursive) reloading by default. IPython can use the deep_reload
@@ -146,7 +145,7 @@ c.TerminalIPythonApp.display_banner = False
 # normal reload(), but deep_reload will still be available as dreload().
 # c.TerminalInteractiveShell.deep_reload = False
 
-# 
+#
 # c.TerminalInteractiveShell.debug = False
 
 # Make IPython automatically call any callable object even if you didn't type
@@ -170,25 +169,25 @@ c.TerminalIPythonApp.display_banner = False
 # Set the editor used by IPython (default to $EDITOR/vi/notepad).
 # c.TerminalInteractiveShell.editor = 'vim'
 
-# 
+#
 # c.TerminalInteractiveShell.prompts_pad_left = True
 
 # The part of the banner to be printed before the profile
 # c.TerminalInteractiveShell.banner1 = 'Python 2.7.2 (default, Jun 29 2011, 11:10:00) \nType "copyright", "credits" or "license" for more information.\n\nIPython 0.11 -- An enhanced Interactive Python.\n?         -> Introduction and overview of IPython\'s features.\n%quickref -> Quick reference.\nhelp      -> Python\'s own help system.\nobject?   -> Details about \'object\', use \'object??\' for extra details.\n'
 
-# 
+#
 # c.TerminalInteractiveShell.readline_parse_and_bind = ['tab: complete', '"\\C-l": clear-screen', 'set show-all-if-ambiguous on', '"\\C-o": tab-insert', '"\\C-r": reverse-search-history', '"\\C-s": forward-search-history', '"\\C-p": history-search-backward', '"\\C-n": history-search-forward', '"\\e[A": history-search-backward', '"\\e[B": history-search-forward', '"\\C-k": kill-line', '"\\C-u": unix-line-discard']
 
 # The part of the banner to be printed after the profile
 # c.TerminalInteractiveShell.banner2 = ''
 
-# 
+#
 # c.TerminalInteractiveShell.separate_out2 = ''
 
-# 
+#
 # c.TerminalInteractiveShell.wildcards_case_sensitive = True
 
-# 
+#
 # c.TerminalInteractiveShell.readline_merge_completions = True
 
 # Set to confirm when you try to exit IPython with an EOF (Control-D in Unix,
@@ -196,10 +195,10 @@ c.TerminalIPythonApp.display_banner = False
 # direct exit without any confirmation.
 c.TerminalInteractiveShell.confirm_exit = False
 
-# 
+#
 # c.TerminalInteractiveShell.ipython_dir = ''
 
-# 
+#
 # c.TerminalInteractiveShell.readline_remove_delims = '-/~'
 
 # Start logging to the default log file.
@@ -214,25 +213,25 @@ c.TerminalInteractiveShell.confirm_exit = False
 # Enable magic commands to be called without the leading %.
 # c.TerminalInteractiveShell.automagic = True
 
-# 
+#
 # c.TerminalInteractiveShell.readline_use = True
 
 # Start logging to the given file in append mode.
 # c.TerminalInteractiveShell.logappend = ''
 
-# 
+#
 # c.TerminalInteractiveShell.xmode = 'Context'
 
-# 
+#
 # c.TerminalInteractiveShell.quiet = False
 
 # Enable auto setting the terminal title.
 # c.TerminalInteractiveShell.term_title = False
 
-# 
+#
 # c.TerminalInteractiveShell.object_info_string_level = 0
 
-# 
+#
 # c.TerminalInteractiveShell.prompt_out = 'Out[\\#]: '
 
 # Set the size of the output cache.  The default is 1000, you can change it
@@ -251,10 +250,10 @@ c.TerminalInteractiveShell.confirm_exit = False
 #------------------------------------------------------------------------------
 
 # An object to manage the profile directory and its resources.
-# 
+#
 # The profile directory is used by all IPython applications, to manage
 # configuration, logging and security.
-# 
+#
 # This object knows how to find, create and manage these directories. This
 # should be used by any code that wants to handle profiles.
 
@@ -267,12 +266,12 @@ c.TerminalInteractiveShell.confirm_exit = False
 #------------------------------------------------------------------------------
 
 # The default pretty-printer.
-# 
+#
 # This uses :mod:`IPython.external.pretty` to compute the format data of the
 # object. If the object cannot be pretty printed, :func:`repr` is used. See the
 # documentation of :mod:`IPython.external.pretty` for details on how to write
 # pretty printers.  Here is a simple example::
-# 
+#
 #     def dtype_pprinter(obj, p, cycle):
 #         if cycle:
 #             return p.text('dtype(...)')
@@ -290,26 +289,26 @@ c.TerminalInteractiveShell.confirm_exit = False
 
 # PlainTextFormatter will inherit config from: BaseFormatter
 
-# 
+#
 # c.PlainTextFormatter.type_printers = {}
 
-# 
+#
 # c.PlainTextFormatter.newline = '\n'
 
-# 
+#
 # c.PlainTextFormatter.float_precision = ''
 
-# 
+#
 # c.PlainTextFormatter.verbose = False
 
-# 
+#
 # c.PlainTextFormatter.deferred_printers = {}
 
-# 
+#
 # c.PlainTextFormatter.pprint = True
 
-# 
+#
 c.PlainTextFormatter.max_width = 99
 
-# 
+#
 # c.PlainTextFormatter.singleton_printers = {}
