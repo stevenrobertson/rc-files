@@ -1,5 +1,5 @@
 colorscheme ir_black
-set guifont=Dina\ 11  columns=83 guioptions=agim
+set guifont=Dina\ 11 columns=83 guioptions=agim
 
 " lean back
 func! LB()
