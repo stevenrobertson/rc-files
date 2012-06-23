@@ -1,8 +1,11 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 
 import random, os, sys, subprocess, re, base64, doctest
 from os.path import join, relpath
 from itertools import *
+import numpy as np
+import threading
+import Queue
 
 # Custom (lexically-ordered) base-64 encoding of 24-bit ints (4 chars)
 B64STR='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ^_abcdefghijklmnopqrstuvwxyz'
@@ -49,7 +52,7 @@ def main():
         EXTS=('.ogg', '.mp3')
         MIN_FREE=1000
 
-    if not os.path.isdir(SRC) or os.listdir(SRC):
+    if not os.path.isdir(SRC):
         SRC=os.path.expanduser("~/Music")
     if not os.listdir(SRC):
         raise EnvironmentError("No songs found!")
@@ -128,15 +131,16 @@ def main():
             # since the dict was reverse-sorted before calculating cprobs, this
             # doesn't make a large difference
             src_dir = cprob_dict.pop(cprob)
-            print src_dir
 
-            # rsync the files across
+            rsp = raw_input('%s (Y/n)? ' % src_dir)
             dst_dir = join(DST, fmt_dst_dir(index, src_dir))
-            index -= 1
-            os.makedirs(dst_dir)
-            subprocess.check_call([
-                'rsync', '--partial', '-r', '--modify-window', '30',
-                os.path.join(SRC, src_dir) + '/', dst_dir])
+            if rsp[:1].lower() != 'n':
+                # rsync the files across
+                index -= 1
+                os.makedirs(dst_dir)
+                subprocess.Popen([
+                    'rsync', '--partial', '-r', '--modify-window', '30',
+                    os.path.join(SRC, src_dir) + '/', dst_dir])
             histf.write('%s\t%s\n' % (relpath(dst_dir, DST), src_dir))
             histf.flush()
 
