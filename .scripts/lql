@@ -1,4 +1,4 @@
 #!/bin/zsh
 
-PYTHONPATH="$HOME/code/quodlibet/quodlibet" screen -dm python $HOME/code/quodlibet/quodlibet/quodlibet.py $@
+PYTHONPATH="$HOME/src/quodlibet/quodlibet" python $HOME/src/quodlibet/quodlibet/quodlibet.py $@
 
