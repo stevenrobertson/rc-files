@@ -19,6 +19,7 @@ import Network.BSD
 import Language.Haskell.TH
 
 import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.EwmhDesktops (fullscreenEventHook)
 import XMonad.Hooks.FadeInactive
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
@@ -259,7 +260,7 @@ fadeInactiveFloating = withWindowSet $ \s -> do
 
 scratchpads =
     [ NS "screen" "urxvt -T scratchpad -e tmux attach -d -t scratch"
-         (title =? "scratchpad") widefloat
+         (title =? "scratchpad") float
     , NS "notes" "gvim -c 'cd ~/notes' --role notes"
          (role =? "notes") float
     ]
@@ -277,16 +278,17 @@ main = do
     gnomeRegister
     xmonad $ withUrgencyHookC NoUrgencyHook (UrgencyConfig Never (Every 20))
            $ defaultConfig {
-        workspaces  = myWorkspaces nScreens,
-        startupHook = setWMName "LG3D",
-        manageHook  = myManageHook
-                   <+> manageDocks
-                   <+> namedScratchpadManageHook scratchpads
-                   <+> manageHook defaultConfig,
-        layoutHook  = avoidStruts . smartBorders $ layouts,
-        logHook = fadeInactiveFloating >> logBarHook,
-        borderWidth = 1,
+        workspaces      = myWorkspaces nScreens,
+        startupHook     = setWMName "LG3D",
+        manageHook      = myManageHook
+                       <+> manageDocks
+                       <+> namedScratchpadManageHook scratchpads
+                       <+> manageHook defaultConfig,
+        handleEventHook = fullscreenEventHook,
+        layoutHook      = avoidStruts . smartBorders $ layouts,
+        logHook         = fadeInactiveFloating >> logBarHook,
+        borderWidth     = 1,
         normalBorderColor = "#e1e1e1",
         focusedBorderColor = "#4466aa",
-        modMask     = modm
+        modMask         = modm
       } `additionalKeys` myKeys
