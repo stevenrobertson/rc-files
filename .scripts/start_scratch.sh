@@ -1,6 +1,6 @@
 #!/bin/sh
-if tmux has -t scratch; then
-    exec tmux -2 attach -d -t scratch
-else
-    exec tmux -2 new -s scratch
+if ! tmux has -t scratch; then
+    tmux new -s scratch
+    tmux set -s -t scratch set-titles off
 fi
+exec tmux attach -d -t scratch
