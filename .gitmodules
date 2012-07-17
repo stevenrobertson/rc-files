@@ -34,3 +34,9 @@
 [submodule ".deps/Recover.vim"]
 	path = .deps/Recover.vim
 	url = https://github.com/chrisbra/Recover.vim.git
+[submodule ".deps/powerline"]
+	path = .deps/powerline
+	url = https://github.com/Lokaltog/vim-powerline.git
+[submodule ".deps/fugitive"]
+	path = .deps/fugitive
+	url = https://github.com/tpope/vim-fugitive.git
