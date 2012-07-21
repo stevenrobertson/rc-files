@@ -3,6 +3,6 @@
 
 . ~/.zshrc
 
-xrdb .Xdefaults
+xrdb -override .Xdefaults
 [ -f "$HOME/.xmodmap-`hostname`" ] && xmodmap ~/.xmodmap-`hostname`
 setxkbmap -option caps:hyper -option compose:rwin
