@@ -22,6 +22,6 @@
 [help]
     autocorrect = -1
 [merge]
-    tool = gvimdiff
+    tool = diffuse
 [branch]
 	autosetuprebase = always
