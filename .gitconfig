@@ -3,8 +3,8 @@
     ci = commit
     co = checkout
     cp = checkout --patch
-    dc = diff --cached
-    dh = diff HEAD
+    dc = diff --cached --patience
+    dh = diff HEAD --patience
     lol = log --graph --decorate --pretty=oneline --abbrev-commit
     lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
     q = stash
