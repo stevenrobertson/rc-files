@@ -5,7 +5,10 @@
     cp = checkout --patch
     dc = diff --cached
     dh = diff HEAD
+    lol = log --graph --decorate --pretty=oneline --abbrev-commit
+    lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
     q = stash
+    rp = reset --patch
     ss = status -sb -uno
     st = status -sb
     ski = stash save --keep-index
