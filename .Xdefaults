@@ -1,6 +1,4 @@
 Xft.dpi: 96.0
-*background: black
-*foreground: azure
 *saveLines: 1000
 *scrollBar: false
 *jumpScroll: true
@@ -9,6 +7,8 @@ Xft.dpi: 96.0
 *scrollKey: true
 *visualBell: true
 
+XTerm*background: black
+XTerm*foreground: azure
 XTerm*faceName: Dina
 XTerm*faceSize: 11
 XTerm*termName: xterm-256color
@@ -19,6 +19,8 @@ XTerm*geometry: 99x29
     Shift <KeyPress>Prior: insert() \n\
     Shift <KeyPress>Next:  insert()
 
+URxvt.background: black
+URxvt.foreground: azure
 URxvt.font: xft:Dina:size=11
 URxvt.color12: #4567ed
 URxvt.fading: 5
