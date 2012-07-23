@@ -6,7 +6,6 @@ HN="$( hostname -s )"
 pack_ffox.sh &!
 eval "$(dbus-launch --sh-syntax)"
 xset dpms 7200 7200 7200
-xterm
 xmodmap $HOME/.xmodmap-$HN
 gnome-settings-daemon &!
 ./.xstartup.sh
