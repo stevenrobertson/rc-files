@@ -160,7 +160,7 @@ hostAndLayouts = $( do
          "isis"     -> [| (Isis, isisLayouts) |]
          "seshat"   -> [| (Ptah, ptahLayouts) |]
          "ptah"     -> [| (Ptah, ptahLayouts) |]
-         "anubis"   -> [| (Anubis, defaultLayouts) |]
+         "anubis"   -> [| (Anubis, isisLayouts) |]
          "aten"     -> [| (Aten, defaultLayouts) |]
     )
 host = fst hostAndLayouts
