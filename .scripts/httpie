@@ -1,0 +1,2 @@
+#!/bin/zsh
+PYTHONPATH="$(dirname $0)/../.deps/httpie" python -m httpie "$@"
