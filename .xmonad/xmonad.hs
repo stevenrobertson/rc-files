@@ -142,16 +142,13 @@ handleFocusEvent _ = return $ All True
 data Host = Isis | IsisSecondary | Anubis | Aten | Ptah
             deriving (Read, Show, Eq)
 
-vertTabbed  = windowNavigation (combineTwo (Mirror $ Tall 1 0.05 0.75)
-                                simpleTabbed simpleTabbedBottom)
-horizTabbed = windowNavigation (combineTwo (TwoPane 0.03 0.33)
-                                simpleTabbed simpleTabbed)
-ptahLayouts = Mirror (Tall 1 0.05 0.75)
+tall = Tall 1 0.02 0.72
+ptahLayouts = tall ||| reflectHoriz tall ||| NCol 3 1 (1/100) (1/3)
 isisLayouts = onWorkspaces secondMonWksp secondLayouts normalLayouts where
     secondMonWksp = ["1_" ++ show x | x <- [1..8]]
     secondLayouts = Mirror (Tall 1 0.02 0.75)
-    normalLayouts = reflectHoriz (Tall 1 0.02 0.72) ||| NCol 3 1 (1/100) (48/100)
-isisSecLayouts = GridRatio 1 ||| Tall 1 0.01 0.7
+    normalLayouts = reflectHoriz tall ||| NCol 3 1 (1/100) (48/100)
+isisSecLayouts = GridRatio 1 ||| tall
 defaultLayouts = Tall 1 0.01 0.5 ||| GridRatio 1.2
 
 -- This must be derived at compile-time, since the actual type of the layout
