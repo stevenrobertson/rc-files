@@ -46,3 +46,6 @@
 [submodule ".deps/vimclojure"]
 	path = .deps/vimclojure
 	url = https://github.com/vim-scripts/VimClojure.git
+[submodule ".deps/ack"]
+	path = .deps/ack
+	url = https://github.com/mileszs/ack.vim.git
