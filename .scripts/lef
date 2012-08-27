@@ -1,4 +1,4 @@
 #!/bin/zsh
 
-QUODLIBET_DEBUG=1 PYTHONPATH="$HOME/code/quodlibet/quodlibet" python $HOME/code/quodlibet/quodlibet/exfalso.py $@
+QUODLIBET_DEBUG=1 PYTHONPATH="$HOME/src/quodlibet/quodlibet" python $HOME/src/quodlibet/quodlibet/exfalso.py $@
 
