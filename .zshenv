@@ -4,15 +4,19 @@ export LC_COLLATE="C"
 
 _add_to_path () {
   if [ -z "$(echo $PATH | grep $1)" ]; then
-    export PATH="$1:$PATH"
+    if [ "$2" = "end" ]; then
+      export PATH="$PATH:$1"
+    else
+      export PATH="$1:$PATH"
+    fi
   fi
 }
 
 _add_to_path "$HOME/.scripts"
 _add_to_path "$HOME/.cabal/bin"
-_add_to_path "/usr/NX/bin"
-_add_to_path "$HOME/src/android-sdk-linux_86/tools"
-_add_to_path "$HOME/src/android-sdk-linux_86/platform-tools"
+_add_to_path "/usr/NX/bin" end
+_add_to_path "$HOME/src/android-sdk-linux_86/tools" end
+_add_to_path "$HOME/src/android-sdk-linux_86/platform-tools" end
 
 export PYTHONDONTWRITEBYTECODE=1
 export EDITOR="vim"
