@@ -5,4 +5,4 @@
 
 xrdb -override .Xdefaults
 [ -f "$HOME/.xmodmap-`hostname`" ] && xmodmap ~/.xmodmap-`hostname`
-setxkbmap -option caps:hyper -option compose:rwin
+setxkbmap -option caps:hyper -option compose:rwin -option altwin:swap_lalt_lwin
