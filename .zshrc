@@ -87,7 +87,7 @@ bindkey '^?'    backward-delete-char
 
 # set up agent.  horribly dangerous, but screw it.
 if [ -z "$SSH_AUTH_SOCK" -a -z "$SSH_CLIENT" ]; then
-    test -f ~/.ssh/id_dsa && test -f ~/.ssh-agent-info && source ~/.ssh-agent-info > /dev/null
+    test -f ~/.ssh-agent-info && source ~/.ssh-agent-info > /dev/null
     if test -n "$(ssh-add -L 2>&1 | grep 'Could not open a connection')"; then
         ssh-agent >~/.ssh-agent-info
         source ~/.ssh-agent-info > /dev/null
