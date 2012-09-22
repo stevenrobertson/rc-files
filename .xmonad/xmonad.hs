@@ -177,8 +177,8 @@ browser = case host of
                IsisSecondary    -> "firefox -P secondary"
                _                -> "firefox"
 
--- | Like =?, but matches the start of the string
-q =?. x = fmap (isPrefixOf x) q
+-- | Like =?, but for infix matching
+q =?. x = fmap (isInfixOf x) q
 
 myManageHook = composeAll
                 [ className =? "qemu-system-x86_64" --> doFloat
