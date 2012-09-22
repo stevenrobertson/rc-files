@@ -42,12 +42,28 @@ inoremap <A-l> <C-o>l
 vnoremap <S-j> j
 vnoremap <S-k> k
 
-inoremap <F7> <C-o>:w<CR>
-noremap <F7> :w<CR>
-inoremap <F9> <C-o>gqap
-noremap <F9> gqap
-inoremap <F10> <C-o>:call ToggleAutoformat()<CR>
-noremap <F10> :call ToggleAutoformat()<CR>
+inoremap    <F7>  <C-o>:w<CR>
+noremap     <F7>       :w<CR>
+inoremap    <F9>  <C-o>gqap
+noremap     <F9>       gqap
+inoremap    <F10> <C-o>:call ToggleAutoformat()<CR>
+noremap     <F10>      :call ToggleAutoformat()<CR>
+
+" FSSwitch
+nmap <silent> <Leader>of :FSHere<cr>
+nmap <silent> <Leader>ol :FSRight<cr>
+nmap <silent> <Leader>oL :FSSplitRight<cr>
+nmap <silent> <Leader>oh :FSLeft<cr>
+nmap <silent> <Leader>oH :FSSplitLeft<cr>
+nmap <silent> <Leader>ok :FSAbove<cr>
+nmap <silent> <Leader>oK :FSSplitAbove<cr>
+nmap <silent> <Leader>oj :FSBelow<cr>
+nmap <silent> <Leader>oJ :FSSplitBelow<cr>
+
+au! BufEnter *.{c,cc} let b:fswitchdst = 'h' | let b:fswitchlocs = '.'
+au! BufEnter *.{h} let b:fswitchdst = 'cc,c' | let b:fswitchlocs = '.'
+au! BufEnter *.cpp let b:fswitchdst = 'hpp,h' | let b:fswitchlocs = '.'
+au! BufEnter *.hpp let b:fswitchdst = 'hpp' | let b:fswitchlocs = '.'
 
 let NERDTreeQuitOnOpen=1
 let NERDTreeWinPos="right"
