@@ -120,7 +120,7 @@ zstyle ':completion:*' rehash true
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' verbose true
-zstyle :compinstall filename '/home/strobe/.zshrc'
+zstyle :compinstall filename $HOME/.zshrc
 fpath=(~/.zsh_functions $fpath)
 
 autoload -Uz compinit
@@ -132,7 +132,9 @@ alias mq='hg -R $(hg root)/.hg/patches'
 alias grep='grep --color'
 alias donemail='echo done | mail -s done steven@strobe.cc 8137287254@vtext.com'
 alias unrarx='unrar x -kb -o+'
-alias open='xdg-open'
+if [ ! "$(uname)" = "Darwin" ]; then
+    alias open='xdg-open'
+fi
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
