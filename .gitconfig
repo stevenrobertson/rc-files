@@ -25,3 +25,5 @@
     tool = diffuse
 [branch]
 	autosetuprebase = always
+[push]
+	default = current
