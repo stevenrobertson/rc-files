@@ -116,7 +116,7 @@ zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]}' 'm:{[:lower:]}={
 zstyle ':completion:*' max-errors 1
 zstyle ':completion:*' menu select=3
 zstyle ':completion:*' preserve-prefix '//[^/]##/'
-zstyle ':completion:*' rehash true
+#zstyle ':completion:*' rehash true
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' verbose true
@@ -127,8 +127,7 @@ autoload -Uz compinit
 compinit -i
 # End of lines added by compinstall
 
-alias mq='hg -R $(hg root)/.hg/patches'
-#alias vm='kvm -m 1024 -usb -usbdevice tablet -soundhw ac97 -vga std'
+alias dc=cd
 alias grep='grep --color'
 alias donemail='echo done | mail -s done steven@strobe.cc 8137287254@vtext.com'
 alias unrarx='unrar x -kb -o+'
@@ -138,8 +137,8 @@ fi
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
+HISTSIZE=100000
+SAVEHIST=100000
 setopt appendhistory extendedglob notify
 unsetopt no_case_glob
 unsetopt beep nomatch

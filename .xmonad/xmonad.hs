@@ -143,7 +143,7 @@ data Host = Isis | IsisSecondary | Anubis | Aten | Ptah
             deriving (Read, Show, Eq)
 
 tall = Tall 1 0.02 0.72
-ptahLayouts = tall ||| reflectHoriz tall ||| NCol 3 1 (1/100) (1/3)
+ptahLayouts = tall ||| reflectHoriz tall ||| Tall 1 0.02 0.5 ||| NCol 3 1 (1/100) (1/3)
 isisLayouts = onWorkspaces secondMonWksp secondLayouts normalLayouts where
     secondMonWksp = ["1_" ++ show x | x <- [1..8]]
     secondLayouts = Mirror (Tall 1 0.02 0.75)
