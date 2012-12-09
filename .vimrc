@@ -78,6 +78,7 @@ noremap <C-F12> :tabnew<CR>
 let g:vimclojure#ParenRainbow=1
 let g:vimclojure#FuzzyIndent=1
 let g:vimclojure#WantNailgun=1
+let g:vimclojure#FuzzyIndentPatterns .= ",.*"
 
 " autocmd BufReadPost * let b:had_whitespace = match(getline(0, "$"), '\s\+$')
 " autocmd BufWritePre * if ! exists("b:had_whitespace") || b:had_whitespace == -1 | %s/\s\+$//e | endif
