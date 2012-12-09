@@ -36,10 +36,10 @@ fi
 
 case $TERM in
     xterm*)
-        precmd() { print -Pn "\e]0;%m:%~\a" }
+        precmd() { print -Pn "\e]0;%m:%2~\a" }
         preexec() { print -Pn "\e]0;$_CMD_HOST$1\a" };;
     screen*)
-        precmd() { print -Pn '\ek%m:%~\e\\' }
+        precmd() { print -Pn '\ek%m:%2~\e\\' }
         preexec() { print -Pn "\\ek$_CMD_HOST$1\\e\\\\" };;
 esac
 
