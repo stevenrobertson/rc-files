@@ -15,7 +15,7 @@ set shiftwidth=4 softtabstop=4 tabstop=4 textwidth=78 expandtab
 set hlsearch enc=utf-8 fo+=2l bs=2
 set modeline
 set foldmethod=indent nofoldenable diffopt+=filler,vertical
-set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P%{AfCheck()}
+" set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P%{AfCheck()}
 set laststatus=2
 set wildmode=longest,list,full wildmenu
 
@@ -108,3 +108,11 @@ endif
 
 " Don't leave an exit message
 let &titleold=''
+
+" Powerline theme
+let g:Powerline_stl_path_style='short'
+call Pl#Theme#RemoveSegment('virtualenv:statusline')
+call Pl#Theme#RemoveSegment('fileformat')
+call Pl#Theme#RemoveSegment('fileencoding')
+call Pl#Theme#RemoveSegment('filetype')
+call Pl#Theme#RemoveSegment('scrollpercent')
