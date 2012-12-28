@@ -1,0 +1,20 @@
+#!/usr/bin/python2
+import struct, sys
+from itertools import *
+input = sys.stdin
+if len(sys.argv) > 1:
+    print sys.argv[1]
+    input = open(sys.argv[1])
+
+while True:
+    i = input.read(32)
+    if not i: break
+    i = (i + ('\xff' * 32))[:32]
+    try:
+      escs = lambda: cycle(['\033[1m', '\033[0m'])
+      seq = [e+'%08x' % x for e, x in zip(escs(), struct.unpack('>'+'I'*8, i))]
+      chars = ''.join([v if 32 <= ord(v) <= 126 else '.' for v in i])
+      hlchars = ''.join([e+chars[c:c+4] for e, c in zip(escs(), range(0, 32, 4))])
+      print (''.join(seq) + ' ' + ''.join(hlchars))
+    except IOError:
+      break

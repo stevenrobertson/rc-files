@@ -1,0 +1,2 @@
+#!/bin/sh
+$HOME/.scripts/_hls $@ | nl | less -R
