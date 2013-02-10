@@ -62,14 +62,15 @@ fi
 setopt AUTO_CONTINUE
 unsetopt nomatch
 
-HISTSIZE=2000
 if [ `whoami` == "root" ]; then
     HISTFILE=/root/.zsh_history
 else
     HISTFILE=~/.zsh_history
 fi
-SAVEHIST=2000
-setopt HIST_IGNORE_DUPS
+HISTSIZE=100000
+SAVEHIST=100000
+setopt HIST_IGNORE_DUPS APPEND_HISTORY HIST_EXPIRE_DUPS_FIRST HIST_FIND_NO_DUPS
+setopt SHARE_HISTORY
 
 bindkey -e
 bindkey '\e[1~' beginning-of-line
@@ -136,9 +137,6 @@ if [ ! "$(uname)" = "Darwin" ]; then
 fi
 
 # Lines configured by zsh-newuser-install
-HISTFILE=~/.histfile
-HISTSIZE=100000
-SAVEHIST=100000
 setopt appendhistory extendedglob notify
 unsetopt no_case_glob
 unsetopt beep nomatch
