@@ -18,6 +18,7 @@ set foldmethod=indent nofoldenable diffopt+=filler,vertical
 " set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P%{AfCheck()}
 set laststatus=2
 set wildmode=longest,list,full wildmenu
+set mouse=a ttymouse=xterm2
 
 function! ToggleAutoformat()
     if &fo =~ "a" | setl fo-=a fo+=r | else | setl fo+=a fo-=r | endif
