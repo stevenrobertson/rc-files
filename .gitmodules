@@ -49,3 +49,6 @@
 [submodule ".deps/ack"]
 	path = .deps/ack
 	url = https://github.com/mileszs/ack.vim.git
+[submodule ".deps/requests"]
+	path = .deps/requests
+	url = https://github.com/kennethreitz/requests.git
