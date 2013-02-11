@@ -18,6 +18,8 @@ import Data.List
 import Network.BSD
 import Language.Haskell.TH
 
+import Graphics.X11.ExtraTypes.XF86 (xF86XK_AudioPlay, xF86XK_AudioPrev, xF86XK_AudioNext)
+
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops (fullscreenEventHook)
 import XMonad.Hooks.FadeInactive
@@ -209,6 +211,12 @@ myKeys =
     , ((modm, xK_Down),     sendMessage $ Move D)
     , ((modm, xK_BackSpace), namedScratchpadAction scratchpads "screen")
     , ((modm, xK_n),        namedScratchpadAction scratchpads "notes")
+    , ((modm, xK_F7), spawn "mpris-command prev")
+    , ((modm, xK_F8), spawn "mpris-command playpause")
+    , ((modm, xK_F9), spawn "mpris-command next")
+    , ((0, xF86XK_AudioPrev), spawn "mpris-command prev")
+    , ((0, xF86XK_AudioPlay), spawn "mpris-command playpause")
+    , ((0, xF86XK_AudioNext), spawn "mpris-command next")
     ] ++
     [ ((m, k), windows $ onCurrentScreen f i) |
         (i, k) <- zip normWorkspaces [xK_F1 .. xK_F6],

@@ -1,0 +1,47 @@
+#!/usr/bin/env python2
+
+import dbus, sys, os
+
+cachefile = os.path.expanduser('~/.cache/mpris-command-last-player')
+
+def main(args):
+  if len(args) != 2 or args[1] not in ['playpause', 'next', 'prev']:
+    print 'Usage: %s [playpause|next|prev]'
+    return
+
+  bus = dbus.SessionBus()
+  players = [bus.get_object(n, '/org/mpris/MediaPlayer2')
+             for n in bus.list_names() if n.startswith('org.mpris.MediaPlayer2')]
+  if not players:
+    print 'No players found'
+    return
+
+  target = players[0]
+
+  if os.path.isfile(cachefile):
+    with open(cachefile) as f:
+      name = f.read()
+      for p in players:
+        if p.requested_bus_name == name:
+          target = p
+          break
+
+  for p in players:
+    iface = dbus.Interface(p, 'org.freedesktop.DBus.Properties')
+    if iface.Get('org.mpris.MediaPlayer2.Player', 'PlaybackStatus') == 'Playing':
+      target = p
+      break
+
+  iface = dbus.Interface(target, 'org.mpris.MediaPlayer2.Player')
+  if args[1] == 'playpause':
+    iface.PlayPause()
+  elif args[1] == 'next':
+    iface.Next()
+  elif args[1] == 'prev':
+    iface.Previous()
+
+  with open(cachefile, 'w') as f:
+    f.write(target.requested_bus_name)
+
+if __name__ == "__main__":
+  main(sys.argv)
