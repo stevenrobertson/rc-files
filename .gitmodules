@@ -52,3 +52,15 @@
 [submodule ".deps/requests"]
 	path = .deps/requests
 	url = https://github.com/kennethreitz/requests.git
+[submodule ".deps/vim-clojure-static"]
+	path = .deps/vim-clojure-static
+	url = https://github.com/guns/vim-clojure-static.git
+[submodule ".deps/vim-foreplay"]
+	path = .deps/vim-foreplay
+	url = https://github.com/tpope/vim-foreplay.git
+[submodule ".deps/vim-classpath"]
+	path = .deps/vim-classpath
+	url = git://github.com/tpope/vim-classpath.git
+[submodule ".deps/rainbow_parentheses"]
+	path = .deps/rainbow_parentheses
+	url = https://github.com/kien/rainbow_parentheses.vim.git
