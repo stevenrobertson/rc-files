@@ -19,6 +19,7 @@ set foldmethod=indent nofoldenable diffopt+=filler,vertical
 set laststatus=2
 set wildmode=longest,list,full wildmenu
 set mouse=a ttymouse=xterm2
+set viminfo+=!
 
 function! ToggleAutoformat()
     if &fo =~ "a" | setl fo-=a fo+=r | else | setl fo+=a fo-=r | endif
@@ -76,10 +77,14 @@ noremap <F12> :NERDTreeToggle<CR>
 inoremap <C-F12> <C-o>:tabnew<CR>
 noremap <C-F12> :tabnew<CR>
 
-let g:vimclojure#ParenRainbow=1
-let g:vimclojure#FuzzyIndent=1
-let g:vimclojure#WantNailgun=1
-let g:vimclojure#FuzzyIndentPatterns .= ",.*"
+let g:clojure_fuzzy_indent=1
+let g:clojure_fuzzy_indent_patterns=['.*']
+let g:clojure#WantNailgun=1
+
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
 
 " autocmd BufReadPost * let b:had_whitespace = match(getline(0, "$"), '\s\+$')
 " autocmd BufWritePre * if ! exists("b:had_whitespace") || b:had_whitespace == -1 | %s/\s\+$//e | endif
