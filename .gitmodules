@@ -64,3 +64,6 @@
 [submodule ".deps/rainbow_parentheses"]
 	path = .deps/rainbow_parentheses
 	url = https://github.com/kien/rainbow_parentheses.vim.git
+[submodule ".deps/vcscommand"]
+	path = .deps/vcscommand
+	url = git://repo.or.cz/vcscommand
