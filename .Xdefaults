@@ -23,7 +23,6 @@ URxvt.background: black
 URxvt.foreground: azure
 URxvt.font: xft:Dina:size=11
 URxvt.color12: #4567ed
-URxvt.fading: 5
 URxvt.scrollTtyKeypress: true
 URxvt.keysym.S-Prior: \033[5;2~
 URxvt.keysym.S-Next: \033[6;2~
