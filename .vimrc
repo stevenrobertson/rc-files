@@ -107,6 +107,29 @@ if &term =~ '^xterm' || &term =~ '^rxvt'
     colorscheme ir_black
 endif
 
+let g:rbpt_colorpairs = [
+  \ ['green', 'green'],
+  \ ['yellow', 'yellow'],
+  \ ['cyan', 'cyan'],
+  \ ['magenta', 'magenta'],
+  \ ['red', 'red'],
+  \ ['green', 'green'],
+  \ ['yellow', 'yellow'],
+  \ ['cyan', 'cyan'],
+  \ ['magenta', 'magenta'],
+  \ ['red', 'red'],
+  \ ['green', 'green'],
+  \ ['yellow', 'yellow'],
+  \ ['cyan', 'cyan'],
+  \ ['magenta', 'magenta'],
+  \ ['red', 'red'],
+  \ ['green', 'green'],
+  \ ['yellow', 'yellow'],
+  \ ['cyan', 'cyan'],
+  \ ['magenta', 'magenta']
+  \ ]
+let g:rbpt_max=19
+
 " Don't use swapfile when started in diff mode (handy for 'git mergetool')
 if &diff
   set uc=0
