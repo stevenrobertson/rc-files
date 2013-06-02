@@ -22,4 +22,4 @@ export PYTHONDONTWRITEBYTECODE=1
 export EDITOR="vim"
 export BROWSER="google-chrome"
 export GNOME_DISABLE_CRASH_DIALOG=1
-export GTK_IM_MODULE="xim"
+#export GTK_IM_MODULE="xim"

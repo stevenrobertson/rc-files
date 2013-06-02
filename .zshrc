@@ -60,6 +60,7 @@ elif [ "$(uname)" = "Darwin" ]; then
 fi
 
 setopt AUTO_CONTINUE
+setopt HIST_EXPIRE_DUPS_FIRST HIST_FIND_NO_DUPS
 unsetopt nomatch
 
 if [ `whoami` == "root" ]; then
