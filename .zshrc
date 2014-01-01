@@ -45,12 +45,13 @@ esac
 
 
 if [ "$(uname)" = "Linux" ]; then
-    export BROWSER="firefox"
+    export BROWSER="google-chrome"
     if [ -x $(which dircolors) ]; then
         eval $( dircolors -b )
         alias ls='ls --color=auto'
     fi
 elif [ "$(uname)" = "Darwin" ]; then
+    export BROWSER="open"
     _add_to_path "/opt/local/bin"
     if which gls 2>&1 > /dev/null ; then
         alias ls='gls --color=auto'

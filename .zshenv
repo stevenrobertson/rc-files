@@ -20,6 +20,5 @@ _add_to_path "$HOME/src/android-sdk-linux_86/platform-tools" end
 
 export PYTHONDONTWRITEBYTECODE=1
 export EDITOR="vim"
-export BROWSER="google-chrome"
 export GNOME_DISABLE_CRASH_DIALOG=1
 #export GTK_IM_MODULE="xim"
