@@ -67,3 +67,6 @@
 [submodule ".deps/vcscommand"]
 	path = .deps/vcscommand
 	url = git://repo.or.cz/vcscommand
+[submodule ".deps/vim-fireplace"]
+	path = .deps/vim-fireplace
+	url = https://github.com/tpope/vim-fireplace
