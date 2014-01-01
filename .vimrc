@@ -36,7 +36,6 @@ noremap <C-E> $
 inoremap <C-H> <BS>
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 
-inoremap kj <Esc>
 inoremap <A-h> <C-o>h
 inoremap <A-j> <C-o>j
 inoremap <A-k> <C-o>k
