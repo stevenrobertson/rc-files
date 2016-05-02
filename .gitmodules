@@ -24,7 +24,7 @@
 	url = git://github.com/stevenrobertson/pypdfcrop.git
 [submodule ".deps/vim-gnupg"]
 	path = .deps/vim-gnupg
-	url = git://gitorious.org/vim-gnupg/vim-gnupg.git
+	url = https://github.com/jamessan/vim-gnupg.git
 [submodule ".deps/xcompose"]
 	path = .deps/xcompose
 	url = git://github.com/kragen/xcompose.git
