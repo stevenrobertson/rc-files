@@ -17,6 +17,7 @@ _add_to_path "$HOME/.cabal/bin"
 _add_to_path "/usr/NX/bin" end
 _add_to_path "$HOME/src/android-sdk-linux_86/tools" end
 _add_to_path "$HOME/src/android-sdk-linux_86/platform-tools" end
+_add_to_path "/usr/local/cuda/bin"
 
 export PYTHONDONTWRITEBYTECODE=1
 export EDITOR="vim"
