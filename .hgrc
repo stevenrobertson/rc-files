@@ -5,7 +5,6 @@ hgext.mq=
 #hgext.keyword=
 hgk=
 color=
-hggit=
 hgext.bookmarks=
 
 [alias]
