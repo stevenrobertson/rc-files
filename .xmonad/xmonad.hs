@@ -21,7 +21,7 @@ import Language.Haskell.TH
 import Graphics.X11.ExtraTypes.XF86 (xF86XK_AudioPlay, xF86XK_AudioPrev, xF86XK_AudioNext)
 
 import XMonad.Hooks.DynamicLog
-import XMonad.Hooks.EwmhDesktops (fullscreenEventHook)
+import XMonad.Hooks.EwmhDesktops (ewmh, fullscreenEventHook)
 import XMonad.Hooks.FadeInactive
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
@@ -287,15 +287,16 @@ main = do
 
     gnomeRegister
     xmonad $ withUrgencyHookC NoUrgencyHook (UrgencyConfig Never (Every 20))
+           $ ewmh
            $ defaultConfig {
         workspaces      = myWorkspaces nScreens,
         startupHook     = setWMName "LG3D",
-        manageHook      = myManageHook
+        manageHook      = manageHook defaultConfig
                        <+> manageDocks
                        <+> namedScratchpadManageHook scratchpads
-                       <+> manageHook defaultConfig,
+                       <+> myManageHook,
         handleEventHook = fullscreenEventHook,
-        layoutHook      = avoidStruts . smartBorders $ layouts,
+        layoutHook      = gaps [(U, 14)] . smartBorders $ layouts,
         logHook         = fadeInactiveFloating >> logBarHook,
         borderWidth     = 1,
         normalBorderColor = "#e1e1e1",
