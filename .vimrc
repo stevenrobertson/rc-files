@@ -96,15 +96,14 @@ command! Goo set sw=2 sts=2 ts=2
 if &term =~ '^screen'
     set t_ts=^[k
     set t_fs=^[\
-    set term=xterm-color
 endif
 
 " for CSApprox
-if &term =~ '^xterm' || &term =~ '^rxvt'
-    set title
+if &term =~ '^xterm' || &term =~ '^rxvt' || &term =~ '^screen'
     set t_Co=256
-    colorscheme ir_black
 endif
+
+colorscheme ir_black
 
 let g:rbpt_colorpairs = [
   \ ['green', 'green'],
