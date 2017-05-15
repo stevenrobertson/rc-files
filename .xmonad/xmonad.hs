@@ -269,7 +269,7 @@ fadeInactiveFloating = withWindowSet $ \s -> do
         fadeOut (if inactive then 0.8 else 1.0) xid
 
 scratchpads =
-    [ NS "screen" "urxvt -T scratchpad -e start_scratch.sh"
+    [ NS "screen" "urxvt -T scratchpad -e $HOME/.scripts/start_scratch.sh"
          (title =? "scratchpad") float
     , NS "notes" "gvim -c 'cd ~/notes' --role notes"
          (role =? "notes") float
