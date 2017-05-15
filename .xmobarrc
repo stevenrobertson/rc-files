@@ -13,10 +13,9 @@ Config {
         Run Network "eth0" ["-t","<rx> <tx>","-w","5"] 10,
         Run Memory ["-t","<usedbar> <rest>M"] 10,
         Run Date "%a %b %_d %H:%M:%S" "date" 10,
-        Run Music,
         Run StdinReader ],
     sepChar = "%",
     alignSep = "}{",
-    template = "%StdinReader% }{  %music%  |  %multicpu%  |  %eth0%  |  %memory%   |  %KNUQ%    <fc=#88cc88>%date%</fc>"
+    template = "%StdinReader% }{  %multicpu%  |  %eth0%  |  %memory%   |  %KNUQ%    <fc=#88cc88>%date%</fc>"
 }
 

@@ -225,12 +225,13 @@ myKeys =
         (i, k) <- zip shiftWorkspaces [xK_F1 .. xK_F6],
         (f, m) <- [(W.greedyView, shiftMask), (W.shift, shiftMask .|. modm)]]
 
-xmobarCmd cfg scr = unwords [".cabal/bin/xmobar",
+xmobarCmd :: String -> ScreenId -> String
+xmobarCmd cfg scr = unwords ["xmobar",
                              "-x", show (fromIntegral scr),
                              ".xmobarrc-" ++ cfg]
 launchBar n =
     if host == Isis && n == 0
-       then spawnPipe ".cabal/bin/xmobar"
+       then spawnPipe "xmobar"
        else spawnPipe $ xmobarCmd cfg n
   where cfg = case host of
                    Ptah            -> "ptah" ++ show (fromIntegral n)
