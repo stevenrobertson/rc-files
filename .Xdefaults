@@ -21,17 +21,13 @@ XTerm*geometry: 99x29
 
 URxvt.background: black
 URxvt.foreground: azure
-URxvt.font: xft:Dina:size=11
+URxvt.inheritPixmap: true
+URxvt.blurRadius: 16x16
+URxvt.shading: 20
+URxvt.font: xft:Liberation\ Mono:size=12
 URxvt.color12: #4567ed
 URxvt.scrollTtyKeypress: true
 URxvt.keysym.S-Prior: \033[5;2~
 URxvt.keysym.S-Next: \033[6;2~
 URxvt.colorIT: #ffffcc
-
-#if SCREEN_NUM == 0
-Xft.rgba:       rgb
-#endif
-#if SCREEN_NUM == 1
-Xft.rgba:       rgb
-#endif
 
