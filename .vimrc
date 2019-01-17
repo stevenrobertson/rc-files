@@ -135,11 +135,3 @@ endif
 
 " Don't leave an exit message
 let &titleold=''
-
-" Powerline theme
-let g:Powerline_stl_path_style='short'
-call Pl#Theme#RemoveSegment('virtualenv:statusline')
-call Pl#Theme#RemoveSegment('fileformat')
-call Pl#Theme#RemoveSegment('fileencoding')
-call Pl#Theme#RemoveSegment('filetype')
-call Pl#Theme#RemoveSegment('scrollpercent')
